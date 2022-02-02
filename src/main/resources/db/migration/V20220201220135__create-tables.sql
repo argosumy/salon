@@ -1,31 +1,32 @@
 CREATE TABLE IF NOT EXISTS users
 (
     id SERIAL PRIMARY KEY NOT NULL,
-    user_name VARCHAR(50) NOT NULL,
-    phone VARCHAR(25) NOT NULL UNIQUE,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    phone VARCHAR(15) NOT NULL UNIQUE,
     location_id INT,
-    role_id INT NOT NULL,
     link_foto VARCHAR (300)
 );
 
 CREATE TABLE IF NOT EXISTS user_roles
 (
     id SERIAL PRIMARY KEY NOT NULL,
-    role_type VARCHAR(20) NOT NULL UNIQUE
+    user_id int NOT NULL,
+    name_role VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS locations
 (
     id SERIAL PRIMARY KEY NOT NULL,
-    sity VARCHAR (50) NOT NULL,
-    country_cod INT NOT NULL UNIQUE
+    city VARCHAR (50) NOT NULL,
+    country_code INT NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS salons
 (
     id SERIAL PRIMARY KEY NOT NULL,
     salon_name VARCHAR(100) NOT NULL,
-    phone VARCHAR(25) NOT NULL UNIQUE,
+    phone VARCHAR(15) NOT NULL UNIQUE,
     location_id INT
 );
 
