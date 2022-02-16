@@ -1,9 +1,17 @@
 package spdu2022.java.project.beutysalon.salons.DTO;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 public class SalonsDTO {
     private long id;
+    @NotBlank(message = "Salon name not valid")
     private String salonName;
+    @NotBlank(message = "City not valid")
     private String cityLocation;
+    @Pattern(regexp = "^\\+380\\d{3}\\d{2}\\d{2}\\d{2}$", message = "Phone not valid -> +380XXXXXXXXX")
     private String phone;
 
     public SalonsDTO(long id, String salonName, String cityLocation, String phone) {
