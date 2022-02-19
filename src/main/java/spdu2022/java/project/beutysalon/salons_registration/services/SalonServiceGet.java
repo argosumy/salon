@@ -1,4 +1,4 @@
-package spdu2022.java.project.beutysalon.salonsRegistration.services;
+package spdu2022.java.project.beutysalon.salons_registration.services;
 
 import java.util.List;
 import java.util.Optional;

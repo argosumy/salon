@@ -1,4 +1,4 @@
-package spdu2022.java.project.beutysalon.salonsRegistration.dto;
+package spdu2022.java.project.beutysalon.salons_registration.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

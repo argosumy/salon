@@ -1,14 +1,14 @@
-package spdu2022.java.project.beutysalon.salonsRegistration.controllers;
+package spdu2022.java.project.beutysalon.salons_registration.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import spdu2022.java.project.beutysalon.salonsRegistration.dto.SalonsDTO;
-import spdu2022.java.project.beutysalon.salonsRegistration.exeptions.Error;
-import spdu2022.java.project.beutysalon.salonsRegistration.exeptions.NotFoundException;
-import spdu2022.java.project.beutysalon.salonsRegistration.services.SalonServiceGet;
-import spdu2022.java.project.beutysalon.salonsRegistration.services.SalonsServiceModification;
+import spdu2022.java.project.beutysalon.salons_registration.dto.SalonsDTO;
+import spdu2022.java.project.beutysalon.salons_registration.exeptions.Error;
+import spdu2022.java.project.beutysalon.salons_registration.exeptions.NotFoundException;
+import spdu2022.java.project.beutysalon.salons_registration.services.SalonServiceGet;
+import spdu2022.java.project.beutysalon.salons_registration.services.SalonsServiceModification;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
