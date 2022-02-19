@@ -1,4 +1,4 @@
-package spdu2022.java.project.beutysalon.salons.exeptions;
+package spdu2022.java.project.beutysalon.salonsRegistration.exeptions;
 
 public class Error {
     private String messageError;

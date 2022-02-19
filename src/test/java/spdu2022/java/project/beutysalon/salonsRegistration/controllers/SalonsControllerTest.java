@@ -1,4 +1,4 @@
-package spdu2022.java.project.beutysalon.salons.controllers;
+package spdu2022.java.project.beutysalon.salonsRegistration.controllers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

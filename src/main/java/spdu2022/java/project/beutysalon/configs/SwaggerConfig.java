@@ -1,4 +1,4 @@
-package spdu2022.java.project.beutysalon.salons.configs;
+package spdu2022.java.project.beutysalon.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("spdu2022.java.project.beutysalon.salons"))
+                .apis(RequestHandlerSelectors.basePackage("spdu2022.java.project.beutysalon"))
                 .paths(PathSelectors.any())
                 .build();
     }
