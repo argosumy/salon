@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import spdu2022.java.project.beutysalon.salons_registration.dto.SalonsDTO;
 import spdu2022.java.project.beutysalon.salons_registration.exeptions.Error;
 import spdu2022.java.project.beutysalon.salons_registration.exeptions.NotFoundException;
-import spdu2022.java.project.beutysalon.salons_registration.services.SalonServiceGet;
-import spdu2022.java.project.beutysalon.salons_registration.services.SalonsServiceModification;
+import spdu2022.java.project.beutysalon.salons_registration.services.SalonsGetService;
+import spdu2022.java.project.beutysalon.salons_registration.services.SalonsModificationService;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
@@ -20,17 +20,17 @@ import java.util.List;
 @RequestMapping("api/v1/salons")
 @Validated
 public class SalonsController {
-    private final SalonsServiceModification<SalonsDTO> salonsServiceModification;
-    private final SalonServiceGet<SalonsDTO> salonServiceGet;
+    private final SalonsModificationService<SalonsDTO> salonsModificationService;
+    private final SalonsGetService<SalonsDTO> salonsGetService;
 
-    public SalonsController(SalonsServiceModification<SalonsDTO> salonsServiceModification, SalonServiceGet<SalonsDTO> salonServiceGet) {
-        this.salonsServiceModification = salonsServiceModification;
-        this.salonServiceGet = salonServiceGet;
+    public SalonsController(SalonsModificationService<SalonsDTO> salonsModificationService, SalonsGetService<SalonsDTO> salonsGetService) {
+        this.salonsModificationService = salonsModificationService;
+        this.salonsGetService = salonsGetService;
     }
 
     @GetMapping("/{salonId}")
     public SalonsDTO getSalonById(@PathVariable("salonId") @Min(value = 1, message = "id must be  > 0") long id) {
-        return salonServiceGet.findById(id).orElseThrow(() -> new NotFoundException("Salon not found by ID " + id));
+        return salonsGetService.findById(id).orElseThrow(() -> new NotFoundException("Salon not found by ID " + id));
     }
 
     @GetMapping
@@ -41,13 +41,13 @@ public class SalonsController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public SalonsDTO createNewSalon(@Valid @RequestBody SalonsDTO newSalon) {
-        return salonsServiceModification.createNewSalon(newSalon);
+        return salonsModificationService.createNewSalons(newSalon);
     }
 
     @DeleteMapping("/{salonId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteSalonById(@PathVariable("salonId") @Min(value = 1, message = "id must be  > 0") long id)  {
-        if(!salonsServiceModification.deleteSalonById(id)) {
+        if(!salonsModificationService.deleteSalonsById(id)) {
             throw new NotFoundException("Salon not found by ID " + id);
         }
     }
@@ -57,7 +57,7 @@ public class SalonsController {
     public SalonsDTO updateSalon(@Valid @RequestBody SalonsDTO salonUpdate,
                                  @PathVariable("salonId") @Min(value = 1, message = "id must be  > 0") int id) {
 
-        return salonsServiceModification.updateSalon(salonUpdate);
+        return salonsModificationService.updateSalons(salonUpdate);
     }
 
     @ExceptionHandler(NotFoundException.class)

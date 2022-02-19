@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 @Service
-public class PersistenceSalonsServiceGet<T> implements SalonServiceGet<T> {
+public class PersistenceSalonsGetService<T> implements SalonsGetService<T> {
     @Override
     public Optional<T> findById(long id) {
         return Optional.empty();
