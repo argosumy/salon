@@ -15,7 +15,8 @@ public class SalonsDTO {
     public SalonsDTO() {
     }
 
-    public SalonsDTO(String salonName, String cityLocation, String phone) {
+    public SalonsDTO(long id, String salonName, String cityLocation, String phone) {
+        this.id = id;
         this.salonName = salonName;
         this.cityLocation = cityLocation;
         this.phone = phone;
