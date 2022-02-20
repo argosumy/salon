@@ -1,12 +1,22 @@
 package spdu2022.java.project.beutysalon.salons_registration.services;
 
 import org.springframework.stereotype.Service;
+import spdu2022.java.project.beutysalon.salons_registration.persistence.entities.Salon;
+import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.SalonsRepository;
+
+import java.sql.SQLException;
 
 @Service
-public class PersistenceSalonsModificationService<T> implements SalonsModificationService<T> {
+public class PersistenceSalonsModificationService implements SalonsModificationService {
+    private final SalonsRepository salonsRepository;
+
+    public PersistenceSalonsModificationService(SalonsRepository salonsRepository) {
+        this.salonsRepository = salonsRepository;
+    }
+
     @Override
-    public T createNewSalons(T newSalon) {
-        return null;
+    public Salon createNewSalons(Salon newSalon) throws SQLException {
+        return salonsRepository.createNewSalons(newSalon);
     }
 
     @Override
@@ -15,7 +25,7 @@ public class PersistenceSalonsModificationService<T> implements SalonsModificati
     }
 
     @Override
-    public T updateSalons(T entityUpdate) {
+    public Salon updateSalons(Salon entityUpdate) {
         return null;
     }
 }

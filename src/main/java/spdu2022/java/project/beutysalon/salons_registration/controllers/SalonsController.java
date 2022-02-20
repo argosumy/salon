@@ -14,6 +14,7 @@ import spdu2022.java.project.beutysalon.salons_registration.services.SalonsModif
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -33,7 +34,7 @@ public class SalonsController {
     }
 
     @GetMapping("/{salonId}")
-    public SalonsDTO getSalonById(@PathVariable("salonId") @Min(value = 1, message = "id must be  > 0") long id) {
+    public SalonsDTO getSalonById(@PathVariable("salonId") @Min(value = 1, message = "id must be  > 0") long id) throws SQLException {
         Salon salon = salonsGetService.findById(id).orElseThrow(() -> new NotFoundException("Salon not found by ID " + id));
         return salonMapper.convertSalonToSalonsDto(salon);
     }
@@ -46,7 +47,7 @@ public class SalonsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SalonsDTO createNewSalon(@Valid @RequestBody SalonsDTO newSalon) {
+    public SalonsDTO createNewSalon(@Valid @RequestBody SalonsDTO newSalon) throws SQLException {
         Salon salon = salonMapper.convertSalonsDtoToSalonForSalonCreate(newSalon);
         salon = salonsModificationService.createNewSalons(salon);
         return salonMapper.convertSalonToSalonsDto(salon);

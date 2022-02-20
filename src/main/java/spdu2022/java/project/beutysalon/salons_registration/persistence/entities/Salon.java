@@ -47,4 +47,6 @@ public class Salon {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+
 }
