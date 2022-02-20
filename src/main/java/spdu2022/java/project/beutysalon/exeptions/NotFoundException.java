@@ -1,4 +1,4 @@
-package spdu2022.java.project.beutysalon.salons_registration.exeptions;
+package spdu2022.java.project.beutysalon.exeptions;
 
 public class NotFoundException extends RuntimeException {
 

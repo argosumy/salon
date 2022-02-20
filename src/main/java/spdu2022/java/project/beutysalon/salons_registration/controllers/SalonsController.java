@@ -6,8 +6,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import spdu2022.java.project.beutysalon.entities.Salon;
 import spdu2022.java.project.beutysalon.salons_registration.dto.SalonsDTO;
-import spdu2022.java.project.beutysalon.salons_registration.exeptions.Error;
-import spdu2022.java.project.beutysalon.salons_registration.exeptions.NotFoundException;
+import spdu2022.java.project.beutysalon.exeptions.Error;
+import spdu2022.java.project.beutysalon.exeptions.NotFoundException;
 import spdu2022.java.project.beutysalon.salons_registration.services.SalonsGetService;
 import spdu2022.java.project.beutysalon.salons_registration.services.SalonsModificationService;
 
