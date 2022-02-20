@@ -2,10 +2,10 @@ package spdu2022.java.project.beutysalon.salons_registration.controllers;
 
 import org.springframework.stereotype.Component;
 import spdu2022.java.project.beutysalon.salons_registration.dto.SalonsDTO;
-import spdu2022.java.project.beutysalon.salons_registration.persistence.entities.Salon;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import spdu2022.java.project.beutysalon.entities.Salon;
 
 @Component
 public class SalonMapper {

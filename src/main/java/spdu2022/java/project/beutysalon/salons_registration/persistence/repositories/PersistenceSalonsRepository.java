@@ -1,10 +1,12 @@
 package spdu2022.java.project.beutysalon.salons_registration.persistence.repositories;
 
 import org.springframework.stereotype.Repository;
-import spdu2022.java.project.beutysalon.salons_registration.persistence.entities.Salon;
+import spdu2022.java.project.beutysalon.entities.Salon;
+import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.mappers.SalonMapperResult;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,12 +25,7 @@ public class PersistenceSalonsRepository implements SalonsRepository {
             preparedStatement.setLong(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                Salon salon = new Salon();
-                salon.setId(resultSet.getLong("id"));
-                salon.setSalonName(resultSet.getString("salon_name"));
-                salon.setPhone(resultSet.getString("phone"));
-                salon.setCityLocation(resultSet.getString("city"));
-                return Optional.of(salon);
+                return Optional.of(new SalonMapperResult().mapperLight(resultSet));
             }
         }
         return Optional.empty();
@@ -36,7 +33,7 @@ public class PersistenceSalonsRepository implements SalonsRepository {
 
     @Override
     public List<Salon> getAllSalonsFromCity(String city) {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -64,6 +61,6 @@ public class PersistenceSalonsRepository implements SalonsRepository {
 
     @Override
     public Salon updateSalons(Salon entityUpdate) {
-        return null;
+        return new Salon();
     }
 }

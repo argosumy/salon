@@ -1,19 +1,19 @@
-package spdu2022.java.project.beutysalon.salons_registration.persistence.entities;
+package spdu2022.java.project.beutysalon.entities;
 
 public class Salon {
     private long id;
     private String salonName;
-    private String cityLocation;
     private String phone;
+    private String cityLocation;
 
     public Salon() {
     }
 
-    public Salon(long id, String salonName, String cityLocation, String phone) {
+    public Salon(long id, String salonName, String phone, String cityLocation) {
         this.id = id;
         this.salonName = salonName;
-        this.cityLocation = cityLocation;
         this.phone = phone;
+        this.cityLocation = cityLocation;
     }
 
     public long getId() {
@@ -32,14 +32,6 @@ public class Salon {
         this.salonName = salonName;
     }
 
-    public String getCityLocation() {
-        return cityLocation;
-    }
-
-    public void setCityLocation(String cityLocation) {
-        this.cityLocation = cityLocation;
-    }
-
     public String getPhone() {
         return phone;
     }
@@ -48,5 +40,11 @@ public class Salon {
         this.phone = phone;
     }
 
+    public String getCityLocation() {
+        return cityLocation;
+    }
 
+    public void setCityLocation(String cityLocation) {
+        this.cityLocation = cityLocation;
+    }
 }

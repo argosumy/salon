@@ -1,7 +1,7 @@
 package spdu2022.java.project.beutysalon.salons_registration.services;
 
 import org.springframework.stereotype.Service;
-import spdu2022.java.project.beutysalon.salons_registration.persistence.entities.Salon;
+import spdu2022.java.project.beutysalon.entities.Salon;
 import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.SalonsRepository;
 
 import java.sql.SQLException;

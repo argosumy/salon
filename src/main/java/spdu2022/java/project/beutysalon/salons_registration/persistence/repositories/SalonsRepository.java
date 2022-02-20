@@ -1,6 +1,6 @@
 package spdu2022.java.project.beutysalon.salons_registration.persistence.repositories;
 
-import spdu2022.java.project.beutysalon.salons_registration.persistence.entities.Salon;
+import spdu2022.java.project.beutysalon.entities.Salon;
 
 import java.sql.SQLException;
 import java.util.List;
