@@ -28,7 +28,4 @@ public class UsersRegistrationController {
         return userMapper.convertUserToUserDto(user);
     }
 
-
-
-
 }

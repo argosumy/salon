@@ -12,4 +12,5 @@ public interface StaffRepository {
     Staff insertNewStaff(Staff newStaff) throws SQLException;
     boolean deleteStaffById(long id);
     Staff updateStaff(Staff staffUpdate);
+    int getCountStaffByUserId(Staff staff) throws SQLException;
 }

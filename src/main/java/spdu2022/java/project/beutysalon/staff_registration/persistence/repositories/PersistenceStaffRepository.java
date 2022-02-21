@@ -2,7 +2,6 @@ package spdu2022.java.project.beutysalon.staff_registration.persistence.reposito
 
 import org.springframework.stereotype.Repository;
 import spdu2022.java.project.beutysalon.entities.Staff;
-import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -29,9 +28,8 @@ public class PersistenceStaffRepository implements StaffRepository {
     }
 
     @Override
-    public Staff insertNewStaff(Staff newStaff) throws SQLException, EntityNotUniqException {
-        if(isStaffNotExist(newStaff)) {
-            try (Connection connection = dataSource.getConnection()) {
+    public Staff insertNewStaff(Staff newStaff) throws SQLException {
+           try (Connection connection = dataSource.getConnection()) {
                 PreparedStatement ps = connection.prepareStatement(StaffSQLQueries.INSERT_STAFF, Statement.RETURN_GENERATED_KEYS);
                 ps.setLong(1, newStaff.getSalonId());
                 ps.setLong(2, newStaff.getUserId());
@@ -45,9 +43,6 @@ public class PersistenceStaffRepository implements StaffRepository {
                 }
                 return newStaff;
             }
-        } else {
-            throw new EntityNotUniqException("Staff with User_ID " + newStaff.getUserId() + " already exist");
-        }
     }
 
     @Override
@@ -60,16 +55,16 @@ public class PersistenceStaffRepository implements StaffRepository {
         return new Staff();
     }
 
-    private boolean isStaffNotExist(Staff newStaff) throws SQLException {
-        try(Connection connection = dataSource.getConnection()) {
+    @Override
+    public int getCountStaffByUserId(Staff staff) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(StaffSQLQueries.COUNT_STAFF_BY_ID);
-            ps.setLong(1, newStaff.getUserId());
+            ps.setLong(1, staff.getUserId());
             ps.executeQuery();
             ResultSet resultSet = ps.getResultSet();
-            if(resultSet.next()) {
-                return resultSet.getInt(1) > 0;
-            }
-            return true;
+            resultSet.next();
+            return resultSet.getInt(1);
         }
     }
+
 }

@@ -2,21 +2,27 @@ package spdu2022.java.project.beutysalon.staff_registration.services;
 
 import org.springframework.stereotype.Service;
 import spdu2022.java.project.beutysalon.entities.Staff;
-import spdu2022.java.project.beutysalon.staff_registration.persistence.repositories.PersistenceStaffRepository;
+import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
+import spdu2022.java.project.beutysalon.staff_registration.persistence.repositories.StaffRepository;
 
 import java.sql.SQLException;
 
 @Service
 public class PersistenceStaffModificationService implements StaffModificationService{
-    private final PersistenceStaffRepository persistenceStaffRepository;
+    private final StaffRepository staffRepository;
 
-    public PersistenceStaffModificationService(PersistenceStaffRepository persistenceStaffRepository) {
-        this.persistenceStaffRepository = persistenceStaffRepository;
+    public PersistenceStaffModificationService(StaffRepository staffRepository) {
+        this.staffRepository = staffRepository;
+
     }
 
     @Override
     public Staff insertNewStaff(Staff staff) throws SQLException {
-        return persistenceStaffRepository.insertNewStaff(staff);
+        int countStaff = staffRepository.getCountStaffByUserId(staff);
+        if(countStaff > 0) {
+            throw new EntityNotUniqException("Staff with User_ID " + staff.getUserId() + " already exist");
+        }
+        return staffRepository.insertNewStaff(staff);
     }
 
     @Override
