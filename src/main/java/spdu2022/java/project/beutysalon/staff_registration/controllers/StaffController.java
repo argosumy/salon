@@ -31,7 +31,7 @@ public class StaffController {
 
     @ExceptionHandler(EntityNotUniqException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Error> notFound(Exception e) {
+    public ResponseEntity<Error> notUniqStaff(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
     }
 
