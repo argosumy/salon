@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.sql.SQLException;
 
 @RestController
-@RequestMapping("api/v1/users/")
+@RequestMapping("api/v1/users")
 public class UsersRegistrationController {
     private final UserMapper userMapper;
     private final UsersModificationService persistenceUsersModificationService;

@@ -1,18 +1,18 @@
-package spdu2022.java.project.beutysalon.entities;
+package spdu2022.java.project.beutysalon.staff_registration.controllers.dto;
 
-public class Staff {
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+public class StaffDTOLight {
     private long id;
+    @Min(1)
     private long userId;
+    @Min(1)
     private long salonId;
+    @NotNull
     private String linkPhoto;
 
-    public Staff() {
-    }
-
-    public Staff(long userId, long salonId, String linkPhoto) {
-        this.userId = userId;
-        this.salonId = salonId;
-        this.linkPhoto = linkPhoto;
+    public StaffDTOLight() {
     }
 
     public long getId() {
