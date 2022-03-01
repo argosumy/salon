@@ -8,7 +8,6 @@ import spdu2022.java.project.beutysalon.users_registration.services.PersistenceU
 import spdu2022.java.project.beutysalon.users_registration.services.UsersModificationService;
 
 import javax.validation.Valid;
-import java.sql.SQLException;
 
 @RestController
 @RequestMapping("api/v1/users")
@@ -23,7 +22,7 @@ public class UsersRegistrationController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public UserDto insertNewUser(@Valid @RequestBody UserDto userDto) throws SQLException {
+    public UserDto insertNewUser(@Valid @RequestBody UserDto userDto) {
         User user = persistenceUsersModificationService.createNewUser(userMapper.convertUserDtoToUser(userDto));
         return userMapper.convertUserToUserDto(user);
     }

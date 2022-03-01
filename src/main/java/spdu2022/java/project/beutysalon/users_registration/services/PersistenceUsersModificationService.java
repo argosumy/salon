@@ -4,8 +4,6 @@ import org.springframework.stereotype.Service;
 import spdu2022.java.project.beutysalon.entities.User;
 import spdu2022.java.project.beutysalon.users_registration.persistence.repositories.UsersRepository;
 
-import java.sql.SQLException;
-
 @Service
 public class PersistenceUsersModificationService implements UsersModificationService {
     private final UsersRepository usersRepository;
@@ -15,7 +13,7 @@ public class PersistenceUsersModificationService implements UsersModificationSer
     }
 
     @Override
-    public User createNewUser(User user) throws SQLException {
+    public User createNewUser(User user) {
         return usersRepository.insertNewUser(user);
     }
 

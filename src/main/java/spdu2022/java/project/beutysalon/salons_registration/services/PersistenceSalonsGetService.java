@@ -4,9 +4,7 @@ import org.springframework.stereotype.Service;
 import spdu2022.java.project.beutysalon.entities.Salon;
 import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.SalonsRepository;
 
-import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PersistenceSalonsGetService implements SalonsGetService {
@@ -17,7 +15,7 @@ public class PersistenceSalonsGetService implements SalonsGetService {
     }
 
     @Override
-    public Optional<Salon> findById(long id) throws SQLException {
+    public Salon findById(long id) {
         return salonsRepository.findById(id);
     }
 

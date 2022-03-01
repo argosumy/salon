@@ -2,15 +2,14 @@ package spdu2022.java.project.beutysalon.staff_registration.persistence.reposito
 
 import spdu2022.java.project.beutysalon.entities.Staff;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
 public interface StaffRepository {
-    Optional<Staff> findById(long id) throws SQLException;
+    Optional<Staff> findById(long id);
     List<Staff> getAllSalonsFromCity(String city);
-    Staff insertNewStaff(Staff newStaff) throws SQLException;
+    Staff insertNewStaff(Staff newStaff);
     boolean deleteStaffById(long id);
     Staff updateStaff(Staff staffUpdate);
-    int getCountStaffByUserId(Staff staff) throws SQLException;
+    int getCountStaffByUserId(Staff staff);
 }

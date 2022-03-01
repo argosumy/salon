@@ -5,8 +5,6 @@ import spdu2022.java.project.beutysalon.entities.Staff;
 import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
 import spdu2022.java.project.beutysalon.staff_registration.persistence.repositories.StaffRepository;
 
-import java.sql.SQLException;
-
 @Service
 public class PersistenceStaffModificationService implements StaffModificationService{
     private final StaffRepository staffRepository;
@@ -17,7 +15,7 @@ public class PersistenceStaffModificationService implements StaffModificationSer
     }
 
     @Override
-    public Staff insertNewStaff(Staff staff) throws SQLException {
+    public Staff insertNewStaff(Staff staff) {
         int countStaff = staffRepository.getCountStaffByUserId(staff);
         if(countStaff > 0) {
             throw new EntityNotUniqException("Staff with User_ID " + staff.getUserId() + " already exist");

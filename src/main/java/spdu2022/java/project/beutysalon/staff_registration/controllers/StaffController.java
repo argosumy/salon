@@ -10,7 +10,6 @@ import spdu2022.java.project.beutysalon.staff_registration.controllers.dto.Staff
 import spdu2022.java.project.beutysalon.staff_registration.services.StaffModificationService;
 
 import javax.validation.Valid;
-import java.sql.SQLException;
 
 @RestController
 @RequestMapping("api/v1/staff")
@@ -24,7 +23,7 @@ public class StaffController {
     }
 
     @PostMapping
-    public StaffDTOLight addNewStaff(@Valid @RequestBody StaffDTOLight staffDTOLight) throws SQLException {
+    public StaffDTOLight addNewStaff(@Valid @RequestBody StaffDTOLight staffDTOLight) {
         Staff staff = staffModificationService.insertNewStaff(staffMapper.convertStaffDTOLightToStaff(staffDTOLight));
         return staffMapper.convertStaffToStaffDtoLight(staff);
     }

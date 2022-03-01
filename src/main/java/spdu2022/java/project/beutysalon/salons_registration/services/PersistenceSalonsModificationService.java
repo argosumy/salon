@@ -4,8 +4,6 @@ import org.springframework.stereotype.Service;
 import spdu2022.java.project.beutysalon.entities.Salon;
 import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.SalonsRepository;
 
-import java.sql.SQLException;
-
 @Service
 public class PersistenceSalonsModificationService implements SalonsModificationService {
     private final SalonsRepository salonsRepository;
@@ -15,7 +13,7 @@ public class PersistenceSalonsModificationService implements SalonsModificationS
     }
 
     @Override
-    public Salon createNewSalons(Salon newSalon) throws SQLException {
+    public Salon createNewSalons(Salon newSalon) {
         return salonsRepository.createNewSalons(newSalon);
     }
 

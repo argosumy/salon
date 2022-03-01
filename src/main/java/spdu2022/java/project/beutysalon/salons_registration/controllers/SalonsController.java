@@ -5,16 +5,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import spdu2022.java.project.beutysalon.entities.Salon;
-import spdu2022.java.project.beutysalon.salons_registration.dto.SalonsDTO;
 import spdu2022.java.project.beutysalon.exeptions.Error;
 import spdu2022.java.project.beutysalon.exeptions.NotFoundException;
+import spdu2022.java.project.beutysalon.salons_registration.dto.SalonsDTO;
 import spdu2022.java.project.beutysalon.salons_registration.services.SalonsGetService;
 import spdu2022.java.project.beutysalon.salons_registration.services.SalonsModificationService;
 
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -34,8 +33,8 @@ public class SalonsController {
     }
 
     @GetMapping("/{salonId}")
-    public SalonsDTO getSalonById(@PathVariable("salonId") @Min(value = 1, message = "id must be  > 0") long id) throws SQLException {
-        Salon salon = salonsGetService.findById(id).orElseThrow(() -> new NotFoundException("Salon not found by ID " + id));
+    public SalonsDTO getSalonById(@PathVariable("salonId") @Min(value = 1, message = "id must be  > 0") long id) {
+        Salon salon = salonsGetService.findById(id);//.orElseThrow(() -> new NotFoundException("Salon not found by ID " + id));
         return salonMapper.convertSalonToSalonsDto(salon);
     }
 
@@ -47,7 +46,7 @@ public class SalonsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SalonsDTO createNewSalon(@Valid @RequestBody SalonsDTO newSalon) throws SQLException {
+    public SalonsDTO createNewSalon(@Valid @RequestBody SalonsDTO newSalon) {
         Salon salon = salonMapper.convertSalonsDtoToSalonForSalonCreate(newSalon);
         salon = salonsModificationService.createNewSalons(salon);
         return salonMapper.convertSalonToSalonsDto(salon);
