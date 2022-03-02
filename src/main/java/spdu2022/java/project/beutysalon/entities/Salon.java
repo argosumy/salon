@@ -1,5 +1,7 @@
 package spdu2022.java.project.beutysalon.entities;
 
+import java.util.Objects;
+
 public class Salon {
     private long id;
     private String salonName;
@@ -46,5 +48,21 @@ public class Salon {
 
     public void setCityLocation(String cityLocation) {
         this.cityLocation = cityLocation;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Salon salon = (Salon) o;
+        return id == salon.id &&
+                Objects.equals(salonName, salon.salonName) &&
+                Objects.equals(phone, salon.phone) &&
+                Objects.equals(cityLocation, salon.cityLocation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, phone);
     }
 }

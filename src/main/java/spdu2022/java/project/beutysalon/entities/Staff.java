@@ -1,5 +1,7 @@
 package spdu2022.java.project.beutysalon.entities;
 
+import java.util.Objects;
+
 public class Staff {
     private long id;
     private long userId;
@@ -45,5 +47,21 @@ public class Staff {
 
     public void setLinkPhoto(String linkPhoto) {
         this.linkPhoto = linkPhoto;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Staff staff = (Staff) o;
+        return id == staff.id &&
+                userId == staff.userId &&
+                salonId == staff.salonId &&
+                Objects.equals(linkPhoto, staff.linkPhoto);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, salonId);
     }
 }
