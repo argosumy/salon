@@ -1,17 +1,14 @@
 package spdu2022.java.project.beutysalon.salons_registration.controllers;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import spdu2022.java.project.beutysalon.entities.Salon;
-import spdu2022.java.project.beutysalon.exeptions.Error;
 import spdu2022.java.project.beutysalon.exeptions.NotFoundException;
 import spdu2022.java.project.beutysalon.salons_registration.dto.SalonsDTO;
 import spdu2022.java.project.beutysalon.salons_registration.services.SalonsGetService;
 import spdu2022.java.project.beutysalon.salons_registration.services.SalonsModificationService;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
@@ -69,15 +66,4 @@ public class SalonsController {
         return salonMapper.convertSalonToSalonsDto(salon);
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<Error> notFound(Exception e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Error(e.getMessage()));
-    }
-
-    @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Error> handleConstraintViolationException(Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
-    }
 }

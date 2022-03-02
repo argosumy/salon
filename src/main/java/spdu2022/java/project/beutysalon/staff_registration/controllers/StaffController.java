@@ -1,11 +1,10 @@
 package spdu2022.java.project.beutysalon.staff_registration.controllers;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import spdu2022.java.project.beutysalon.entities.Staff;
-import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
-import spdu2022.java.project.beutysalon.exeptions.Error;
 import spdu2022.java.project.beutysalon.staff_registration.controllers.dto.StaffDTOLight;
 import spdu2022.java.project.beutysalon.staff_registration.services.StaffModificationService;
 
@@ -26,12 +25,6 @@ public class StaffController {
     public StaffDTOLight addNewStaff(@Valid @RequestBody StaffDTOLight staffDTOLight) {
         Staff staff = staffModificationService.insertNewStaff(staffMapper.convertStaffDTOLightToStaff(staffDTOLight));
         return staffMapper.convertStaffToStaffDtoLight(staff);
-    }
-
-    @ExceptionHandler(EntityNotUniqException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Error> notUniqStaff(Exception e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
     }
 
 }
