@@ -2,6 +2,7 @@ package spdu2022.java.project.beutysalon.users_registration.services;
 
 import org.springframework.stereotype.Service;
 import spdu2022.java.project.beutysalon.entities.User;
+import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
 import spdu2022.java.project.beutysalon.users_registration.persistence.repositories.UsersRepository;
 
 @Service
@@ -13,8 +14,11 @@ public class PersistenceUsersModificationService implements UsersModificationSer
     }
 
     @Override
-    public User createNewUser(User user) {
-        return usersRepository.insertNewUser(user);
+    public User createNewUser(User newUser) {
+        if(isUserExist(newUser)) {
+            throw new EntityNotUniqException("User already exist by phone " + newUser.getPhone());
+        }
+        return usersRepository.insertNewUser(newUser);
     }
 
     @Override
@@ -25,5 +29,10 @@ public class PersistenceUsersModificationService implements UsersModificationSer
     @Override
     public User updateUserById(long id) {
         return null;
+    }
+
+    private boolean isUserExist(User newUser) {
+        User user = usersRepository.findUserByPhone(newUser.getPhone());
+        return user.getId() != 0;
     }
 }
