@@ -1,5 +1,6 @@
 package spdu2022.java.project.beutysalon.staff_registration.services;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -13,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@DisplayName("Staff Modification Service")
 class PersistenceStaffModificationServiceTest {
     @Mock
     private PersistenceStaffRepository repository;
@@ -20,6 +22,7 @@ class PersistenceStaffModificationServiceTest {
     private PersistenceStaffModificationService modificationService;
 
     @Test
+    @DisplayName("Method POST: If Staff exist in DB - Exception. Else return Staff with Id")
     void insertNewStaff() {
         when(repository.getCountStaffByUserId(staffExistInDb())).thenReturn(1);
         when(repository.getCountStaffByUserId(staffNotExistInDb())).thenReturn(0);
@@ -28,7 +31,7 @@ class PersistenceStaffModificationServiceTest {
         Staff staff = repository.insertNewStaff(staffNotExistInDb());
         assertEquals(staff, staffNotExistInDb());
 
-        assertThrows(EntityNotUniqException.class, () -> modificationService.insertNewStaff(staffExistInDb()));
+        assertThrows(EntityNotUniqException.class, () -> modificationService.insertNewStaff(staffExistInDb()), "If Staff exist in DB -> EntityNotUniqException.");
 
     }
 
