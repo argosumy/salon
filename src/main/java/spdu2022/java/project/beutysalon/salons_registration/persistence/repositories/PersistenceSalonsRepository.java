@@ -1,56 +1,56 @@
 package spdu2022.java.project.beutysalon.salons_registration.persistence.repositories;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import spdu2022.java.project.beutysalon.entities.Salon;
-import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.mappers.SalonMapperResult;
+import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.mappers.SalonResultSetExtractor;
 
-import javax.sql.DataSource;
-import java.sql.*;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.*;
 
 @Repository
 public class PersistenceSalonsRepository implements SalonsRepository {
-    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
 
-    public PersistenceSalonsRepository(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public PersistenceSalonsRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public Optional<Salon> findById(long id) throws SQLException {
-        try (Connection connection = dataSource.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SalonsSQLQueries.SELECT_SALON_BY_ID);
-            preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return Optional.of(new SalonMapperResult().mapperLight(resultSet));
-            }
-        }
-        return Optional.empty();
+    public Salon findById(long id) {
+        return new Salon();
+    }
+
+    @Override
+    public Salon findByPhone(String phone) {
+        final String GET_SALON_BY_PHONE = "SELECT * FROM salons WHERE phone = :phone";
+        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("phone", phone);
+        return namedParameterJdbcTemplate.query(GET_SALON_BY_PHONE, parameters, new SalonResultSetExtractor());
     }
 
     @Override
     public List<Salon> getAllSalonsFromCity(String city) {
-        return Collections.emptyList();
+        return new ArrayList<>();
     }
 
     @Override
-    public Salon createNewSalons(Salon newSalon) throws SQLException {
-        try(Connection connection = dataSource.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SalonsSQLQueries.INSERT_SALON, Statement.RETURN_GENERATED_KEYS);
-            preparedStatement.setString(1, newSalon.getSalonName());
-            preparedStatement.setString(2, newSalon.getPhone());
-            preparedStatement.setString(3, newSalon.getCityLocation());
-            long i = preparedStatement.executeUpdate();
-            if(i == 1) {
-                ResultSet rs = preparedStatement.getGeneratedKeys();
-                if(rs.next()) {
-                    newSalon.setId(rs.getLong(1));
-                }
-            }
-        }
+    public Salon createNewSalons(Salon newSalon) {
+        final String INSERT_SALON = "INSERT INTO salons (salon_name, phone, city) VALUES (?,?,?) RETURNING id";
+        KeyHolder holder = new GeneratedKeyHolder();
+        jdbcTemplate.update(con -> {
+            PreparedStatement ps = con.prepareStatement(INSERT_SALON, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, newSalon.getSalonName());
+            ps.setString(2, newSalon.getPhone());
+            ps.setString(3, newSalon.getCityLocation());
+            return ps;
+        }, holder);
+        newSalon.setId(Objects.requireNonNull(holder.getKey()).intValue());
         return newSalon;
     }
 
@@ -63,4 +63,5 @@ public class PersistenceSalonsRepository implements SalonsRepository {
     public Salon updateSalons(Salon entityUpdate) {
         return new Salon();
     }
+
 }
