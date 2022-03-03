@@ -4,13 +4,13 @@ import spdu2022.java.project.beutysalon.constraints_validaion.annotations.DateVa
 
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SalonWorkingModeDto {
-
     private long salonId;
     @Valid
-    private List<WorkingPeriod> salonWorkingMode;
+    private List<WorkingPeriod> salonWorkingPeriodList = new ArrayList<>();
 
     public SalonWorkingModeDto() {
     }
@@ -23,12 +23,12 @@ public class SalonWorkingModeDto {
         this.salonId = salonId;
     }
 
-    public List<WorkingPeriod> getSalonWorkingMode() {
-        return salonWorkingMode;
+    public List<WorkingPeriod> getSalonWorkingPeriodList() {
+        return salonWorkingPeriodList;
     }
 
-    public void setSalonWorkingMode(List<WorkingPeriod> salonWorkingMode) {
-        this.salonWorkingMode = salonWorkingMode;
+    public void setSalonWorkingPeriodList(List<WorkingPeriod> salonWorkingPeriodList) {
+        this.salonWorkingPeriodList = salonWorkingPeriodList;
     }
 
     public static class WorkingPeriod {
