@@ -32,4 +32,11 @@ public class WorkingDayPeriod extends WorkingPeriod {
     public int hashCode() {
         return Objects.hash(workingDay);
     }
+
+    @Override
+    public String toString() {
+        return "WorkingDayPeriod{" +
+                "workingDay='" + workingDay + '\'' + ", " + super.toString() +
+                '}';
+    }
 }

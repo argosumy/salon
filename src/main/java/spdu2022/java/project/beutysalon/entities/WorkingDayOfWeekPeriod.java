@@ -1,15 +1,15 @@
 package spdu2022.java.project.beutysalon.entities;
 
+import spdu2022.java.project.beutysalon.entities.enums.DaysOfWeek;
+
 import java.util.Objects;
 
-public class WorkingDayOfWeek extends WorkingPeriod{
+public class WorkingDayOfWeekPeriod extends WorkingPeriod{
     private DaysOfWeek daysOfWeek;
 
-    public WorkingDayOfWeek() {
+    public WorkingDayOfWeekPeriod() {
         super();
     }
-
-
 
     public DaysOfWeek getDaysOfWeek() {
         return daysOfWeek;
@@ -23,12 +23,19 @@ public class WorkingDayOfWeek extends WorkingPeriod{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WorkingDayOfWeek that = (WorkingDayOfWeek) o;
+        WorkingDayOfWeekPeriod that = (WorkingDayOfWeekPeriod) o;
         return daysOfWeek == that.daysOfWeek;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(daysOfWeek);
+    }
+
+    @Override
+    public String toString() {
+        return "WorkingDayOfWeekPeriod{" +
+                "daysOfWeek=" + daysOfWeek + ", " + super.toString() +
+                '}';
     }
 }

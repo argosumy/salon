@@ -1,7 +1,7 @@
 package spdu2022.java.project.beutysalon.salons_working_mode.controllers;
 
 import spdu2022.java.project.beutysalon.entities.SalonWorkingMode;
-import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeek;
+import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
 import spdu2022.java.project.beutysalon.entities.WorkingDayPeriod;
 import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
 import spdu2022.java.project.beutysalon.salons_working_mode.controllers.dto.SalonWorkingDayModeDto;
@@ -45,8 +45,8 @@ public class SalonsWorkingModeMapper {
 
     protected SalonWorkingMode convertDtoWorkingDayOfWeekToSalonWorkingMode(SalonWorkingModeForWeekDto dto) {
         SalonWorkingMode result = new SalonWorkingMode();
-        Set<WorkingDayOfWeek> workingPeriods = dto.getWeekDtoList();
-        for(WorkingDayOfWeek period : workingPeriods) {
+        Set<WorkingDayOfWeekPeriod> workingPeriods = dto.getWeekDtoList();
+        for(WorkingDayOfWeekPeriod period : workingPeriods) {
             result.getSalonWorkingPeriods().add(period);
         }
         return result;
@@ -55,9 +55,9 @@ public class SalonsWorkingModeMapper {
     protected SalonWorkingModeForWeekDto convertSalonWorkingModeToDtoWorkingDayOfWeek(SalonWorkingMode workingMode) {
         SalonWorkingModeForWeekDto result = new SalonWorkingModeForWeekDto();
         result.setSalonId(workingMode.getSalonId());
-        Set<WorkingDayOfWeek> workingDayOfWeekList = new HashSet<>();
+        Set<WorkingDayOfWeekPeriod> workingDayOfWeekList = new HashSet<>();
         for(WorkingPeriod workingPeriod : workingMode.getSalonWorkingPeriods()) {
-            WorkingDayOfWeek workingDayOfWeek = (WorkingDayOfWeek) workingPeriod;
+            WorkingDayOfWeekPeriod workingDayOfWeek = (WorkingDayOfWeekPeriod) workingPeriod;
             workingDayOfWeekList.add(workingDayOfWeek);
         }
         result.setWeekDtoList(workingDayOfWeekList);

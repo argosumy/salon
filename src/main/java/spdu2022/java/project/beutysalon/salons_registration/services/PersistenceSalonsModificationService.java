@@ -28,7 +28,7 @@ public class PersistenceSalonsModificationService implements SalonsModificationS
 
     @Override
     public Salon updateSalons(Salon entityUpdate) {
-        return null;
+        return entityUpdate;
     }
 
     private boolean isExistSalonByPhone(String phone) {

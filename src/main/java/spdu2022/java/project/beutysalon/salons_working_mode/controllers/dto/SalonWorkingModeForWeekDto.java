@@ -1,12 +1,12 @@
 package spdu2022.java.project.beutysalon.salons_working_mode.controllers.dto;
 
-import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeek;
+import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
 
 import java.util.Set;
 
 public class SalonWorkingModeForWeekDto {
     private long salonId;
-    private Set<WorkingDayOfWeek> weekDtoList;
+    private Set<WorkingDayOfWeekPeriod> weekDtoList;
 
     public SalonWorkingModeForWeekDto() {
     }
@@ -19,11 +19,11 @@ public class SalonWorkingModeForWeekDto {
         this.salonId = salonId;
     }
 
-    public Set<WorkingDayOfWeek> getWeekDtoList() {
+    public Set<WorkingDayOfWeekPeriod> getWeekDtoList() {
         return weekDtoList;
     }
 
-    public void setWeekDtoList(Set<WorkingDayOfWeek> weekDtoList) {
+    public void setWeekDtoList(Set<WorkingDayOfWeekPeriod> weekDtoList) {
         this.weekDtoList = weekDtoList;
     }
 

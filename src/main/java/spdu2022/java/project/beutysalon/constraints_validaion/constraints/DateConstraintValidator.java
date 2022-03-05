@@ -11,7 +11,7 @@ public class DateConstraintValidator implements ConstraintValidator<DateValid,St
     @Override
     public boolean isValid(String dateText, ConstraintValidatorContext context) {
         try {
-            Date dateMode = new SimpleDateFormat("dd:MM:yyyy").parse(dateText);
+            Date dateMode = new SimpleDateFormat("yyyy-MM-dd").parse(dateText);
             Date now = new Date();
             return  dateMode.after(now);
         } catch (Exception e) {

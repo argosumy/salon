@@ -1,7 +1,6 @@
 package spdu2022.java.project.beutysalon.entities;
 
 import org.springframework.stereotype.Component;
-
 import javax.validation.constraints.Pattern;
 
 @Component
@@ -29,4 +28,13 @@ public abstract class WorkingPeriod {
     public void setEndWorking(String endWorking) {
         this.endWorking = endWorking;
     }
+
+    @Override
+    public String toString() {
+        return "WorkingPeriod{" +
+                "startWorking='" + startWorking + '\'' +
+                ", endWorking='" + endWorking + '\'' +
+                '}';
+    }
+
 }
