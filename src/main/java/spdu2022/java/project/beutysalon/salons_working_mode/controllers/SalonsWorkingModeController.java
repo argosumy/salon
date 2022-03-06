@@ -11,7 +11,7 @@ import spdu2022.java.project.beutysalon.salons_working_mode.services.SalonsWorki
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("api/v1/working-mode/salons/{salonId}")
+@RequestMapping("api/v1/working-mode/salons")
 @Validated
 public class SalonsWorkingModeController {
     private final SalonsWorkingModeModificationService salonsWorkingModificationService;
@@ -20,7 +20,7 @@ public class SalonsWorkingModeController {
         this.salonsWorkingModificationService = salonsWorkingModificationService;
     }
 
-    @PostMapping("/days")
+    @PostMapping("/{salonId}/days")
     @ResponseStatus(HttpStatus.CREATED)
     public SalonWorkingDayModeDto createWorkingMode(@Valid @RequestBody SalonWorkingDayModeDto workingModeDto, @PathVariable("salonId") long salonId) {
         SalonsWorkingModeMapper modeMapper = new SalonsWorkingModeMapper();
@@ -30,7 +30,7 @@ public class SalonsWorkingModeController {
         return modeMapper.convertSalonWorkingModeToDto(salonWorkingMode);
     }
 
-    @PostMapping("/days-week")
+    @PostMapping("/{salonId}/days-week")
     @ResponseStatus(HttpStatus.CREATED)
     public SalonWorkingModeForWeekDto createWorkingModeForWeek(@Valid @RequestBody SalonWorkingModeForWeekDto workingModeDto, @PathVariable("salonId") long salonId) {
         SalonsWorkingModeMapper modeMapper = new SalonsWorkingModeMapper();
@@ -38,5 +38,12 @@ public class SalonsWorkingModeController {
         workingMode.setSalonId(salonId);
         salonsWorkingModificationService.addNewWorkingPeriod(workingMode);
         return modeMapper.convertSalonWorkingModeToDtoWorkingDayOfWeek(workingMode);
+    }
+
+    @GetMapping("/{salonId}/days")
+    @ResponseStatus(HttpStatus.OK)
+    public SalonWorkingDayModeDto getSalonWorkingDayBySalonId() {
+
+        return new SalonWorkingDayModeDto();
     }
 }

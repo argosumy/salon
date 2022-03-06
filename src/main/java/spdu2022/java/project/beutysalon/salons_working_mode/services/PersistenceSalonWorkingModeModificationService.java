@@ -6,6 +6,7 @@ import spdu2022.java.project.beutysalon.entities.SalonWorkingMode;
 import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
 import spdu2022.java.project.beutysalon.entities.WorkingDayPeriod;
 import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
+import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
 import spdu2022.java.project.beutysalon.salons_working_mode.persistence.repositories.SalonWorkingModeRepository;
 
 import java.util.List;
@@ -34,18 +35,21 @@ public class PersistenceSalonWorkingModeModificationService implements SalonsWor
     }
 
     private int addNewPeriod(SalonWorkingMode salonWorkingMode, SalonWorkingModeRepository repository) {
+        int count = 0;
         long salonId = salonWorkingMode.getSalonId();
         List<WorkingPeriod> weekPeriodList = salonWorkingMode.getSalonWorkingPeriods();
         List<WorkingPeriod> periodsInDb = repository.findPeriodBySalonId(salonId).getSalonWorkingPeriods();
         for(WorkingPeriod workingPeriod : weekPeriodList) {
             WorkingPeriod duplicate = getDuplicate(workingPeriod, periodsInDb);
             if(duplicate == null) {
-                repository.addNewWorkingPeriodBySalonId(salonId, workingPeriod);
+                count += repository.addNewWorkingPeriodBySalonId(salonId, workingPeriod);
+
             } else {
-                repository.updateWorkingPeriodBySalonId(salonId, workingPeriod);
+//                count += repository.updateWorkingPeriodBySalonId(salonId, workingPeriod);
+                throw new EntityNotUniqException("Period " + workingPeriod + " is not uniq.");
             }
         }
-        return 1;
+        return count;
     }
 
     private WorkingPeriod getDuplicate(WorkingPeriod period, List<WorkingPeriod> periodFromDbList) {

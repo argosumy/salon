@@ -21,15 +21,15 @@ class SalonsWorkingModeControllerTest {
     SalonsWorkingModeController controller;
 
     @Test
-    @DisplayName("Date pattern:'dd:MM:yyyy'. Date must be in future. Time is valid format: 10:00, 1:59, 15:01, 00:09")
+    @DisplayName("Date pattern:'dd.MM.yyyy'. Date must be in future. Time is valid format: 10:00, 1:59, 15:01, 00:09")
     void createWorkingMode() throws Exception {
-        String body = buildBody("15:03:2022", "09:00", "18:00");
+        String body = buildBody("15.03.2022", "09:00", "18:00");
         mockMvc.perform(post("http://localhost:8080/api/v1/working-mode/salons/1")
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(201));
 
-        body = buildBody("15:03:2020", "09:00", "20:00");
+        body = buildBody("15.03.2020", "09:00", "20:00");
         mockMvc.perform(post("http://localhost:8080/api/v1/working-mode/salons/1")
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON))

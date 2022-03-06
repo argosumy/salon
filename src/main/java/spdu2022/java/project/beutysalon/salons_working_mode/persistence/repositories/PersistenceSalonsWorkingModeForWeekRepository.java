@@ -41,7 +41,7 @@ public class PersistenceSalonsWorkingModeForWeekRepository implements SalonWorki
             return ps;
         }, holder);
         Objects.requireNonNull(holder.getKey()).intValue();
-        return 0;
+        return 1;
     }
 
     @Override
