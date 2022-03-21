@@ -1,19 +1,16 @@
-package spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.mappers;
+package spdu2022.java.project.beutysalon.salons_registration.persistence.mappers;
 
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import spdu2022.java.project.beutysalon.entities.Salon;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SalonResultSetExtractor implements ResultSetExtractor<Salon> {
+public class SalonRowMapper implements RowMapper<Salon>{
+
     @Override
-    public Salon extractData(ResultSet rs) throws SQLException, DataAccessException {
-        if (rs.next()) {
-            return resultSetToSalon(rs);
-        }
-        return new Salon();
+    public Salon mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+        return resultSetToSalon(resultSet);
     }
 
     private Salon resultSetToSalon(ResultSet resultSet) throws SQLException {
@@ -24,6 +21,4 @@ public class SalonResultSetExtractor implements ResultSetExtractor<Salon> {
         salon.setCityLocation(resultSet.getString("city"));
         return salon;
     }
-
-
 }

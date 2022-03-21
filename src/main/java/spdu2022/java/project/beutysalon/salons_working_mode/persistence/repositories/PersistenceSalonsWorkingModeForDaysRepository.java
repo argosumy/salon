@@ -32,7 +32,7 @@ public class PersistenceSalonsWorkingModeForDaysRepository implements SalonWorki
         WorkingDayPeriod dayPeriod = (WorkingDayPeriod)period;
         final String INSERT_NEW_WORKING_PERIOD_BY_SALON_ID = "INSERT INTO salon_working_mode(salon_id, start_working, finish_working) VALUES(?,?,?)";
         Timestamp startWorking = Timestamp.valueOf(dayPeriod.getWorkingDay() + " " + dayPeriod.getStartWorking() + ":00");
-        Timestamp endWorking = Timestamp.valueOf(dayPeriod.getWorkingDay() + " " + dayPeriod.getStartWorking() + ":00");
+        Timestamp endWorking = Timestamp.valueOf(dayPeriod.getWorkingDay() + " " + dayPeriod.getEndWorking() + ":00");
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(INSERT_NEW_WORKING_PERIOD_BY_SALON_ID, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, salonId);

@@ -6,7 +6,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import spdu2022.java.project.beutysalon.entities.Salon;
-import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.mappers.SalonResultSetExtractor;
+import spdu2022.java.project.beutysalon.salons_registration.persistence.mappers.SalonResultSetExtractor;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
