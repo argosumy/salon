@@ -1,9 +1,10 @@
 package spdu2022.java.project.beutysalon.salons_registration.services;
 
-import java.util.List;
-import java.util.Optional;
+import spdu2022.java.project.beutysalon.entities.Salon;
 
-public interface SalonsGetService<T> {
-    Optional<T> findById(long id);
-    List<T> getAllSalonsFromCity(String city);
+import java.util.List;
+
+public interface SalonsGetService {
+    Salon findById(long id);
+    List<Salon> getAllSalonsFromCity(String city);
 }
