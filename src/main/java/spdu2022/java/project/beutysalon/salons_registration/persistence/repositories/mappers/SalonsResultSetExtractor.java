@@ -7,7 +7,7 @@ import spdu2022.java.project.beutysalon.entities.Salon;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SalonResultSetExtractor implements ResultSetExtractor<Salon> {
+public class SalonsResultSetExtractor implements ResultSetExtractor<Salon> {
     @Override
     public Salon extractData(ResultSet rs) throws SQLException, DataAccessException {
         if (rs.next()) {

@@ -2,20 +2,20 @@ package spdu2022.java.project.beutysalon.staff_registration.controllers;
 
 import org.springframework.stereotype.Component;
 import spdu2022.java.project.beutysalon.entities.Staff;
-import spdu2022.java.project.beutysalon.staff_registration.controllers.dto.StaffDTOLight;
+import spdu2022.java.project.beutysalon.staff_registration.controllers.dto.StaffDTO;
 
 @Component
 public class StaffMapper {
-    protected Staff convertStaffDTOLightToStaff(StaffDTOLight staffDTOLight) {
+    protected Staff convertStaffDTOLightToStaff(StaffDTO staffDTO) {
         Staff staff = new Staff();
-        staff.setUserId(staffDTOLight.getUserId());
-        staff.setSalonId(staffDTOLight.getSalonId());
-        staff.setLinkPhoto(staffDTOLight.getLinkPhoto());
+        staff.setUserId(staffDTO.getUserId());
+        staff.setSalonId(staffDTO.getSalonId());
+        staff.setLinkPhoto(staffDTO.getLinkPhoto());
         return staff;
     }
 
-    protected StaffDTOLight convertStaffToStaffDtoLight(Staff staff) {
-        StaffDTOLight staffDTOLight = new StaffDTOLight();
+    protected StaffDTO convertStaffToStaffDtoLight(Staff staff) {
+        StaffDTO staffDTOLight = new StaffDTO();
         staffDTOLight.setId(staff.getId());
         staffDTOLight.setSalonId(staff.getSalonId());
         staffDTOLight.setUserId(staff.getUserId());

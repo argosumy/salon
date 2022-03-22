@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import spdu2022.java.project.beutysalon.entities.Staff;
-import spdu2022.java.project.beutysalon.staff_registration.controllers.dto.StaffDTOLight;
+import spdu2022.java.project.beutysalon.staff_registration.controllers.dto.StaffDTO;
 import spdu2022.java.project.beutysalon.staff_registration.services.StaffModificationService;
 
 import javax.validation.Valid;
@@ -22,8 +22,8 @@ public class StaffController {
     }
 
     @PostMapping
-    public StaffDTOLight addNewStaff(@Valid @RequestBody StaffDTOLight staffDTOLight) {
-        Staff staff = staffModificationService.insertNewStaff(staffMapper.convertStaffDTOLightToStaff(staffDTOLight));
+    public StaffDTO addNewStaff(@Valid @RequestBody StaffDTO staffDTO) {
+        Staff staff = staffModificationService.insertNewStaff(staffMapper.convertStaffDTOLightToStaff(staffDTO));
         return staffMapper.convertStaffToStaffDtoLight(staff);
     }
 

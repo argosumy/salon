@@ -1,16 +1,17 @@
 package spdu2022.java.project.beutysalon.salons_registration.persistence.repositories;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import spdu2022.java.project.beutysalon.entities.Salon;
-import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.mappers.SalonResultSetExtractor;
+import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.mappers.SalonsResultSetExtractor;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class PersistenceSalonsRepository implements SalonsRepository {
@@ -27,11 +28,8 @@ public class PersistenceSalonsRepository implements SalonsRepository {
 
     @Override
     public Salon findByPhone(String phone) {
-        final String GET_SALON_BY_PHONE = "SELECT * FROM salons WHERE phone = :phone";
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("phone", phone);
-        return namedParameterJdbcTemplate.query(GET_SALON_BY_PHONE, parameters, new SalonResultSetExtractor());
+        final String GET_SALON_BY_PHONE = "SELECT * FROM salons WHERE phone = ?";
+        return jdbcTemplate.query(GET_SALON_BY_PHONE, new SalonsResultSetExtractor(), phone);
     }
 
     @Override

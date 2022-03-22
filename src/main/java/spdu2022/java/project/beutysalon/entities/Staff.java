@@ -54,10 +54,7 @@ public class Staff {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Staff staff = (Staff) o;
-        return id == staff.id &&
-                userId == staff.userId &&
-                salonId == staff.salonId &&
-                Objects.equals(linkPhoto, staff.linkPhoto);
+        return userId == staff.userId && salonId == staff.salonId;
     }
 
     @Override
