@@ -2,9 +2,10 @@ package spdu2022.java.project.beutysalon.users_registration.services;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import spdu2022.java.project.beutysalon.entities.User;
 import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
 import spdu2022.java.project.beutysalon.users_registration.persistence.repositories.PersistenceUsersRepository;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 @DisplayName("User Modification Service")
 class PersistenceUsersModificationServiceTest {
     @Mock
@@ -21,18 +22,22 @@ class PersistenceUsersModificationServiceTest {
     @InjectMocks
     private PersistenceUsersModificationService usersModificationService;
 
+    @Test
+    @DisplayName("Method POST: If User not exist in DB - return User with Id")
+    void createUniqueNewUser() {
+       when(repository.findUserByPhone(newUniqueUser().getPhone())).thenReturn(new User());
+       when(repository.insertNewUser(newUniqueUser())).thenReturn(newUniqueUser());
+
+       User result = usersModificationService.createNewUser(newUniqueUser());
+       assertEquals(newUniqueUser(), result);
+    }
 
     @Test
-    @DisplayName("Method POST: If User exist in DB - Exception. Else return User with Id")
-    void createNewUser() {
-       when(repository.findUserByPhone(newUserExistInDb().getPhone())).thenReturn(newUserExistInDb());
-       when(repository.findUserByPhone(newUserNotExistInDb().getPhone())).thenReturn(new User());
-       when(repository.insertNewUser(newUserNotExistInDb())).thenReturn(newUserNotExistInDb());
+    @DisplayName("Method POST: If User exist in DB - Exception.")
+    void createNotUniqueNewUser() {
+        when(repository.findUserByPhone(newUserExistInDb().getPhone())).thenReturn(newUserExistInDb());
 
-       User result = usersModificationService.createNewUser(newUserNotExistInDb());
-       assertEquals(newUserNotExistInDb(), result);
-
-       assertThrows(EntityNotUniqException.class, () -> usersModificationService.createNewUser(newUserExistInDb()), "If User exist in DB -> EntityNotUniqException.");
+        assertThrows(EntityNotUniqException.class, () -> usersModificationService.createNewUser(newUserExistInDb()), "If User exist in DB -> EntityNotUniqException.");
     }
 
     @Test
@@ -53,7 +58,7 @@ class PersistenceUsersModificationServiceTest {
         return user;
     }
 
-    private User newUserNotExistInDb() {
+    private User newUniqueUser() {
         User user = new User();
         user.setId(1);
         user.setFirstName("Roman");

@@ -2,17 +2,19 @@ package spdu2022.java.project.beutysalon.salons_registration.services;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import spdu2022.java.project.beutysalon.entities.Salon;
 import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
 import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.PersistenceSalonsRepository;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 @DisplayName("Salons Modification Service")
 class PersistenceSalonsModificationServiceTest {
     @Mock
@@ -20,17 +22,20 @@ class PersistenceSalonsModificationServiceTest {
     @InjectMocks
     private PersistenceSalonsModificationService service;
 
+    @Test
+    @DisplayName("Method POST: If Salon not exist in DB - return Salon with Id")
+    void createUniqueNewSalons() {
+        when(salonsRepository.findByPhone(uniqueSalon().getPhone())).thenReturn(new Salon());
+        when(salonsRepository.createNewSalons(uniqueSalon())).thenReturn(uniqueSalon());
+
+        Salon result = service.createNewSalons(uniqueSalon());
+        assertEquals(uniqueSalon(), result);
+    }
 
     @Test
-    @DisplayName("Method POST: If Salon exist in DB - Exception. Else return Salon with Id")
-    void createNewSalons() {
+    @DisplayName("Method POST: If Salon exist in DB - Exception")
+    void createNotUniqueNewSalons() {
         when(salonsRepository.findByPhone(salonExist().getPhone())).thenReturn(salonExist());
-        when(salonsRepository.findByPhone(newSalonNotExist().getPhone())).thenReturn(new Salon());
-        when(salonsRepository.createNewSalons(newSalonNotExist())).thenReturn(newSalonNotExist());
-
-        Salon result = service.createNewSalons(newSalonNotExist());
-
-        assertEquals(newSalonNotExist(), result);
         assertThrows(EntityNotUniqException.class, () -> service.createNewSalons(salonExist()), "If Salon exist in DB -> EntityNotUniqException");
     }
 
@@ -42,7 +47,7 @@ class PersistenceSalonsModificationServiceTest {
     void updateSalons() {
     }
 
-    private Salon newSalonNotExist() {
+    private Salon uniqueSalon() {
         Salon salon = new Salon();
         salon.setId(1);
         salon.setSalonName("Kiki");

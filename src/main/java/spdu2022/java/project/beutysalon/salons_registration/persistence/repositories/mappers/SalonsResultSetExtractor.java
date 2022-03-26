@@ -1,4 +1,4 @@
-package spdu2022.java.project.beutysalon.salons_registration.persistence.mappers;
+package spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.mappers;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -7,7 +7,7 @@ import spdu2022.java.project.beutysalon.entities.Salon;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SalonResultSetExtractor implements ResultSetExtractor<Salon> {
+public class SalonsResultSetExtractor implements ResultSetExtractor<Salon> {
     @Override
     public Salon extractData(ResultSet rs) throws SQLException, DataAccessException {
         if (rs.next()) {

@@ -1,4 +1,4 @@
-package spdu2022.java.project.beutysalon.salons_registration.persistence.mappers;
+package spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.mappers;
 
 import org.springframework.jdbc.core.RowMapper;
 import spdu2022.java.project.beutysalon.entities.Salon;

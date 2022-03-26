@@ -3,7 +3,7 @@ package spdu2022.java.project.beutysalon.staff_registration.controllers.dto;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-public class StaffDTOLight {
+public class StaffDTO {
     private long id;
     @Min(1)
     private long userId;
@@ -12,7 +12,7 @@ public class StaffDTOLight {
     @NotNull
     private String linkPhoto;
 
-    public StaffDTOLight() {
+    public StaffDTO() {
     }
 
     public long getId() {

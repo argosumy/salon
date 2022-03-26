@@ -1,16 +1,17 @@
 package spdu2022.java.project.beutysalon.staff_registration.persistence.repositories;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import spdu2022.java.project.beutysalon.entities.Staff;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Repository
 public class PersistenceStaffRepository implements StaffRepository {
@@ -43,7 +44,6 @@ public class PersistenceStaffRepository implements StaffRepository {
         }, holder);
         newStaff.setId(Objects.requireNonNull(holder.getKey()).intValue());
         return newStaff;
-
     }
 
     @Override
@@ -58,10 +58,8 @@ public class PersistenceStaffRepository implements StaffRepository {
 
     @Override
     public int getCountStaffByUserId(Staff staff) {
-        final String COUNT_STAFF_BY_ID = "SELECT count(*) FROM staff WHERE user_id = :userId";
-        NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
-        SqlParameterSource namedParameters = new BeanPropertySqlParameterSource(staff);
-        return namedParameterJdbcTemplate.queryForObject(COUNT_STAFF_BY_ID, namedParameters, Integer.class);
+        final String COUNT_STAFF_BY_ID = "SELECT count(*) FROM staff WHERE user_id = ?";
+        return jdbcTemplate.queryForObject(COUNT_STAFF_BY_ID, Integer.class, staff.getUserId());
     }
 
 }
