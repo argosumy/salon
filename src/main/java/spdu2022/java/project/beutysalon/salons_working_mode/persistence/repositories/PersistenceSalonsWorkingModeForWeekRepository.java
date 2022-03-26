@@ -35,7 +35,7 @@ public class PersistenceSalonsWorkingModeForWeekRepository implements SalonWorki
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(INSERT_NEW_WORKING_PERIOD_BY_SALON_ID, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, salonId);
-            ps.setString(2, weekPeriod.getDaysOfWeek().name());
+            ps.setString(2, weekPeriod.getDayOfWeek().name());
             ps.setString(3, weekPeriod.getStartWorking());
             ps.setString(4, weekPeriod.getEndWorking());
             return ps;
@@ -53,7 +53,7 @@ public class PersistenceSalonsWorkingModeForWeekRepository implements SalonWorki
             ps.setString(1, period.getStartWorking());
             ps.setString(2, period.getEndWorking());
             ps.setLong(3, salonId);
-            ps.setString(4, (weekPeriod.getDaysOfWeek().name()));
+            ps.setString(4, (weekPeriod.getDayOfWeek().name()));
             return ps;
         });
         return 1;

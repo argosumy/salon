@@ -2,21 +2,22 @@ package spdu2022.java.project.beutysalon.entities;
 
 import spdu2022.java.project.beutysalon.constraints_validaion.annotations.DateValid;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class WorkingDayPeriod extends WorkingPeriod {
     @DateValid
-    private String workingDay;
+    private LocalDate workingDay;
 
     public WorkingDayPeriod() {
         super();
     }
 
-    public String getWorkingDay() {
+    public LocalDate getWorkingDay() {
         return workingDay;
     }
 
-    public void setWorkingDay(String workingDay) {
+    public void setWorkingDay(LocalDate workingDay) {
         this.workingDay = workingDay;
     }
 

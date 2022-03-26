@@ -7,6 +7,7 @@ import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ public class ResultSetExtractorForWorkingPeriod implements ResultSetExtractor<Ma
         while (rs.next()) {
             WorkingDayPeriod period = new WorkingDayPeriod();
             Long staffId = rs.getLong("staff_id");
-            period.setWorkingDay(rs.getString("staff_working_day"));
+            period.setWorkingDay(LocalDate.parse(rs.getString("staff_working_day")));
             period.setStartWorking(rs.getString("start_working"));
             period.setEndWorking(rs.getString("end_working"));
             result.put(staffId, period);

@@ -19,8 +19,8 @@ public class WorkingModeForDaysPeriodResultSetExtractor implements ResultSetExtr
             if(result.getSalonId() == 0) {
                 result.setSalonId(rs.getLong("salon_id"));
             }
-            period.setWorkingDay(rs.getTimestamp("start_working").toLocalDateTime()
-                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            period.setWorkingDay(rs.getTimestamp("start_working").toLocalDateTime().toLocalDate());
+//                    .format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
             period.setStartWorking(rs.getTimestamp("start_working").toLocalDateTime()
                     .format(DateTimeFormatter.ofPattern("HH:mm")));
             period.setEndWorking(rs.getTimestamp("finish_working").toLocalDateTime()

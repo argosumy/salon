@@ -6,10 +6,11 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import spdu2022.java.project.beutysalon.entities.SalonWorkingMode;
 import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
-import spdu2022.java.project.beutysalon.entities.enums.DaysOfWeek;
 import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
 import spdu2022.java.project.beutysalon.salons_working_mode.persistence.repositories.SalonWorkingModeRepository;
 import spdu2022.java.project.beutysalon.salons_working_mode.services.PersistenceSalonWorkingModeModificationService;
+
+import java.time.DayOfWeek;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -39,7 +40,7 @@ class PersistenceSalonWorkingModeModificationServiceTest {
         SalonWorkingMode salonWorkingMode = new SalonWorkingMode();
         salonWorkingMode.setSalonId(2);
         WorkingDayOfWeekPeriod dayOfWeekPeriod = new WorkingDayOfWeekPeriod();
-        dayOfWeekPeriod.setDaysOfWeek(DaysOfWeek.MONDAY);
+        dayOfWeekPeriod.setDayOfWeek(DayOfWeek.MONDAY);
         dayOfWeekPeriod.setStartWorking("09:00");
         dayOfWeekPeriod.setEndWorking("18:00");
         salonWorkingMode.getSalonWorkingPeriods().add(dayOfWeekPeriod);

@@ -5,15 +5,13 @@ import spdu2022.java.project.beutysalon.constraints_validaion.annotations.DateVa
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
-public class DateConstraintValidator implements ConstraintValidator<DateValid,String> {
+public class DateConstraintValidator implements ConstraintValidator<DateValid,LocalDate> {
     @Override
-    public boolean isValid(String dateText, ConstraintValidatorContext context) {
+    public boolean isValid(LocalDate localDate, ConstraintValidatorContext context) {
         try {
-            LocalDate dateMode = LocalDate.parse(dateText, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             LocalDate now = LocalDate.now();
-            return  dateMode.isAfter(now.minusDays(1));
+            return  localDate.isAfter(now.minusDays(1));
         } catch (Exception e) {
             return false;
         }

@@ -1,6 +1,7 @@
 package spdu2022.java.project.beutysalon.salons_working_mode.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import spdu2022.java.project.beutysalon.entities.StaffWorkingMode;
 import spdu2022.java.project.beutysalon.salons_working_mode.controllers.dto.StaffWorkingModeDto;
@@ -10,6 +11,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/v1/working-mode/staff")
+@Validated
 public class StaffWorkingModeController {
     private final StaffWorkingModeModificationService staffWorkingModeModificationService;
 
