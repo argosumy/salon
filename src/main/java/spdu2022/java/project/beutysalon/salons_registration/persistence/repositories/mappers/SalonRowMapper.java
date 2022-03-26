@@ -10,10 +10,6 @@ public class SalonRowMapper implements RowMapper<Salon>{
 
     @Override
     public Salon mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-        return resultSetToSalon(resultSet);
-    }
-
-    private Salon resultSetToSalon(ResultSet resultSet) throws SQLException {
         Salon salon = new Salon();
         salon.setId(resultSet.getLong("id"));
         salon.setSalonName(resultSet.getString("salon_name"));

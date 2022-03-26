@@ -15,11 +15,11 @@ public class StaffMapper {
     }
 
     protected StaffDTO convertStaffToStaffDtoLight(Staff staff) {
-        StaffDTO staffDTO = new StaffDTO();
-        staffDTO.setId(staff.getId());
-        staffDTO.setSalonId(staff.getSalonId());
-        staffDTO.setUserId(staff.getUserId());
-        staffDTO.setLinkPhoto(staff.getLinkPhoto());
-        return staffDTO;
+        StaffDTO staffDTOLight = new StaffDTO();
+        staffDTOLight.setId(staff.getId());
+        staffDTOLight.setSalonId(staff.getSalonId());
+        staffDTOLight.setUserId(staff.getUserId());
+        staffDTOLight.setLinkPhoto(staff.getLinkPhoto());
+        return staffDTOLight;
     }
 }

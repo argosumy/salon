@@ -1,4 +1,4 @@
-package spdu2022.java.project.beutysalon.exeptions.exeption_helper;
+package spdu2022.java.project.beutysalon.exeptions.exeption_handler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import spdu2022.java.project.beutysalon.exeptions.NotFoundException;
 import javax.validation.ConstraintViolationException;
 
 @ControllerAdvice
-public class ExceptionHelper {
+public class RestExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<Error> notFound(Exception e) {

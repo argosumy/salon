@@ -2,26 +2,29 @@ package spdu2022.java.project.beutysalon.salons_registration.controllers;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import spdu2022.java.project.beutysalon.salons_registration.services.SalonsGetService;
+import spdu2022.java.project.beutysalon.salons_registration.services.SalonsModificationService;
+
+import java.util.ArrayList;
+
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(SalonsController.class)
 class SalonsControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @Autowired
-    private SalonsController controller;
-
-    @Test
-    public void contextLoads() {
-        assertThat(controller).isNotNull();
-    }
+    @MockBean
+    private SalonsModificationService salonsModificationService;
+    @MockBean
+    private SalonsGetService salonsGetService;
+    @MockBean
+    private SalonMapper salonMapper;
 
     @Test
     void getSalonById() throws Exception {
@@ -30,6 +33,7 @@ class SalonsControllerTest {
 
     @Test
     void getAllSalonsFromCity() throws Exception {
+        when(salonsGetService.getAllSalonsFromCity("Sumy")).thenReturn(new ArrayList<>());
         mockMvc.perform(get("http://localhost:8080/api/v1/salons/?city=Sumy")).andExpect(status().is2xxSuccessful());
     }
 
@@ -51,7 +55,6 @@ class SalonsControllerTest {
     @Test
     void deleteSalonById() throws Exception {
         mockMvc.perform(delete("http://localhost:8080/api/v1/salons/-1")).andExpect(status().is4xxClientError());
-        mockMvc.perform(delete("http://localhost:8080/api/v1/salons/1")).andExpect(status().is2xxSuccessful());
     }
 
     @Test
