@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
+import spdu2022.java.project.beutysalon.entities.Salon;
 import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
 import spdu2022.java.project.beutysalon.entities.WorkingDayPeriod;
 import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
@@ -60,7 +61,7 @@ public class PersistenceLogBookRepository implements LogBookRepository{
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("city", city)
                 .addValue("startPeriod", startPeriod)
-                .addValue("endPeriod", endPeriod);
+                .addValue("endPeriod", endPeriod.plusDays(1));
         return namedJdbcTemplate.query(SELECT_LOG_SERVICE_BY_CITY_AND_PERIOD, parameters, new ResultSetExtractorForLogServices());
 
     }
@@ -70,7 +71,7 @@ public class PersistenceLogBookRepository implements LogBookRepository{
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("salonId", salonId)
                 .addValue("startPeriod", startPeriod)
-                .addValue("endPeriod", endPeriod);
+                .addValue("endPeriod", endPeriod.plusDays(1));
         return namedJdbcTemplate.query(SELECT_LOG_SERVICE_BY_SALON_ID_AND_PERIOD, parameters, new ResultSetExtractorForLogServices());
     }
 
@@ -100,8 +101,8 @@ public class PersistenceLogBookRepository implements LogBookRepository{
            if(rs.next()) {
                String timeS = rs.getString("start_working");
                String timeE = rs.getString("end_working");
-               workingPeriod.setStartWorking(timeS);
-               workingPeriod.setEndWorking(timeE);
+               workingPeriod.setStartWorking(LocalTime.parse(timeS, DateTimeFormatter.ofPattern("HH:mm")));
+               workingPeriod.setEndWorking(LocalTime.parse(timeE, DateTimeFormatter.ofPattern("HH:mm")));
                workingPeriod.setDayOfWeek(DayOfWeek.valueOf(rs.getString("day_week")));
            }
            return workingPeriod;
@@ -121,10 +122,24 @@ public class PersistenceLogBookRepository implements LogBookRepository{
                 (ResultSetExtractor<WorkingPeriod>) rs -> {
                     WorkingDayPeriod workingDayPeriod = new WorkingDayPeriod();
                     if(rs.next()) {
-                        workingDayPeriod.setStartWorking(rs.getTimestamp("start_working").toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm")));
-                        workingDayPeriod.setEndWorking(rs.getTimestamp("finish_working").toLocalDateTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+                        workingDayPeriod.setStartWorking(rs.getTimestamp("start_working").toLocalDateTime().toLocalTime());
+                        workingDayPeriod.setEndWorking(rs.getTimestamp("finish_working").toLocalDateTime().toLocalTime());
                     }
                     return workingDayPeriod;
                 });
+    }
+
+    @Override
+    public List<Salon> getSalonsByCity(String city) {
+        SqlParameterSource parameterSource = new MapSqlParameterSource().addValue("city", city);
+        String GET_SALONS_BY_CITY = "SELECT * FROM salons WHERE city=:city";
+        return namedJdbcTemplate.query(GET_SALONS_BY_CITY, parameterSource, (rs, rowNum) -> {
+            Salon salon = new Salon();
+            salon.setId(rs.getLong("id"));
+            salon.setSalonName(rs.getString("salon_name"));
+            salon.setPhone(rs.getString("phone"));
+            salon.setCityLocation(rs.getString("city"));
+            return salon;
+        });
     }
 }

@@ -11,6 +11,7 @@ import spdu2022.java.project.beutysalon.salons_working_mode.persistence.reposito
 import spdu2022.java.project.beutysalon.salons_working_mode.services.PersistenceSalonWorkingModeModificationService;
 
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -41,8 +42,8 @@ class PersistenceSalonWorkingModeModificationServiceTest {
         salonWorkingMode.setSalonId(2);
         WorkingDayOfWeekPeriod dayOfWeekPeriod = new WorkingDayOfWeekPeriod();
         dayOfWeekPeriod.setDayOfWeek(DayOfWeek.MONDAY);
-        dayOfWeekPeriod.setStartWorking("09:00");
-        dayOfWeekPeriod.setEndWorking("18:00");
+        dayOfWeekPeriod.setStartWorking(LocalTime.parse("09:00"));
+        dayOfWeekPeriod.setEndWorking(LocalTime.parse("18:00"));
         salonWorkingMode.getSalonWorkingPeriods().add(dayOfWeekPeriod);
         return salonWorkingMode;
     }

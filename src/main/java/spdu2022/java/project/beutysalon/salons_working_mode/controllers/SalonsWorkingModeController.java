@@ -42,7 +42,7 @@ public class SalonsWorkingModeController {
 
     @GetMapping("/{salonId}/days")
     @ResponseStatus(HttpStatus.OK)
-    public SalonWorkingDayModeDto getSalonWorkingDayBySalonId() {
+    public SalonWorkingDayModeDto getSalonWorkingDayBySalonId(@PathVariable("salonId") long salonId ) {
 
         return new SalonWorkingDayModeDto();
     }

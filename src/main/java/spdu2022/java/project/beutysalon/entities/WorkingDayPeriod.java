@@ -1,5 +1,6 @@
 package spdu2022.java.project.beutysalon.entities;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import spdu2022.java.project.beutysalon.constraints_validaion.annotations.DateValid;
 
 import java.time.LocalDate;
@@ -7,6 +8,7 @@ import java.util.Objects;
 
 public class WorkingDayPeriod extends WorkingPeriod {
     @DateValid
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate workingDay;
 
     public WorkingDayPeriod() {

@@ -1,7 +1,10 @@
 package spdu2022.java.project.beutysalon.entities;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 public class SlotsLog {
     private long salonId;

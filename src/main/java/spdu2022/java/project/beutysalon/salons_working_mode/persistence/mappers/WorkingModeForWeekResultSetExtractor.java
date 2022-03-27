@@ -8,6 +8,7 @@ import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 
 public class WorkingModeForWeekResultSetExtractor implements ResultSetExtractor<SalonWorkingMode> {
     @Override
@@ -20,8 +21,8 @@ public class WorkingModeForWeekResultSetExtractor implements ResultSetExtractor<
                 result.setSalonId(rs.getLong("salon_id"));
             }
             period.setDayOfWeek(DayOfWeek.valueOf(rs.getString("day_week")));
-            period.setStartWorking(rs.getString("start_working"));
-            period.setEndWorking(rs.getString("end_working"));
+            period.setStartWorking(LocalTime.parse(rs.getString("start_working")));
+            period.setEndWorking(LocalTime.parse(rs.getString("end_working")));
             result.getSalonWorkingPeriods().add(period);
         }
         return result;

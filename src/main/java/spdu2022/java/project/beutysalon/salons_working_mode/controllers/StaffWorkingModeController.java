@@ -21,9 +21,10 @@ public class StaffWorkingModeController {
 
     @PostMapping("/{staffId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public void CreateStaffWorkingModeByStaffId(@Valid @RequestBody StaffWorkingModeDto staffWorkingModeDto, @PathVariable("staffId") long staffId) {
+    public long CreateStaffWorkingModeByStaffId(@Valid @RequestBody StaffWorkingModeDto staffWorkingModeDto, @PathVariable("staffId") long staffId) {
         StaffWorkingModeMapper mapper = new StaffWorkingModeMapper();
         StaffWorkingMode staffWorkingMode = mapper.convertStaffWorkingModeDtoToStaffWorkingMode(staffWorkingModeDto);
-        staffWorkingModeModificationService.addNewWorkingMode(staffWorkingMode);
+        staffWorkingMode.setStaffId(staffId);
+        return staffWorkingModeModificationService.addNewWorkingMode(staffWorkingMode);
     }
 }

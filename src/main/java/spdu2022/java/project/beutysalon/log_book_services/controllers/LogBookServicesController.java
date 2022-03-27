@@ -1,5 +1,6 @@
 package spdu2022.java.project.beutysalon.log_book_services.controllers;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +11,7 @@ import spdu2022.java.project.beutysalon.log_book_services.services.LogBookSelect
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -25,16 +27,16 @@ public class LogBookServicesController {
     @GetMapping("/{salonId}")
     @ResponseStatus(HttpStatus.OK)
     public LogBookServicesDto getLogBookServicesBySalonId(@PathVariable("salonId") @Min(1) long salonId,
-                                                          @RequestParam("start-period") @DateValid String startPeriod,
-                                                          @RequestParam("end-period") @DateValid String endPeriod) {
+                                                          @RequestParam("start-period") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate startPeriod,
+                                                          @RequestParam("end-period") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate endPeriod) {
         List<SlotsLog> slotsLogs =  logBookSelectService.findLogBookServiceBySalonId(salonId, startPeriod, endPeriod);
         return new LogBookServicesDto(slotsLogs);
     }
 
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
-    public LogBookServicesDto getLogBookServicesByCity(@RequestParam("start-date") @DateValid String startDate,
-                                                       @RequestParam("end-date") @DateValid String endDate,
+    public LogBookServicesDto getLogBookServicesByCity(@RequestParam("start-date") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate startDate,
+                                                       @RequestParam("end-date") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate endDate,
                                                        @RequestParam(value = "city") @NotBlank String city) {
         List<SlotsLog> slotsLogs = logBookSelectService.findLogBookServiceByCity(city,startDate, endDate);
         return new LogBookServicesDto(slotsLogs);

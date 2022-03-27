@@ -26,8 +26,8 @@ public class SlotsLogCreator {
             WorkingDayPeriod workingPeriod = (WorkingDayPeriod) entryStaff.getValue();
             LocalDate day = workingPeriod.getWorkingDay();
             slotsLogForSalon.setDate(day);
-            LocalTime start = LocalTime.parse(workingPeriod.getStartWorking(), DateTimeFormatter.ofPattern(timePattern));
-            LocalTime end = LocalTime.parse(workingPeriod.getEndWorking(), DateTimeFormatter.ofPattern(timePattern));
+            LocalTime start = workingPeriod.getStartWorking();
+            LocalTime end = workingPeriod.getEndWorking();
             slotsLogForSalon.getSlotMap().put(staffId, createSlotList(start,end));
         }
         return slotsLogForSalon;

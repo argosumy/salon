@@ -1,17 +1,16 @@
 package spdu2022.java.project.beutysalon.log_book_services.services;
 
 import org.springframework.stereotype.Service;
+import spdu2022.java.project.beutysalon.entities.Salon;
 import spdu2022.java.project.beutysalon.entities.SlotsLog;
 import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
 import spdu2022.java.project.beutysalon.log_book_services.persistence.repositories.LogBookRepository;
 import spdu2022.java.project.beutysalon.log_book_services.services.mappers.SlotsLogCreator;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class PersistenceLogBookSelectService implements LogBookSelectService {
@@ -24,19 +23,13 @@ public class PersistenceLogBookSelectService implements LogBookSelectService {
     }
 
     @Override
-    public List<SlotsLog> findLogBookServiceByCity(String city, String startPeriod, String endPeriod) {
-        LocalDate start = LocalDate.parse(startPeriod, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        LocalDate end = LocalDate.parse(endPeriod, DateTimeFormatter.ofPattern("yyyy-MM-dd")).plusDays(1);
+    public List<SlotsLog> findLogBookServiceByCity(String city, LocalDate start, LocalDate end) {
         List<SlotsLog> template = new ArrayList<>();
         List<Map<String, String>> logBookService = logBookRepository.getLogServiceByCityAndPeriod(city, start, end);
-        List<Long> salonIdList = logBookService
-                .stream()
-                .map(x -> Long.valueOf(x.get("salonId")))
-                .distinct()
-                .collect(Collectors.toList());
-        for(long salonId : salonIdList) {
+        List<Salon> salonList = logBookRepository.getSalonsByCity(city);
+        for(Salon salon : salonList) {
             for(LocalDate i = start; i.isBefore(end.plusDays(1)); i = i.plusDays(1)) {
-                SlotsLog workingPeriod = getWorkingPeriodTemplate(salonId, i);
+                SlotsLog workingPeriod = getWorkingPeriodTemplate(salon.getId(), i);
                 template.add(workingPeriod);
             }
         }
@@ -44,12 +37,9 @@ public class PersistenceLogBookSelectService implements LogBookSelectService {
     }
 
     @Override
-    public List<SlotsLog> findLogBookServiceBySalonId(long salonId, String startPeriod, String endPeriod) {
-        LocalDate start = LocalDate.parse(startPeriod, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        LocalDate end = LocalDate.parse(endPeriod, DateTimeFormatter.ofPattern("yyyy-MM-dd")).plusDays(1);
+    public List<SlotsLog> findLogBookServiceBySalonId(long salonId, LocalDate start, LocalDate end) {
         List<SlotsLog> template = new ArrayList<>();
         List<Map<String, String>> logBookService = logBookRepository.getLogServiceBySalonIdAndPeriod(salonId, start, end);
-
         for(LocalDate i = start; i.isBefore(end.plusDays(1)); i = i.plusDays(1)) {
             SlotsLog workingPeriod = getWorkingPeriodTemplate(salonId, i);
             template.add(workingPeriod);
