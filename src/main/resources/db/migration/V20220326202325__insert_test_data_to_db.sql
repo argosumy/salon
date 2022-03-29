@@ -45,7 +45,7 @@ $do$
            INSERT INTO salon_working_mode(salon_id, start_working, finish_working) VALUES (1, '2023-05-01 09:00:00.000000', '2023-05-01 15:00:00.000000');
         END IF;
         IF NOT EXISTS (SELECT * FROM salon_working_mode WHERE start_working = '2023-05-09 09:00:00.000000' AND salon_id = 1) THEN
-           INSERT INTO salon_working_mode(salon_id, start_working, finish_working) VALUES (1, '2023-05-09 09:00:00.000000', '2023-05-01 17:00:00.000000');
+           INSERT INTO salon_working_mode(salon_id, start_working, finish_working) VALUES (1, '2023-05-09 09:00:00.000000', '2023-05-09 17:00:00.000000');
         END IF;
     --INSERT salon working mode for day of week
         IF NOT EXISTS (SELECT * FROM salons_working_week_mode WHERE salon_id = 1 AND day_week = 'MONDAY') THEN
