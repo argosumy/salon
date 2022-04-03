@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/log-book-services/salons")
+@RequestMapping("api/v1/salons")
 @Validated
 public class LogBookServicesController {
     private final LogBookSelectService logBookSelectService;
@@ -24,7 +24,7 @@ public class LogBookServicesController {
         this.logBookSelectService = logBookSelectService;
     }
 
-    @GetMapping("/{salonId}")
+    @GetMapping("/{salonId}/log-book-services")
     @ResponseStatus(HttpStatus.OK)
     public LogBookServicesDto getLogBookServicesBySalonId(@PathVariable("salonId") @Min(1) long salonId,
                                                           @RequestParam("start-period") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate startPeriod,
@@ -33,7 +33,7 @@ public class LogBookServicesController {
         return new LogBookServicesDto(slotsLogs);
     }
 
-    @GetMapping("/")
+    @GetMapping("/log-book-services")
     @ResponseStatus(HttpStatus.OK)
     public LogBookServicesDto getLogBookServicesByCity(@RequestParam("start-date") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate startDate,
                                                        @RequestParam("end-date") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate endDate,

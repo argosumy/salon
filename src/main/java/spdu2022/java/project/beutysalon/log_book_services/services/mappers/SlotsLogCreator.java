@@ -1,5 +1,6 @@
 package spdu2022.java.project.beutysalon.log_book_services.services.mappers;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import spdu2022.java.project.beutysalon.entities.Slot;
 import spdu2022.java.project.beutysalon.entities.SlotsLog;
@@ -17,8 +18,17 @@ import java.util.stream.Collectors;
 
 @Component
 public class SlotsLogCreator {
+    @Value("${interval-for-slots}")
+    private int interval;
 
-    public SlotsLog createFreeSlotsBySalon(long salonId, Map<Long, WorkingPeriod> workingPeriodForSalon, String timePattern) {
+    public SlotsLogCreator() {
+    }
+
+    public SlotsLogCreator(int interval) {
+        this.interval = interval;
+    }
+
+    public SlotsLog createFreeSlotsBySalon(long salonId, Map<Long, WorkingPeriod> workingPeriodForSalon) {
         SlotsLog slotsLogForSalon = new SlotsLog();
         for(Map.Entry<Long, WorkingPeriod> entryStaff : workingPeriodForSalon.entrySet()) {
             slotsLogForSalon.setSalonId(salonId);
@@ -44,12 +54,11 @@ public class SlotsLogCreator {
             Set<Slot> logBookSlots = createSlotList(startTime, endTime);
             Set<Slot> templateSlots = findSlotsByDateAndStaffId(templateSlotsLog, date, staffId);
 
-            templateSlots.forEach(templateSlot ->
-                    logBookSlots.forEach(slot -> {
-                        if(templateSlot.equals(slot)) {
-                            templateSlot.setFreeSlot(false);
-                        }
-                    }));
+            for(Slot slot : templateSlots) {
+                if(logBookSlots.contains(slot)) {
+                    slot.setFreeSlot(false);
+                }
+            }
         });
         return templateSlotsLog.stream().filter(x -> x.getSalonId() != 0).collect(Collectors.toList());
     }
@@ -66,7 +75,7 @@ public class SlotsLogCreator {
     private Set<Slot> createSlotList(LocalTime start, LocalTime end) {
         Set<Slot> slots = new TreeSet<>();
         while (start.isBefore(end)) {
-                Slot slot = new Slot(start);
+                Slot slot = new Slot(start, interval);
                 start = slot.getEndTime();
                 slots.add(slot);
         }
