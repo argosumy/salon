@@ -51,9 +51,9 @@ public class PersistenceLogBookSelectService implements LogBookSelectService {
         Map<Long, WorkingPeriod> staffIdUniqWorkingPeriod = getUniqWorkingMode(salonId, date);
         if(staffIdUniqWorkingPeriod.isEmpty()) {
             Map<Long, WorkingPeriod> weekPeriod = getWorkingDayOfWeekPeriod(salonId, date);
-            return slotsLogCreator.createFreeSlotsBySalon(salonId,weekPeriod, "HH:mm");
+            return slotsLogCreator.createFreeSlotsBySalon(salonId,weekPeriod);
         } else {
-            return slotsLogCreator.createFreeSlotsBySalon(salonId, staffIdUniqWorkingPeriod, "yyyy-MM-dd HH:mm:ss");
+            return slotsLogCreator.createFreeSlotsBySalon(salonId, staffIdUniqWorkingPeriod);
         }
     }
 

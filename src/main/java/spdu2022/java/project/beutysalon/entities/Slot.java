@@ -1,23 +1,17 @@
 package spdu2022.java.project.beutysalon.entities;
 
-import spdu2022.java.project.beutysalon.configs.Properties;
-
 import java.time.LocalTime;
 import java.util.Objects;
 
 public class Slot implements Comparable<Slot>{
     private boolean freeSlot;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private static final int INTERVAL = Integer.parseInt(new Properties().getProperty("interval-for-slots"));
+    private final LocalTime startTime;
+    private final LocalTime endTime;
 
-    public Slot() {
-    }
-
-    public Slot(LocalTime startTime) {
+    public Slot(LocalTime startTime, int interval) {
         this.freeSlot = true;
         this.startTime = startTime;
-        this.endTime = startTime.plusMinutes(INTERVAL);
+        this.endTime = startTime.plusMinutes(interval);
     }
 
     public boolean isFreeSlot() {
@@ -30,11 +24,6 @@ public class Slot implements Comparable<Slot>{
 
     public LocalTime getStartTime() {
         return startTime;
-    }
-
-    public void setSlotTime(LocalTime startTime) {
-        this.startTime = startTime;
-        this.endTime = startTime.plusMinutes(INTERVAL);
     }
 
     public LocalTime getEndTime() {

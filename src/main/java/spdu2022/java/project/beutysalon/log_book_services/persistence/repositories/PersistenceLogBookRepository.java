@@ -11,6 +11,7 @@ import spdu2022.java.project.beutysalon.entities.WorkingDayPeriod;
 import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
 import spdu2022.java.project.beutysalon.log_book_services.persistence.mappers.ResultSetExtractorForLogServices;
 import spdu2022.java.project.beutysalon.log_book_services.persistence.mappers.ResultSetExtractorForWorkingPeriod;
+import spdu2022.java.project.beutysalon.log_book_services.persistence.mappers.ResultSetExtractorForWorkingWeekPeriod;
 
 import java.sql.Timestamp;
 import java.time.DayOfWeek;
@@ -89,7 +90,7 @@ public class PersistenceLogBookRepository implements LogBookRepository{
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", salonId)
                 .addValue("date", workDay);
-            return namedJdbcTemplate.query(SELECT_WORKING_MODE_WEEK_BY_SALON_ID, parameters, new ResultSetExtractorForWorkingPeriod());
+            return namedJdbcTemplate.query(SELECT_WORKING_MODE_WEEK_BY_SALON_ID, parameters, new ResultSetExtractorForWorkingWeekPeriod());
     }
 
     @Override
@@ -122,6 +123,7 @@ public class PersistenceLogBookRepository implements LogBookRepository{
                 (ResultSetExtractor<WorkingPeriod>) rs -> {
                     WorkingDayPeriod workingDayPeriod = new WorkingDayPeriod();
                     if(rs.next()) {
+                        workingDayPeriod.setWorkingDay(rs.getTimestamp("start_working").toLocalDateTime().toLocalDate());
                         workingDayPeriod.setStartWorking(rs.getTimestamp("start_working").toLocalDateTime().toLocalTime());
                         workingDayPeriod.setEndWorking(rs.getTimestamp("finish_working").toLocalDateTime().toLocalTime());
                     }
