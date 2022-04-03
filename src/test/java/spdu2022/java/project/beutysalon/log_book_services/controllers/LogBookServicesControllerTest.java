@@ -23,32 +23,39 @@ class LogBookServicesControllerTest {
     LogBookServicesController controller;
 
     @Test
+    @DisplayName("Dates must be in future")
     void getLogBookServicesBySalonId() throws Exception {
-        String url = createUrl(LocalDate.now().toString(), LocalDate.now().plusDays(3).toString());
+        String url = createUrlBySalonId(1, LocalDate.now().toString(), LocalDate.now().plusDays(3).toString());
         mockMvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
-        url = createUrl("2022-01-01", "2022-01-02");
+        url = createUrlBySalonId(1, "2022-01-01", "2022-01-02");
         mockMvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(400));
     }
 
     @Test
+    @DisplayName("Dates must be in future")
     void getLogBookServicesByCity() throws Exception {
-        String url = createUrl(LocalDate.now().toString(), LocalDate.now().plusDays(3).toString());
+        String url = createUrlBySalonId(1, LocalDate.now().toString(), LocalDate.now().plusDays(3).toString());
         mockMvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
-        url = createUrl("2022-01-01", "2022-01-02");
+        url = createUrlByCity("Sumy","2022-01-01", "2022-01-02");
         mockMvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(400));
     }
 
-    private String createUrl(String start, String end) {
-        return "http://localhost:8080/api/v1/log-book-services/salons/1" +
+    private String createUrlBySalonId(int salonId, String start, String end) {
+        return "http://localhost:8080/api/v1/salons/" + salonId + "/log-book-services" +
                 "?end-period=" + end + "&start-period=" + start;
+    }
+
+    private String createUrlByCity(String city, String start, String end) {
+        return "http://localhost:8080/api/v1/salons/log-book-services" +
+                "?city=" + city+ "&end-period=" + end + "&start-period=" + start;
     }
 
 

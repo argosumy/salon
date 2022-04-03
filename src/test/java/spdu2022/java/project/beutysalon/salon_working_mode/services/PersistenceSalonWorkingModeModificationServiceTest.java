@@ -1,9 +1,10 @@
 package spdu2022.java.project.beutysalon.salon_working_mode.services;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import spdu2022.java.project.beutysalon.entities.SalonWorkingMode;
 import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
 import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class PersistenceSalonWorkingModeModificationServiceTest {
     @Mock
     private SalonWorkingModeRepository repository;
