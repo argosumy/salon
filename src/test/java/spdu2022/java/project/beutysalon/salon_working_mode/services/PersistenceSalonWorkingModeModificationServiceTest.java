@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import spdu2022.java.project.beutysalon.entities.SalonWorkingMode;
-import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
+import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeek;
 import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
 import spdu2022.java.project.beutysalon.salons_working_mode.persistence.repositories.SalonWorkingModeRepository;
 import spdu2022.java.project.beutysalon.salons_working_mode.services.PersistenceSalonWorkingModeModificationService;
@@ -33,7 +33,7 @@ class PersistenceSalonWorkingModeModificationServiceTest {
         assertThrows(EntityNotUniqException.class, () -> serviceModification.addNewWorkingPeriod(salonWorkingMode), "Entity salonWorkingMode mast be is uniq for DB");
 
         when(repository.findPeriodBySalonId(2)).thenReturn(new SalonWorkingMode());
-        when(repository.addNewWorkingPeriodBySalonId(2, buildWorkingDaysOfWeekMode().getSalonWorkingPeriods().get(0))).thenReturn(1L);
+        when(repository.addNewWorkingPeriodBySalonId(2, buildWorkingDaysOfWeekMode().getSalonWorkingMode().get(0))).thenReturn(1L);
         long count = serviceModification.addNewWorkingPeriod(buildWorkingDaysOfWeekMode());
         assertEquals(1, count);
     }
@@ -41,11 +41,10 @@ class PersistenceSalonWorkingModeModificationServiceTest {
     private SalonWorkingMode buildWorkingDaysOfWeekMode() {
         SalonWorkingMode salonWorkingMode = new SalonWorkingMode();
         salonWorkingMode.setSalonId(2);
-        WorkingDayOfWeekPeriod dayOfWeekPeriod = new WorkingDayOfWeekPeriod();
-        dayOfWeekPeriod.setDayOfWeek(DayOfWeek.MONDAY);
-        dayOfWeekPeriod.setStartWorking(LocalTime.parse("09:00"));
-        dayOfWeekPeriod.setEndWorking(LocalTime.parse("18:00"));
-        salonWorkingMode.getSalonWorkingPeriods().add(dayOfWeekPeriod);
+        WorkingDayOfWeek dayOfWeekPeriod = new WorkingDayOfWeek(DayOfWeek.MONDAY);
+        dayOfWeekPeriod.getWorkingTimePeriod().setStartWorking(LocalTime.parse("09:00"));
+        dayOfWeekPeriod.getWorkingTimePeriod().setEndWorking(LocalTime.parse("18:00"));
+        salonWorkingMode.getSalonWorkingMode().add(dayOfWeekPeriod);
         return salonWorkingMode;
     }
 }

@@ -3,26 +3,32 @@ package spdu2022.java.project.beutysalon.entities;
 import java.time.DayOfWeek;
 import java.util.Objects;
 
-public class WorkingDayOfWeekPeriod extends WorkingPeriod{
-    private DayOfWeek dayOfWeek;
+public class WorkingDayOfWeek implements WorkingMode{
+    private final DayOfWeek dayOfWeek;
+    private final WorkingTimePeriod workingTimePeriod = new WorkingTimePeriod();
 
-    public WorkingDayOfWeekPeriod() {
-        super();
+    public WorkingDayOfWeek(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    @Override
+    public WorkingMode getWorkingMode() {
+        return this;
     }
 
     public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
     }
 
-    public void setDayOfWeek(DayOfWeek dayOfWeek) {
-        this.dayOfWeek = dayOfWeek;
+    public WorkingTimePeriod getWorkingTimePeriod() {
+        return workingTimePeriod;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WorkingDayOfWeekPeriod that = (WorkingDayOfWeekPeriod) o;
+        WorkingDayOfWeek that = (WorkingDayOfWeek) o;
         return dayOfWeek == that.dayOfWeek;
     }
 

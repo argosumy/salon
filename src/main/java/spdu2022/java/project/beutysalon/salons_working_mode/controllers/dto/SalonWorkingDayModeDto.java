@@ -1,6 +1,6 @@
 package spdu2022.java.project.beutysalon.salons_working_mode.controllers.dto;
 
-import spdu2022.java.project.beutysalon.entities.WorkingDayPeriod;
+import spdu2022.java.project.beutysalon.entities.WorkingDay;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 public class SalonWorkingDayModeDto {
     private long salonId;
     @Valid
-    private List<WorkingDayPeriod> salonWorkingPeriodList = new ArrayList<>();
+    private List<WorkingDay> salonWorkingPeriodList = new ArrayList<>();
 
     public SalonWorkingDayModeDto() {
     }
@@ -22,11 +22,11 @@ public class SalonWorkingDayModeDto {
         this.salonId = salonId;
     }
 
-    public List<WorkingDayPeriod> getSalonWorkingPeriodList() {
+    public List<WorkingDay> getSalonWorkingPeriodList() {
         return salonWorkingPeriodList;
     }
 
-    public void setSalonWorkingPeriodList(List<WorkingDayPeriod> salonWorkingPeriodList) {
+    public void setSalonWorkingPeriodList(List<WorkingDay> salonWorkingPeriodList) {
         this.salonWorkingPeriodList = salonWorkingPeriodList;
     }
 

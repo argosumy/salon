@@ -101,13 +101,12 @@ class PersistenceLogBookSelectServiceTest {
         return result;
     }
 
-    private Map<Long, WorkingPeriod> getWorkingMode(LocalDate date) {
-        Map<Long, WorkingPeriod> result = new HashMap<>();
-            WorkingDayPeriod period = new WorkingDayPeriod();
+    private Map<Long, WorkingDay> getWorkingMode(LocalDate date) {
+        Map<Long, WorkingDay> result = new HashMap<>();
+            WorkingDay period = new WorkingDay(date);
             Long staffId = 1L;
-            period.setWorkingDay(date);
-            period.setStartWorking(LocalTime.parse("10:00"));
-            period.setEndWorking(LocalTime.parse("18:00"));
+            period.getWorkingTimePeriod().setStartWorking(LocalTime.parse("10:00"));
+            period.getWorkingTimePeriod().setEndWorking(LocalTime.parse("18:00"));
             result.put(staffId, period);
         return result;
     }

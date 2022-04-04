@@ -6,28 +6,34 @@ import spdu2022.java.project.beutysalon.constraints_validaion.annotations.DateVa
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class WorkingDayPeriod extends WorkingPeriod {
+public class WorkingDay implements WorkingMode {
     @DateValid
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate workingDay;
+    private final LocalDate workingDay;
+    private final WorkingTimePeriod workingTimePeriod = new WorkingTimePeriod();
 
-    public WorkingDayPeriod() {
-        super();
+    public WorkingDay(LocalDate workingDay) {
+        this.workingDay = workingDay;
+    }
+
+    @Override
+    public WorkingMode getWorkingMode() {
+        return this;
     }
 
     public LocalDate getWorkingDay() {
         return workingDay;
     }
 
-    public void setWorkingDay(LocalDate workingDay) {
-        this.workingDay = workingDay;
+    public WorkingTimePeriod getWorkingTimePeriod() {
+        return workingTimePeriod;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WorkingDayPeriod dayPeriod = (WorkingDayPeriod) o;
+        WorkingDay dayPeriod = (WorkingDay) o;
         return Objects.equals(workingDay, dayPeriod.workingDay);
     }
 

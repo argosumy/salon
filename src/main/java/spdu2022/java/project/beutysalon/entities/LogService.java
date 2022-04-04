@@ -1,11 +1,15 @@
 package spdu2022.java.project.beutysalon.entities;
 
-public class LogService extends WorkingDayPeriod{
-    private long staffId;
-    private long userId;
+import java.time.LocalDate;
 
-    public LogService() {
-        super();
+public class LogService {
+    private long staffId;
+    private final long userId;
+    private final WorkingDay workingDay;
+
+    public LogService(long userId, LocalDate dateService) {
+        this.userId = userId;
+        workingDay = new WorkingDay(dateService);
     }
 
     public long getStaffId() {
@@ -20,7 +24,7 @@ public class LogService extends WorkingDayPeriod{
         return userId;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public WorkingDay getWorkingDayPeriod() {
+        return workingDay;
     }
 }

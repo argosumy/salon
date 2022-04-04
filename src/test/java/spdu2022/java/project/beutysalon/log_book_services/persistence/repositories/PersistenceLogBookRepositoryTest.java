@@ -7,10 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import spdu2022.java.project.beutysalon.entities.Salon;
-import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
-import spdu2022.java.project.beutysalon.entities.WorkingDayPeriod;
-import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
+import spdu2022.java.project.beutysalon.entities.*;
 
 import javax.sql.DataSource;
 import java.time.DayOfWeek;
@@ -60,7 +57,7 @@ class PersistenceLogBookRepositoryTest {
     @DisplayName("Method must return Map. Key is a staffId. Value is a unique working mode for the salonId by date. " +
             "Map size must be less than count of salon's staff")
     void getUniqWorkingMode() {
-        Map<Long, WorkingPeriod> res = repository.getUniqWorkingMode(1, LocalDate.parse("2023-05-01"));
+        Map<Long, WorkingDay> res = repository.getUniqWorkingMode(1, LocalDate.parse("2023-05-01"));
         assertTrue(res.containsKey(1L));
         assertTrue(res.containsKey(2L));
 
@@ -71,19 +68,19 @@ class PersistenceLogBookRepositoryTest {
     @Test
     @DisplayName("Method must return working mode for salon by day of week")
     void findWorkingWeekPeriodBySalonIdAndDayOfWeek() {
-        WorkingDayOfWeekPeriod res = (WorkingDayOfWeekPeriod)repository.findWorkingWeekPeriodBySalonIdAndDayOfWeek(1, DayOfWeek.FRIDAY.name());
+        WorkingDayOfWeek res = (WorkingDayOfWeek)repository.findWorkingWeekPeriodBySalonIdAndDayOfWeek(1, DayOfWeek.FRIDAY.name());
         assertEquals(DayOfWeek.FRIDAY, res.getDayOfWeek());
-        res = (WorkingDayOfWeekPeriod)repository.findWorkingWeekPeriodBySalonIdAndDayOfWeek(3, DayOfWeek.FRIDAY.name());
-        assertNull(res.getDayOfWeek());
+        res = (WorkingDayOfWeek)repository.findWorkingWeekPeriodBySalonIdAndDayOfWeek(3, DayOfWeek.FRIDAY.name());
+        assertNull(res);
     }
 
     @Test
     @DisplayName("Method must return working time for salon by date.")
     void findWorkingDayPeriodBySalonIdAndDate() {
-        WorkingDayPeriod timePeriod = (WorkingDayPeriod) repository.findWorkingDayPeriodBySalonIdAndDate(1, LocalDate.parse("2023-05-01"));
-        LocalDate workingDate = timePeriod.getWorkingDay();
-        LocalTime startTime = timePeriod.getStartWorking();
-        LocalTime endTime = timePeriod.getEndWorking();
+        WorkingDay workingDay = repository.findWorkingDayPeriodBySalonIdAndDate(1, LocalDate.parse("2023-05-01"));
+        LocalDate workingDate = workingDay.getWorkingDay();
+        LocalTime startTime = workingDay.getWorkingTimePeriod().getStartWorking();
+        LocalTime endTime = workingDay.getWorkingTimePeriod().getEndWorking();
         assertEquals(LocalDate.parse("2023-05-01"), workingDate);
         assertEquals(LocalTime.parse("09:00"), startTime);
         assertEquals(LocalTime.parse("15:00"), endTime);

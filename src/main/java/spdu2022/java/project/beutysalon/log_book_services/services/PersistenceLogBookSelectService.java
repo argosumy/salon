@@ -1,9 +1,7 @@
 package spdu2022.java.project.beutysalon.log_book_services.services;
 
 import org.springframework.stereotype.Service;
-import spdu2022.java.project.beutysalon.entities.Salon;
-import spdu2022.java.project.beutysalon.entities.SlotsLog;
-import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
+import spdu2022.java.project.beutysalon.entities.*;
 import spdu2022.java.project.beutysalon.log_book_services.persistence.repositories.LogBookRepository;
 import spdu2022.java.project.beutysalon.log_book_services.services.mappers.SlotsLogCreator;
 
@@ -48,9 +46,9 @@ public class PersistenceLogBookSelectService implements LogBookSelectService {
     }
 
     private SlotsLog getWorkingPeriodTemplate(long salonId, LocalDate date) {
-        Map<Long, WorkingPeriod> staffIdUniqWorkingPeriod = getUniqWorkingMode(salonId, date);
+        Map<Long, WorkingDay> staffIdUniqWorkingPeriod = getUniqWorkingMode(salonId, date);
         if(staffIdUniqWorkingPeriod.isEmpty()) {
-            Map<Long, WorkingPeriod> weekPeriod = getWorkingDayOfWeekPeriod(salonId, date);
+            Map<Long, WorkingDay> weekPeriod = getWorkingDayOfWeekPeriod(salonId, date);
             return slotsLogCreator.createFreeSlotsBySalon(salonId,weekPeriod);
         } else {
             return slotsLogCreator.createFreeSlotsBySalon(salonId, staffIdUniqWorkingPeriod);
@@ -58,12 +56,12 @@ public class PersistenceLogBookSelectService implements LogBookSelectService {
     }
 
     //key - staffId
-    private Map<Long,WorkingPeriod> getWorkingDayOfWeekPeriod(long salonId, LocalDate date) {
+    private Map<Long, WorkingDay> getWorkingDayOfWeekPeriod(long salonId, LocalDate date) {
         return logBookRepository.getWeekWorkingMode(salonId, date);
     }
 
     //key - staffId
-    private Map<Long, WorkingPeriod> getUniqWorkingMode(long salonId, LocalDate localDate) {
+    private Map<Long, WorkingDay> getUniqWorkingMode(long salonId, LocalDate localDate) {
         return logBookRepository.getUniqWorkingMode(salonId, localDate);
     }
 

@@ -6,9 +6,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 import spdu2022.java.project.beutysalon.entities.Salon;
-import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
-import spdu2022.java.project.beutysalon.entities.WorkingDayPeriod;
-import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
+import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeek;
+import spdu2022.java.project.beutysalon.entities.WorkingDay;
 import spdu2022.java.project.beutysalon.log_book_services.persistence.mappers.ResultSetExtractorForLogServices;
 import spdu2022.java.project.beutysalon.log_book_services.persistence.mappers.ResultSetExtractorForWorkingPeriod;
 import spdu2022.java.project.beutysalon.log_book_services.persistence.mappers.ResultSetExtractorForWorkingWeekPeriod;
@@ -77,7 +76,7 @@ public class PersistenceLogBookRepository implements LogBookRepository{
     }
 
     @Override
-    public Map<Long, WorkingPeriod> getUniqWorkingMode(long salonId, LocalDate workDay) {
+    public Map<Long, WorkingDay> getUniqWorkingMode(long salonId, LocalDate workDay) {
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", salonId)
                 .addValue("workDay", Timestamp.valueOf(LocalDateTime.of(workDay, LocalTime.of(0,0))))
@@ -86,7 +85,7 @@ public class PersistenceLogBookRepository implements LogBookRepository{
     }
 
     @Override
-    public Map<Long, WorkingPeriod> getWeekWorkingMode(long salonId, LocalDate workDay) {
+    public Map<Long, WorkingDay> getWeekWorkingMode(long salonId, LocalDate workDay) {
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("id", salonId)
                 .addValue("date", workDay);
@@ -94,24 +93,24 @@ public class PersistenceLogBookRepository implements LogBookRepository{
     }
 
     @Override
-    public WorkingPeriod findWorkingWeekPeriodBySalonIdAndDayOfWeek(long salonId, String dayOfWeek) {
+    public WorkingDayOfWeek findWorkingWeekPeriodBySalonIdAndDayOfWeek(long salonId, String dayOfWeek) {
        String SELECT_SALON_WORKING_WEEK_MODE_BY_SALON_ID_AND_WEEK_DAY = "SELECT * FROM salons_working_week_mode WHERE salon_id =:salonId AND day_week =:dayWeek";
        SqlParameterSource parameters = new MapSqlParameterSource().addValue("salonId", salonId).addValue("dayWeek", dayOfWeek);
-       return namedJdbcTemplate.query(SELECT_SALON_WORKING_WEEK_MODE_BY_SALON_ID_AND_WEEK_DAY, parameters,(ResultSetExtractor<WorkingPeriod>) rs -> {
-           WorkingDayOfWeekPeriod workingPeriod = new WorkingDayOfWeekPeriod();
+       return namedJdbcTemplate.query(SELECT_SALON_WORKING_WEEK_MODE_BY_SALON_ID_AND_WEEK_DAY, parameters,(ResultSetExtractor<WorkingDayOfWeek>) rs -> {
            if(rs.next()) {
+               WorkingDayOfWeek workingPeriod = new WorkingDayOfWeek(DayOfWeek.valueOf(rs.getString("day_week")));
                String timeS = rs.getString("start_working");
                String timeE = rs.getString("end_working");
-               workingPeriod.setStartWorking(LocalTime.parse(timeS, DateTimeFormatter.ofPattern("HH:mm")));
-               workingPeriod.setEndWorking(LocalTime.parse(timeE, DateTimeFormatter.ofPattern("HH:mm")));
-               workingPeriod.setDayOfWeek(DayOfWeek.valueOf(rs.getString("day_week")));
+               workingPeriod.getWorkingTimePeriod().setStartWorking(LocalTime.parse(timeS, DateTimeFormatter.ofPattern("HH:mm")));
+               workingPeriod.getWorkingTimePeriod().setEndWorking(LocalTime.parse(timeE, DateTimeFormatter.ofPattern("HH:mm")));
+               return workingPeriod;
            }
-           return workingPeriod;
+           return null;
        });
     }
 
     @Override
-    public WorkingPeriod findWorkingDayPeriodBySalonIdAndDate(long salonId, LocalDate date) {
+    public WorkingDay findWorkingDayPeriodBySalonIdAndDate(long salonId, LocalDate date) {
         String GET_SALON_WORKING_MODE_BY_SALON_ID_AND_PERIOD = "SELECT * FROM salon_working_mode WHERE salon_id =:id AND start_working between (:start) AND (:end)";
         Timestamp firstTimestamp =  Timestamp.valueOf(LocalDateTime.of(date, LocalTime.of(0,0)));
         Timestamp lastTimestamp = Timestamp.valueOf(LocalDateTime.of(date.plusDays(1), LocalTime.of(0,0)));
@@ -120,14 +119,14 @@ public class PersistenceLogBookRepository implements LogBookRepository{
                 .addValue("start", firstTimestamp)
                 .addValue("end", lastTimestamp);
         return namedJdbcTemplate.query(GET_SALON_WORKING_MODE_BY_SALON_ID_AND_PERIOD, parameters,
-                (ResultSetExtractor<WorkingPeriod>) rs -> {
-                    WorkingDayPeriod workingDayPeriod = new WorkingDayPeriod();
+                (ResultSetExtractor<WorkingDay>) rs -> {
                     if(rs.next()) {
-                        workingDayPeriod.setWorkingDay(rs.getTimestamp("start_working").toLocalDateTime().toLocalDate());
-                        workingDayPeriod.setStartWorking(rs.getTimestamp("start_working").toLocalDateTime().toLocalTime());
-                        workingDayPeriod.setEndWorking(rs.getTimestamp("finish_working").toLocalDateTime().toLocalTime());
+                        WorkingDay workingDay = new WorkingDay(rs.getTimestamp("start_working").toLocalDateTime().toLocalDate());
+                        workingDay.getWorkingTimePeriod().setStartWorking(rs.getTimestamp("start_working").toLocalDateTime().toLocalTime());
+                        workingDay.getWorkingTimePeriod().setEndWorking(rs.getTimestamp("finish_working").toLocalDateTime().toLocalTime());
+                        return workingDay;
                     }
-                    return workingDayPeriod;
+                    return null;
                 });
     }
 

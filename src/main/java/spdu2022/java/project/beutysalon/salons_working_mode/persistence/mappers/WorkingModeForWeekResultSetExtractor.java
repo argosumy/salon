@@ -3,7 +3,7 @@ package spdu2022.java.project.beutysalon.salons_working_mode.persistence.mappers
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import spdu2022.java.project.beutysalon.entities.SalonWorkingMode;
-import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
+import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeek;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,16 +14,15 @@ public class WorkingModeForWeekResultSetExtractor implements ResultSetExtractor<
     @Override
     public SalonWorkingMode extractData(ResultSet rs) throws SQLException, DataAccessException {
         SalonWorkingMode result = new SalonWorkingMode();
-        WorkingDayOfWeekPeriod period;
+        WorkingDayOfWeek period;
         while (rs.next()) {
-            period = new WorkingDayOfWeekPeriod();
+            period = new WorkingDayOfWeek(DayOfWeek.valueOf(rs.getString("day_week")));
             if(result.getSalonId() == 0) {
                 result.setSalonId(rs.getLong("salon_id"));
             }
-            period.setDayOfWeek(DayOfWeek.valueOf(rs.getString("day_week")));
-            period.setStartWorking(LocalTime.parse(rs.getString("start_working")));
-            period.setEndWorking(LocalTime.parse(rs.getString("end_working")));
-            result.getSalonWorkingPeriods().add(period);
+            period.getWorkingTimePeriod().setStartWorking(LocalTime.parse(rs.getString("start_working")));
+            period.getWorkingTimePeriod().setEndWorking(LocalTime.parse(rs.getString("end_working")));
+            result.getSalonWorkingMode().add(period);
         }
         return result;
     }

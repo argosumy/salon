@@ -1,15 +1,12 @@
 package spdu2022.java.project.beutysalon.entities;
 
-import org.springframework.stereotype.Component;
-
 import java.time.LocalTime;
 
-@Component
-public abstract class WorkingPeriod {
+public class WorkingTimePeriod {
     private LocalTime startWorking;
     private LocalTime endWorking;
 
-    public WorkingPeriod() {
+    public WorkingTimePeriod() {
     }
 
     public LocalTime getStartWorking() {
@@ -35,5 +32,4 @@ public abstract class WorkingPeriod {
                 ", endWorking='" + endWorking + '\'' +
                 '}';
     }
-
 }

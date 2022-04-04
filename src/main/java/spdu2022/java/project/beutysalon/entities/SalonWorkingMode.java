@@ -5,7 +5,7 @@ import java.util.List;
 
 public class SalonWorkingMode {
     private long salonId;
-    private final List<WorkingPeriod> salonWorkingPeriods = new ArrayList<>();
+    private final List<WorkingMode> salonWorkingMode = new ArrayList<>();
 
     public SalonWorkingMode() {
     }
@@ -18,15 +18,15 @@ public class SalonWorkingMode {
         this.salonId = salonId;
     }
 
-    public List<WorkingPeriod> getSalonWorkingPeriods() {
-        return salonWorkingPeriods;
+    public List<WorkingMode> getSalonWorkingMode() {
+        return salonWorkingMode;
     }
 
     @Override
     public String toString() {
         return "SalonWorkingMode{" +
                 "salonId=" + salonId +
-                ", salonWorkingPeriods= " + salonWorkingPeriods +
+                ", salonWorkingMode= " + salonWorkingMode +
                 "}";
     }
 }

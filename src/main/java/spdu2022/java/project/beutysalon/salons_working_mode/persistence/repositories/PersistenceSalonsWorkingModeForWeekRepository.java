@@ -5,8 +5,8 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import spdu2022.java.project.beutysalon.entities.SalonWorkingMode;
-import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
-import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
+import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeek;
+import spdu2022.java.project.beutysalon.entities.WorkingMode;
 import spdu2022.java.project.beutysalon.salons_working_mode.persistence.mappers.WorkingModeForWeekResultSetExtractor;
 
 import java.sql.PreparedStatement;
@@ -28,16 +28,16 @@ public class PersistenceSalonsWorkingModeForWeekRepository implements SalonWorki
     }
 
     @Override
-    public long addNewWorkingPeriodBySalonId(long salonId, WorkingPeriod period) {
-        WorkingDayOfWeekPeriod weekPeriod = (WorkingDayOfWeekPeriod)period;
+    public long addNewWorkingPeriodBySalonId(long salonId, WorkingMode workingMode) {
+        WorkingDayOfWeek workingDayOfWeek = (WorkingDayOfWeek) workingMode;
         final String INSERT_NEW_WORKING_PERIOD_BY_SALON_ID = "INSERT INTO salons_working_week_mode(salon_id, day_week, start_working, end_working) VALUES(?,?,?,?) RETURNING id";
         KeyHolder holder = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> {
             PreparedStatement ps = con.prepareStatement(INSERT_NEW_WORKING_PERIOD_BY_SALON_ID, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, salonId);
-            ps.setString(2, weekPeriod.getDayOfWeek().name());
-            ps.setString(3, weekPeriod.getStartWorking().toString());
-            ps.setString(4, weekPeriod.getEndWorking().toString());
+            ps.setString(2, workingDayOfWeek.getDayOfWeek().name());
+            ps.setString(3, workingDayOfWeek.getWorkingTimePeriod().getStartWorking().toString());
+            ps.setString(4, workingDayOfWeek.getWorkingTimePeriod().getEndWorking().toString());
             return ps;
         }, holder);
         Objects.requireNonNull(holder.getKey()).intValue();
@@ -45,15 +45,15 @@ public class PersistenceSalonsWorkingModeForWeekRepository implements SalonWorki
     }
 
     @Override
-    public long updateWorkingPeriodBySalonId(long salonId, WorkingPeriod period) {
-        WorkingDayOfWeekPeriod weekPeriod = (WorkingDayOfWeekPeriod)period;
+    public long updateWorkingPeriodBySalonId(long salonId, WorkingMode workingMode) {
+        WorkingDayOfWeek workingDayOfWeek = (WorkingDayOfWeek) workingMode;
         final String UPDATE_WORKING_PERIOD_BY_SALON_ID = "UPDATE salons_working_week_mode SET start_working = ?, end_working = ? WHERE salon_id = ? AND day_week = ?";
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(UPDATE_WORKING_PERIOD_BY_SALON_ID);
-            ps.setString(1, period.getStartWorking().toString());
-            ps.setString(2, period.getEndWorking().toString());
+            ps.setString(1, workingDayOfWeek.getWorkingTimePeriod().getStartWorking().toString());
+            ps.setString(2, workingDayOfWeek.getWorkingTimePeriod().getEndWorking().toString());
             ps.setLong(3, salonId);
-            ps.setString(4, (weekPeriod.getDayOfWeek().name()));
+            ps.setString(4, (workingDayOfWeek.getDayOfWeek().name()));
             return ps;
         });
         return 1;

@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import spdu2022.java.project.beutysalon.entities.Slot;
 import spdu2022.java.project.beutysalon.entities.SlotsLog;
-import spdu2022.java.project.beutysalon.entities.WorkingDayPeriod;
-import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
+import spdu2022.java.project.beutysalon.entities.WorkingDay;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -28,16 +27,16 @@ public class SlotsLogCreator {
         this.interval = interval;
     }
 
-    public SlotsLog createFreeSlotsBySalon(long salonId, Map<Long, WorkingPeriod> workingPeriodForSalon) {
+    public SlotsLog createFreeSlotsBySalon(long salonId, Map<Long, WorkingDay> workingPeriodForSalon) {
         SlotsLog slotsLogForSalon = new SlotsLog();
-        for(Map.Entry<Long, WorkingPeriod> entryStaff : workingPeriodForSalon.entrySet()) {
+        for(Map.Entry<Long, WorkingDay> entryStaff : workingPeriodForSalon.entrySet()) {
             slotsLogForSalon.setSalonId(salonId);
             Long staffId = entryStaff.getKey();
-            WorkingDayPeriod workingPeriod = (WorkingDayPeriod) entryStaff.getValue();
+            WorkingDay workingPeriod = entryStaff.getValue();
             LocalDate day = workingPeriod.getWorkingDay();
             slotsLogForSalon.setDate(day);
-            LocalTime start = workingPeriod.getStartWorking();
-            LocalTime end = workingPeriod.getEndWorking();
+            LocalTime start = workingPeriod.getWorkingTimePeriod().getStartWorking();
+            LocalTime end = workingPeriod.getWorkingTimePeriod().getEndWorking();
             slotsLogForSalon.getSlotMap().put(staffId, createSlotList(start,end));
         }
         return slotsLogForSalon;

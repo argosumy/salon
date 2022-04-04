@@ -21,7 +21,7 @@ public class BookingServicesController {
     @ResponseStatus(HttpStatus.CREATED)
     public long bookingService(@RequestBody @Valid BookingServicesDto dto, @PathVariable("staffId") long staffId) {
         LogServiceMapper mapper = new LogServiceMapper();
-        LogService bookingServicePeriod = (LogService) mapper.convertBookingServiceDtoToLogService(dto);
+        LogService bookingServicePeriod = mapper.convertBookingServiceDtoToLogService(dto);
         bookingServicePeriod.setStaffId(staffId);
         return bookingService.bookingService(bookingServicePeriod);
     }

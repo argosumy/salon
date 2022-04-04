@@ -1,9 +1,9 @@
 package spdu2022.java.project.beutysalon.salons_working_mode.controllers;
 
 import spdu2022.java.project.beutysalon.entities.SalonWorkingMode;
-import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeekPeriod;
-import spdu2022.java.project.beutysalon.entities.WorkingDayPeriod;
-import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
+import spdu2022.java.project.beutysalon.entities.WorkingDay;
+import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeek;
+import spdu2022.java.project.beutysalon.entities.WorkingMode;
 import spdu2022.java.project.beutysalon.salons_working_mode.controllers.dto.SalonWorkingDayModeDto;
 import spdu2022.java.project.beutysalon.salons_working_mode.controllers.dto.SalonWorkingModeForWeekDto;
 
@@ -17,27 +17,25 @@ public class SalonsWorkingModeMapper {
         SalonWorkingMode result = new SalonWorkingMode();
         result.setSalonId(dto.getSalonId());
 
-        for(WorkingDayPeriod workingPeriodDto : dto.getSalonWorkingPeriodList()) {
-            WorkingDayPeriod workingPeriod = new WorkingDayPeriod();
-            workingPeriod.setWorkingDay(workingPeriodDto.getWorkingDay());
-            workingPeriod.setStartWorking(workingPeriodDto.getStartWorking());
-            workingPeriod.setEndWorking(workingPeriodDto.getEndWorking());
-            result.getSalonWorkingPeriods().add(workingPeriod);
+        for(WorkingDay workingPeriodDto : dto.getSalonWorkingPeriodList()) {
+            WorkingDay workingPeriod = new WorkingDay(workingPeriodDto.getWorkingDay());
+            workingPeriod.getWorkingTimePeriod().setStartWorking(workingPeriodDto.getWorkingTimePeriod().getStartWorking());
+            workingPeriod.getWorkingTimePeriod().setEndWorking(workingPeriodDto.getWorkingTimePeriod().getEndWorking());
+            result.getSalonWorkingMode().add(workingPeriod);
         }
         return result;
     }
 
     protected SalonWorkingDayModeDto convertSalonWorkingModeToDto(SalonWorkingMode entity) {
-        List<WorkingPeriod> dayPeriodList = entity.getSalonWorkingPeriods();
+        List<WorkingMode> dayPeriodList = entity.getSalonWorkingMode();
         SalonWorkingDayModeDto result = new SalonWorkingDayModeDto();
         result.setSalonId(entity.getSalonId());
-        List<WorkingDayPeriod> workingPeriodDtoList = result.getSalonWorkingPeriodList();
-        for(WorkingPeriod workingPeriodEntity : dayPeriodList) {
-            WorkingDayPeriod period = (WorkingDayPeriod) workingPeriodEntity;
-            WorkingDayPeriod workingPeriodDto = new WorkingDayPeriod();
-            workingPeriodDto.setWorkingDay(period.getWorkingDay());
-            workingPeriodDto.setStartWorking(period.getStartWorking());
-            workingPeriodDto.setEndWorking(period.getEndWorking());
+        List<WorkingDay> workingPeriodDtoList = result.getSalonWorkingPeriodList();
+        for(WorkingMode workingPeriodEntity : dayPeriodList) {
+            WorkingDay period = (WorkingDay) workingPeriodEntity;
+            WorkingDay workingPeriodDto = new WorkingDay(period.getWorkingDay());
+            workingPeriodDto.getWorkingTimePeriod().setStartWorking(period.getWorkingTimePeriod().getStartWorking());
+            workingPeriodDto.getWorkingTimePeriod().setEndWorking(period.getWorkingTimePeriod().getEndWorking());
             workingPeriodDtoList.add(workingPeriodDto);
         }
         return result;
@@ -45,19 +43,19 @@ public class SalonsWorkingModeMapper {
 
     protected SalonWorkingMode convertDtoWorkingDayOfWeekToSalonWorkingMode(SalonWorkingModeForWeekDto dto) {
         SalonWorkingMode result = new SalonWorkingMode();
-        Set<WorkingDayOfWeekPeriod> workingPeriods = dto.getWeekDtoList();
-        for(WorkingDayOfWeekPeriod period : workingPeriods) {
-            result.getSalonWorkingPeriods().add(period);
+        Set<WorkingDayOfWeek> workingPeriods = dto.getWeekDtoList();
+        for(WorkingDayOfWeek period : workingPeriods) {
+            result.getSalonWorkingMode().add(period);
         }
         return result;
     }
 
-    protected SalonWorkingModeForWeekDto convertSalonWorkingModeToDtoWorkingDayOfWeek(SalonWorkingMode workingMode) {
+    protected SalonWorkingModeForWeekDto convertSalonWorkingModeToDtoWorkingDayOfWeek(SalonWorkingMode salonWorkingMode) {
         SalonWorkingModeForWeekDto result = new SalonWorkingModeForWeekDto();
-        result.setSalonId(workingMode.getSalonId());
-        Set<WorkingDayOfWeekPeriod> workingDayOfWeekList = new HashSet<>();
-        for(WorkingPeriod workingPeriod : workingMode.getSalonWorkingPeriods()) {
-            WorkingDayOfWeekPeriod workingDayOfWeek = (WorkingDayOfWeekPeriod) workingPeriod;
+        result.setSalonId(salonWorkingMode.getSalonId());
+        Set<WorkingDayOfWeek> workingDayOfWeekList = new HashSet<>();
+        for(WorkingMode workingMode : salonWorkingMode.getSalonWorkingMode()) {
+            WorkingDayOfWeek workingDayOfWeek = (WorkingDayOfWeek)workingMode;
             workingDayOfWeekList.add(workingDayOfWeek);
         }
         result.setWeekDtoList(workingDayOfWeekList);

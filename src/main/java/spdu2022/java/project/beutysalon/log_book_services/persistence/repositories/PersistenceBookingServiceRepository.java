@@ -5,7 +5,6 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import spdu2022.java.project.beutysalon.entities.LogService;
-import spdu2022.java.project.beutysalon.entities.WorkingPeriod;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -21,17 +20,16 @@ public class PersistenceBookingServiceRepository implements BookingServiceReposi
     }
 
     @Override
-    public long bookingService(WorkingPeriod bookingServicePeriod) {
-        LogService logService = (LogService) bookingServicePeriod;
+    public long bookingService(LogService bookingService) {
         String query = "INSERT INTO log_book_services (staff_id, user_id, start_service, finish_service) VALUES (?,?,?,?) RETURNING id";
         KeyHolder holder = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> {
-           Timestamp start = Timestamp.valueOf(logService.getWorkingDay().toString() + " " + logService.getStartWorking() + ":00.0");
-           Timestamp end = Timestamp.valueOf(logService.getWorkingDay().toString() + " " + logService.getEndWorking() + ":00.0");
+           Timestamp start = Timestamp.valueOf(bookingService.getWorkingDayPeriod().getWorkingDay().toString() + " " + bookingService.getWorkingDayPeriod().getWorkingTimePeriod().getStartWorking() + ":00.0");
+           Timestamp end = Timestamp.valueOf(bookingService.getWorkingDayPeriod().getWorkingDay().toString() + " " + bookingService.getWorkingDayPeriod().getWorkingTimePeriod().getEndWorking() + ":00.0");
 
            PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-           ps.setLong(1, logService.getStaffId());
-           ps.setLong(2, logService.getUserId());
+           ps.setLong(1, bookingService.getStaffId());
+           ps.setLong(2, bookingService.getUserId());
            ps.setTimestamp(3, start);
            ps.setTimestamp(4, end);
 
