@@ -11,11 +11,6 @@ public class WorkingDayOfWeek implements WorkingMode{
         this.dayOfWeek = dayOfWeek;
     }
 
-    @Override
-    public WorkingMode getWorkingMode() {
-        return this;
-    }
-
     public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
     }

@@ -16,11 +16,6 @@ public class WorkingDay implements WorkingMode {
         this.workingDay = workingDay;
     }
 
-    @Override
-    public WorkingMode getWorkingMode() {
-        return this;
-    }
-
     public LocalDate getWorkingDay() {
         return workingDay;
     }
