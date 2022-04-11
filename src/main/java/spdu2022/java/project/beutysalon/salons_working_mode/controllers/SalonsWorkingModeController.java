@@ -22,7 +22,8 @@ public class SalonsWorkingModeController {
 
     @PostMapping("/{salonId}/days")
     @ResponseStatus(HttpStatus.CREATED)
-    public SalonWorkingDayModeDto createWorkingMode(@Valid @RequestBody SalonWorkingDayModeDto workingModeDto, @PathVariable("salonId") long salonId) {
+    public SalonWorkingDayModeDto createWorkingMode(@Valid @RequestBody SalonWorkingDayModeDto workingModeDto,
+                                                    @PathVariable("salonId") long salonId) {
         SalonsWorkingModeMapper modeMapper = new SalonsWorkingModeMapper();
         SalonWorkingMode salonWorkingMode = modeMapper.convertDtoWorkingDayToSalonWorkingMode(workingModeDto);
         salonWorkingMode.setSalonId(salonId);
@@ -43,7 +44,6 @@ public class SalonsWorkingModeController {
     @GetMapping("/{salonId}/days")
     @ResponseStatus(HttpStatus.OK)
     public SalonWorkingDayModeDto getSalonWorkingDayBySalonId(@PathVariable("salonId") long salonId ) {
-
         return new SalonWorkingDayModeDto();
     }
 }

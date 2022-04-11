@@ -6,15 +6,14 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import spdu2022.java.project.beutysalon.entities.SalonWorkingMode;
 import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeek;
-import spdu2022.java.project.beutysalon.entities.WorkingMode;
 import spdu2022.java.project.beutysalon.salons_working_mode.persistence.mappers.WorkingModeForWeekResultSetExtractor;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.Objects;
 
-@Repository(value = "weekPeriod")
-public class PersistenceSalonsWorkingModeForWeekRepository implements SalonWorkingModeRepository {
+@Repository
+public class PersistenceSalonsWorkingModeForWeekRepository implements SalonWorkingDayOfWeekRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public PersistenceSalonsWorkingModeForWeekRepository(JdbcTemplate jdbcTemplate) {
@@ -28,8 +27,7 @@ public class PersistenceSalonsWorkingModeForWeekRepository implements SalonWorki
     }
 
     @Override
-    public long addNewWorkingPeriodBySalonId(long salonId, WorkingMode workingMode) {
-        WorkingDayOfWeek workingDayOfWeek = (WorkingDayOfWeek) workingMode;
+    public long addNewWorkingPeriodBySalonId(long salonId, WorkingDayOfWeek workingDayOfWeek) {
         final String INSERT_NEW_WORKING_PERIOD_BY_SALON_ID = "INSERT INTO salons_working_week_mode(salon_id, day_week, start_working, end_working) VALUES(?,?,?,?) RETURNING id";
         KeyHolder holder = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> {
@@ -45,8 +43,7 @@ public class PersistenceSalonsWorkingModeForWeekRepository implements SalonWorki
     }
 
     @Override
-    public long updateWorkingPeriodBySalonId(long salonId, WorkingMode workingMode) {
-        WorkingDayOfWeek workingDayOfWeek = (WorkingDayOfWeek) workingMode;
+    public long updateWorkingPeriodBySalonId(long salonId, WorkingDayOfWeek workingDayOfWeek) {
         final String UPDATE_WORKING_PERIOD_BY_SALON_ID = "UPDATE salons_working_week_mode SET start_working = ?, end_working = ? WHERE salon_id = ? AND day_week = ?";
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(UPDATE_WORKING_PERIOD_BY_SALON_ID);

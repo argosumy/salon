@@ -23,7 +23,7 @@ public class PersistenceLogBookSelectService implements LogBookSelectService {
     @Override
     public List<SlotsLog> findLogBookServiceByCity(String city, LocalDate start, LocalDate end) {
         List<SlotsLog> template = new ArrayList<>();
-        List<Map<String, String>> logBookService = logBookRepository.getLogServiceByCityAndPeriod(city, start, end);
+        List<BookedService> logBookService = logBookRepository.getLogServiceByCityAndPeriod(city, start, end);
         List<Salon> salonList = logBookRepository.getSalonsByCity(city);
         for(Salon salon : salonList) {
             for(LocalDate i = start; i.isBefore(end.plusDays(1)); i = i.plusDays(1)) {
@@ -37,7 +37,7 @@ public class PersistenceLogBookSelectService implements LogBookSelectService {
     @Override
     public List<SlotsLog> findLogBookServiceBySalonId(long salonId, LocalDate start, LocalDate end) {
         List<SlotsLog> template = new ArrayList<>();
-        List<Map<String, String>> logBookService = logBookRepository.getLogServiceBySalonIdAndPeriod(salonId, start, end);
+        List<BookedService> logBookService = logBookRepository.getLogServiceBySalonIdAndPeriod(salonId, start, end);
         for(LocalDate i = start; i.isBefore(end.plusDays(1)); i = i.plusDays(1)) {
             SlotsLog workingPeriod = getWorkingPeriodTemplate(salonId, i);
             template.add(workingPeriod);

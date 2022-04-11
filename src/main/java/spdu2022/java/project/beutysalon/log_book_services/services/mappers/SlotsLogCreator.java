@@ -2,13 +2,13 @@ package spdu2022.java.project.beutysalon.log_book_services.services.mappers;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import spdu2022.java.project.beutysalon.entities.BookedService;
 import spdu2022.java.project.beutysalon.entities.Slot;
 import spdu2022.java.project.beutysalon.entities.SlotsLog;
 import spdu2022.java.project.beutysalon.entities.WorkingDay;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -42,13 +42,12 @@ public class SlotsLogCreator {
         return slotsLogForSalon;
     }
 
-    public List<SlotsLog> createSlotsWithLogBookService(List<SlotsLog> templateSlotsLog, List<Map<String, String>> logBookingService) {
+    public List<SlotsLog> createSlotsWithLogBookService(List<SlotsLog> templateSlotsLog, List<BookedService> logBookingService) {
         logBookingService.forEach(x -> {
-            long staffId = Long.parseLong(x.get("staffId"));
-            LocalDate date = LocalDate.parse(x.get("start"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            LocalTime startTime = LocalTime.parse(x.get("start"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            LocalTime endTime = LocalTime.parse(x.get("end"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            System.out.println("StaffId " + staffId + " Date " + date + " Start " + startTime + " End " + endTime);
+            long staffId = x.getStaffId();
+            LocalDate date = x.getWorkingDay();
+            LocalTime startTime = x.getWorkingTimePeriod().getStartWorking();
+            LocalTime endTime = x.getWorkingTimePeriod().getEndWorking();
 
             Set<Slot> logBookSlots = createSlotList(startTime, endTime);
             Set<Slot> templateSlots = findSlotsByDateAndStaffId(templateSlotsLog, date, staffId);

@@ -1,9 +1,13 @@
 package spdu2022.java.project.beutysalon.entities;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalTime;
 
 public class WorkingTimePeriod {
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime startWorking;
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime endWorking;
 
     public WorkingTimePeriod() {
@@ -32,4 +36,5 @@ public class WorkingTimePeriod {
                 ", endWorking='" + endWorking + '\'' +
                 '}';
     }
+
 }

@@ -1,14 +1,19 @@
 package spdu2022.java.project.beutysalon.entities;
 
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.Objects;
 
-public class WorkingDayOfWeek implements WorkingMode{
-    private final DayOfWeek dayOfWeek;
-    private final WorkingTimePeriod workingTimePeriod = new WorkingTimePeriod();
+public class WorkingDayOfWeek {
+    private DayOfWeek dayOfWeek;
+    private WorkingTimePeriod workingTimePeriod;
+
+    public WorkingDayOfWeek() {
+    }
 
     public WorkingDayOfWeek(DayOfWeek dayOfWeek) {
         this.dayOfWeek = dayOfWeek;
+        workingTimePeriod = new WorkingTimePeriod();
     }
 
     public DayOfWeek getDayOfWeek() {
@@ -17,6 +22,11 @@ public class WorkingDayOfWeek implements WorkingMode{
 
     public WorkingTimePeriod getWorkingTimePeriod() {
         return workingTimePeriod;
+    }
+
+    public void addWorkingTimePeriod(LocalTime startTime, LocalTime endTime) {
+        workingTimePeriod.setStartWorking(startTime);
+        workingTimePeriod.setEndWorking(endTime);
     }
 
     @Override

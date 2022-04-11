@@ -1,8 +1,7 @@
 package spdu2022.java.project.beutysalon.log_book_services.services;
 
 import org.springframework.stereotype.Service;
-import spdu2022.java.project.beutysalon.entities.LogService;
-import spdu2022.java.project.beutysalon.entities.WorkingTimePeriod;
+import spdu2022.java.project.beutysalon.entities.BookedService;
 import spdu2022.java.project.beutysalon.log_book_services.persistence.repositories.BookingServiceRepository;
 
 @Service
@@ -14,7 +13,7 @@ public class PersistenceBookingService implements BookingService {
     }
 
     @Override
-    public long bookingService(LogService bookingServicePeriod) {
+    public long bookingService(BookedService bookingServicePeriod) {
         return repository.bookingService(bookingServicePeriod);
     }
 }

@@ -1,7 +1,7 @@
 package spdu2022.java.project.beutysalon.log_book_services.services;
 
-import spdu2022.java.project.beutysalon.entities.LogService;
+import spdu2022.java.project.beutysalon.entities.BookedService;
 
 public interface BookingService {
-    long bookingService(LogService bookingServicePeriod);
+    long bookingService(BookedService bookingServicePeriod);
 }

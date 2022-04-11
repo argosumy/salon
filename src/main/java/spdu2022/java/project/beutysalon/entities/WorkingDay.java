@@ -4,13 +4,17 @@ import org.springframework.format.annotation.DateTimeFormat;
 import spdu2022.java.project.beutysalon.constraints_validaion.annotations.DateValid;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 
-public class WorkingDay implements WorkingMode {
+public class WorkingDay {
     @DateValid
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private final LocalDate workingDay;
+    private LocalDate workingDay;
     private final WorkingTimePeriod workingTimePeriod = new WorkingTimePeriod();
+
+    public WorkingDay() {
+    }
 
     public WorkingDay(LocalDate workingDay) {
         this.workingDay = workingDay;
@@ -20,8 +24,17 @@ public class WorkingDay implements WorkingMode {
         return workingDay;
     }
 
+    public void setWorkingDay(LocalDate workingDay) {
+        this.workingDay = workingDay;
+    }
+
     public WorkingTimePeriod getWorkingTimePeriod() {
         return workingTimePeriod;
+    }
+
+    public void addWorkingTimePeriod(LocalTime startTime, LocalTime endTime) {
+        workingTimePeriod.setStartWorking(startTime);
+        workingTimePeriod.setEndWorking(endTime);
     }
 
     @Override

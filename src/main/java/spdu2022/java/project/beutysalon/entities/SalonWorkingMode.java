@@ -1,11 +1,12 @@
 package spdu2022.java.project.beutysalon.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SalonWorkingMode {
     private long salonId;
-    private final List<WorkingMode> salonWorkingMode = new ArrayList<>();
+    private final Set<WorkingDay> salonWorkingModeUniq = new HashSet<>();
+    private final Set<WorkingDayOfWeek> salonWorkingDaysOfWeek = new HashSet<>();
 
     public SalonWorkingMode() {
     }
@@ -18,15 +19,28 @@ public class SalonWorkingMode {
         this.salonId = salonId;
     }
 
-    public List<WorkingMode> getSalonWorkingMode() {
-        return salonWorkingMode;
+    public Set<WorkingDay> getSalonWorkingModeUniq() {
+        return salonWorkingModeUniq;
+    }
+
+    public Set<WorkingDayOfWeek> getSalonsWorkingDaysOfWeek() {
+        return salonWorkingDaysOfWeek;
+    }
+
+    public void addWorkingDay(WorkingDay workingDay) {
+        salonWorkingModeUniq.add(workingDay);
+    }
+
+    public void addWorkingDayOfWeek(WorkingDayOfWeek workingDayOfWeek) {
+        salonWorkingDaysOfWeek.add(workingDayOfWeek);
     }
 
     @Override
     public String toString() {
         return "SalonWorkingMode{" +
                 "salonId=" + salonId +
-                ", salonWorkingMode= " + salonWorkingMode +
-                "}";
+                ", salonWorkingModeUniq=" + salonWorkingModeUniq +
+                ", workingDaysOfWeek=" + salonWorkingDaysOfWeek +
+                '}';
     }
 }

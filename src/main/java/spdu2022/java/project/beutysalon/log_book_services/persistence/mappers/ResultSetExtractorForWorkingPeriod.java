@@ -7,10 +7,10 @@ import spdu2022.java.project.beutysalon.entities.WorkingDay;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
+
+import static spdu2022.java.project.beutysalon.utils.LocaleDateTimeConverter.convertToLocalTime;
 
 public class ResultSetExtractorForWorkingPeriod implements ResultSetExtractor<Map<Long, WorkingDay>> {
 
@@ -20,8 +20,8 @@ public class ResultSetExtractorForWorkingPeriod implements ResultSetExtractor<Ma
         while (rs.next()) {
             WorkingDay period = new WorkingDay(LocalDate.parse(rs.getString("staff_working_day")));
             Long staffId = rs.getLong("staff_id");
-            period.getWorkingTimePeriod().setStartWorking(LocalTime.parse(rs.getString("start_working"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-            period.getWorkingTimePeriod().setEndWorking(LocalTime.parse(rs.getString("end_working"), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            period.addWorkingTimePeriod(convertToLocalTime(rs.getString("start_working"), "yyyy-MM-dd HH:mm:ss"),
+                                        convertToLocalTime(rs.getString("end_working"), "yyyy-MM-dd HH:mm:ss"));
             result.put(staffId, period);
         }
         return result;

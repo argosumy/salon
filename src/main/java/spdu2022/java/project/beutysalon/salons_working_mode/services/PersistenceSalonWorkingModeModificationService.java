@@ -1,60 +1,60 @@
 package spdu2022.java.project.beutysalon.salons_working_mode.services;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import spdu2022.java.project.beutysalon.entities.*;
-import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
-import spdu2022.java.project.beutysalon.salons_working_mode.persistence.repositories.SalonWorkingModeRepository;
+import spdu2022.java.project.beutysalon.entities.SalonWorkingMode;
+import spdu2022.java.project.beutysalon.entities.WorkingDay;
+import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeek;
+import spdu2022.java.project.beutysalon.salons_working_mode.persistence.repositories.SalonWorkingDayModeRepository;
+import spdu2022.java.project.beutysalon.salons_working_mode.persistence.repositories.SalonWorkingDayOfWeekRepository;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 public class PersistenceSalonWorkingModeModificationService implements SalonsWorkingModeModificationService {
-    private final SalonWorkingModeRepository repositoryWeekPeriod;
-    private final SalonWorkingModeRepository repositoryDaysPeriod;
+    private final SalonWorkingDayOfWeekRepository repositoryWeekPeriod;
+    private final SalonWorkingDayModeRepository repositoryDaysPeriod;
 
-    public PersistenceSalonWorkingModeModificationService(@Qualifier(value = "weekPeriod") SalonWorkingModeRepository repositoryWeekPeriod, @Qualifier(value = "daysPeriod") SalonWorkingModeRepository repositoryDaysPeriod) {
+    public PersistenceSalonWorkingModeModificationService(SalonWorkingDayOfWeekRepository repositoryWeekPeriod,
+                                                          SalonWorkingDayModeRepository repositoryDaysPeriod) {
         this.repositoryWeekPeriod = repositoryWeekPeriod;
         this.repositoryDaysPeriod = repositoryDaysPeriod;
     }
 
     @Override
     public int addNewWorkingPeriod(SalonWorkingMode salonWorkingMode) {
-        if(!salonWorkingMode.getSalonWorkingMode().isEmpty()
-                && salonWorkingMode.getSalonWorkingMode().get(0) instanceof WorkingDayOfWeek) {
-            return addNewPeriod(salonWorkingMode, repositoryWeekPeriod);
-        }
-        if(!salonWorkingMode.getSalonWorkingMode().isEmpty()
-                && salonWorkingMode.getSalonWorkingMode().get(0) instanceof WorkingDay) {
-            return addNewPeriod(salonWorkingMode, repositoryDaysPeriod);
-        }
-        return 0;
+        int count = 0;
+        count += addNewUniqPeriod(salonWorkingMode);
+        count += addNewDayOfWeekPeriod(salonWorkingMode);
+        return count;
     }
 
-    private int addNewPeriod(SalonWorkingMode salonWorkingMode, SalonWorkingModeRepository repository) {
+    private int addNewUniqPeriod(SalonWorkingMode salonWorkingMode) {
         int count = 0;
         long salonId = salonWorkingMode.getSalonId();
-        List<WorkingMode> weekPeriodList = salonWorkingMode.getSalonWorkingMode();
-        List<WorkingMode> periodsInDb = repository.findPeriodBySalonId(salonId).getSalonWorkingMode();
-        for(WorkingMode workingPeriod : weekPeriodList) {
-            WorkingMode duplicate = getDuplicate(workingPeriod, periodsInDb);
-            if(duplicate == null) {
-                count += repository.addNewWorkingPeriodBySalonId(salonId, workingPeriod);
-
+        Set<WorkingDay> workingDays = salonWorkingMode.getSalonWorkingModeUniq();
+        Set<WorkingDay> workingDaysDB = repositoryDaysPeriod.findPeriodBySalonId(salonId).getSalonWorkingModeUniq();
+        for(WorkingDay workingDay : workingDays) {
+            if(workingDaysDB.contains(workingDay)) {
+                count += repositoryDaysPeriod.updateWorkingPeriodBySalonId(salonId, workingDay);
             } else {
-//                count += repository.updateWorkingPeriodBySalonId(salonId, workingPeriod);
-                throw new EntityNotUniqException("Period " + workingPeriod + " is not uniq.");
+                count += repositoryDaysPeriod.addNewWorkingPeriodBySalonId(salonId, workingDay);
             }
         }
         return count;
     }
 
-    private WorkingMode getDuplicate(WorkingMode period, List<WorkingMode> periodFromDbList) {
-        for (WorkingMode periodDB : periodFromDbList) {
-            if(period.equals(periodDB)) {
-                return periodDB;
+    private int addNewDayOfWeekPeriod(SalonWorkingMode salonWorkingMode) {
+        int count = 0;
+        long salonId = salonWorkingMode.getSalonId();
+        Set<WorkingDayOfWeek> weekDays = salonWorkingMode.getSalonsWorkingDaysOfWeek();
+        Set<WorkingDayOfWeek> weekDaysDB = repositoryWeekPeriod.findPeriodBySalonId(salonId).getSalonsWorkingDaysOfWeek();
+        for(WorkingDayOfWeek dayOfWeek : weekDays) {
+            if(weekDaysDB.contains(dayOfWeek)) {
+                count += repositoryWeekPeriod.updateWorkingPeriodBySalonId(salonId, dayOfWeek);
+            } else {
+                count += repositoryWeekPeriod.addNewWorkingPeriodBySalonId(salonId, dayOfWeek);
             }
         }
-        return null;
+        return count;
     }
 }

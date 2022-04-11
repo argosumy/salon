@@ -4,29 +4,33 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import spdu2022.java.project.beutysalon.entities.LogService;
+import spdu2022.java.project.beutysalon.entities.BookedService;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Map;
 import java.util.Objects;
 
+import static spdu2022.java.project.beutysalon.utils.LocaleDateTimeConverter.convertToTimestamp;
+
 @Repository
-public class PersistenceBookingServiceRepository implements BookingServiceRepository{
+public class BookingServiceJdbcRepository implements BookingServiceRepository{
     private final JdbcTemplate jdbcTemplate;
 
-    public PersistenceBookingServiceRepository(JdbcTemplate jdbcTemplate) {
+    public BookingServiceJdbcRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    public long bookingService(LogService bookingService) {
+    public long bookingService(BookedService bookingService) {
         String query = "INSERT INTO log_book_services (staff_id, user_id, start_service, finish_service) VALUES (?,?,?,?) RETURNING id";
         KeyHolder holder = new GeneratedKeyHolder();
         jdbcTemplate.update(con -> {
-           Timestamp start = Timestamp.valueOf(bookingService.getWorkingDayPeriod().getWorkingDay().toString() + " " + bookingService.getWorkingDayPeriod().getWorkingTimePeriod().getStartWorking() + ":00.0");
-           Timestamp end = Timestamp.valueOf(bookingService.getWorkingDayPeriod().getWorkingDay().toString() + " " + bookingService.getWorkingDayPeriod().getWorkingTimePeriod().getEndWorking() + ":00.0");
-
+           Timestamp start = getTimestampPeriodMap(bookingService).get("start");
+           Timestamp end = getTimestampPeriodMap(bookingService).get("end");
            PreparedStatement ps = con.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
            ps.setLong(1, bookingService.getStaffId());
            ps.setLong(2, bookingService.getUserId());
@@ -36,5 +40,13 @@ public class PersistenceBookingServiceRepository implements BookingServiceReposi
            return ps;
         }, holder);
         return Objects.requireNonNull(holder.getKey()).intValue();
+    }
+
+    private Map<String, Timestamp> getTimestampPeriodMap(BookedService bookedService) {
+        LocalDate workingDay = bookedService.getWorkingDay();
+        LocalTime startLocalTime = bookedService.getWorkingTimePeriod().getStartWorking();
+        LocalTime endLocalTime = bookedService.getWorkingTimePeriod().getEndWorking();
+        return Map.of("start", convertToTimestamp(workingDay, startLocalTime),
+                      "end", convertToTimestamp(workingDay, endLocalTime));
     }
 }

@@ -1,8 +1,9 @@
 package spdu2022.java.project.beutysalon.log_book_services.persistence.repositories;
 
+import spdu2022.java.project.beutysalon.entities.BookedService;
 import spdu2022.java.project.beutysalon.entities.Salon;
-import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeek;
 import spdu2022.java.project.beutysalon.entities.WorkingDay;
+import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeek;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,9 +14,9 @@ public interface LogBookRepository {
 
     WorkingDay findWorkingDayPeriodBySalonIdAndDate(long salonId, LocalDate date);
 
-    List<Map<String, String>> getLogServiceByCityAndPeriod(String city, LocalDate startPeriod, LocalDate endPeriod);
+    List<BookedService> getLogServiceByCityAndPeriod(String city, LocalDate startPeriod, LocalDate endPeriod);
 
-    List<Map<String, String>> getLogServiceBySalonIdAndPeriod(long salonId, LocalDate startPeriod, LocalDate endPeriod);
+    List<BookedService> getLogServiceBySalonIdAndPeriod(long salonId, LocalDate startPeriod, LocalDate endPeriod);
 
     Map<Long, WorkingDay> getUniqWorkingMode(long salonId, LocalDate workDay);
 

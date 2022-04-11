@@ -2,33 +2,40 @@ package spdu2022.java.project.beutysalon.log_book_services.persistence.mappers;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import spdu2022.java.project.beutysalon.entities.BookedService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
-public class ResultSetExtractorForLogServices implements ResultSetExtractor<List<Map<String, String>>> {
+import static spdu2022.java.project.beutysalon.utils.LocaleDateTimeConverter.convertToLocalDate;
+import static spdu2022.java.project.beutysalon.utils.LocaleDateTimeConverter.convertToLocalTime;
+
+
+public class ResultSetExtractorForLogServices implements ResultSetExtractor<List<BookedService>> {
     @Override
-    public List<Map<String, String>> extractData(ResultSet rs) throws SQLException, DataAccessException {
-        List<Map<String, String>> result = new ArrayList<>();
+    public List<BookedService> extractData(ResultSet rs) throws SQLException, DataAccessException {
+        List<BookedService> result = new ArrayList<>();
+        BookedService bookedService;
         while (rs.next()) {
-            String salonIdDB = rs.getString("salon_id");
-            String staffId = rs.getString("staff_id");
-            String userId = rs.getString("user_id");
-            String start = rs.getString("start_service");
-            String end = rs.getString("end_service");
-            result.add(Map.of(
-                    "salonId", salonIdDB,
-                    "staffId", staffId,
-                    "userId", userId,
-                    "start", start,
-                    "end", end));
+            long salonId = rs.getLong("salon_id");
+            long staffId = rs.getLong("staff_id");
+            long userId = rs.getLong("user_id");
+            Timestamp start = rs.getTimestamp("start_service");
+            Timestamp end = rs.getTimestamp("end_service");
+            bookedService = new BookedService(userId, convertToLocalDate(start));
+            bookedService.setSalonId(salonId);
+            bookedService.setStaffId(staffId);
+            bookedService.addWorkingTimePeriodForDay(convertToLocalTime(start), convertToLocalTime(end));
+            result.add(bookedService);
         }
-        result.sort(((Comparator<Map<String, String>>) (o1, o2) -> CharSequence.compare(o1.get("start"), o2.get("start")))
-                .thenComparing((o1, o2) -> CharSequence.compare(o1.get("staffId"), o2.get("staffId"))));
+
+        result.sort(Comparator.comparing(BookedService::getStaffId)
+                .thenComparing(x -> x.getWorkingDayPeriod().getWorkingDay())
+                .thenComparing(x -> x.getWorkingDayPeriod().getWorkingTimePeriod().getStartWorking()));
         return result;
     }
 }

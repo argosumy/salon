@@ -22,7 +22,7 @@ public class WorkingModeForWeekResultSetExtractor implements ResultSetExtractor<
             }
             period.getWorkingTimePeriod().setStartWorking(LocalTime.parse(rs.getString("start_working")));
             period.getWorkingTimePeriod().setEndWorking(LocalTime.parse(rs.getString("end_working")));
-            result.getSalonWorkingMode().add(period);
+            result.getSalonsWorkingDaysOfWeek().add(period);
         }
         return result;
     }
