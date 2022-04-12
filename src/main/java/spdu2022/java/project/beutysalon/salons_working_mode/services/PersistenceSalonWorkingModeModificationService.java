@@ -32,7 +32,9 @@ public class PersistenceSalonWorkingModeModificationService implements SalonsWor
         int count = 0;
         long salonId = salonWorkingMode.getSalonId();
         Set<WorkingDay> workingDays = salonWorkingMode.getSalonWorkingModeUniq();
-        Set<WorkingDay> workingDaysDB = repositoryDaysPeriod.findPeriodBySalonId(salonId).getSalonWorkingModeUniq();
+        SalonWorkingMode salonWorkingModeFromDB = repositoryDaysPeriod.findPeriodBySalonId(salonId);
+        Set<WorkingDay> workingDaysDB = salonWorkingModeFromDB.getSalonWorkingModeUniq();
+
         for(WorkingDay workingDay : workingDays) {
             if(workingDaysDB.contains(workingDay)) {
                 count += repositoryDaysPeriod.updateWorkingPeriodBySalonId(salonId, workingDay);
@@ -47,7 +49,9 @@ public class PersistenceSalonWorkingModeModificationService implements SalonsWor
         int count = 0;
         long salonId = salonWorkingMode.getSalonId();
         Set<WorkingDayOfWeek> weekDays = salonWorkingMode.getSalonsWorkingDaysOfWeek();
-        Set<WorkingDayOfWeek> weekDaysDB = repositoryWeekPeriod.findPeriodBySalonId(salonId).getSalonsWorkingDaysOfWeek();
+        SalonWorkingMode salonWorkingModeFromDB = repositoryWeekPeriod.findPeriodBySalonId(salonId);
+        Set<WorkingDayOfWeek> weekDaysDB = salonWorkingModeFromDB.getSalonsWorkingDaysOfWeek();
+
         for(WorkingDayOfWeek dayOfWeek : weekDays) {
             if(weekDaysDB.contains(dayOfWeek)) {
                 count += repositoryWeekPeriod.updateWorkingPeriodBySalonId(salonId, dayOfWeek);

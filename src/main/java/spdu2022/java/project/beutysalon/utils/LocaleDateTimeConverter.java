@@ -14,6 +14,7 @@ public class LocaleDateTimeConverter {
     public static LocalDate convertToLocalDate(String date) {
         return LocalDate.parse(date);
     }
+
     public static LocalTime convertToLocalTime(Timestamp timestamp) {
         return timestamp.toLocalDateTime().toLocalTime();
     }
@@ -29,5 +30,4 @@ public class LocaleDateTimeConverter {
     public static Timestamp convertToTimestamp(LocalDate localDate, LocalTime localTime) {
         return Timestamp.valueOf(LocalDateTime.of(localDate, localTime));
     }
-
 }

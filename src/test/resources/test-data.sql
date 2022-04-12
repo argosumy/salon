@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS users
+CREATE TABLE users
 (
     id SERIAL PRIMARY KEY NOT NULL,
     first_name VARCHAR(50) NOT NULL,
@@ -8,14 +8,14 @@ CREATE TABLE IF NOT EXISTS users
 
 );
 
-CREATE TABLE IF NOT EXISTS user_roles
+CREATE TABLE user_roles
 (
     id SERIAL PRIMARY KEY NOT NULL,
     user_id int NOT NULL,
     name_role VARCHAR(20) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS salons
+CREATE TABLE salons
 (
     id SERIAL PRIMARY KEY NOT NULL,
     salon_name VARCHAR(100) NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS salons
     city VARCHAR(50)
 );
 
-CREATE TABLE IF NOT EXISTS staff
+CREATE TABLE staff
 (
     id SERIAL PRIMARY KEY NOT NULL,
     salon_id INT NOT NULL,
@@ -31,20 +31,20 @@ CREATE TABLE IF NOT EXISTS staff
     staff_foto VARCHAR(300)
 );
 
-CREATE TABLE IF NOT EXISTS salon_working_mode
+CREATE TABLE salon_working_mode
 (
     salon_id INT NOT NULL,
     start_working TIMESTAMP NOT NULL,
     finish_working TIMESTAMP NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS staff_working_mode
+CREATE TABLE staff_working_mode
 (
     staff_id INT NOT NULL,
     working_day DATE NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS log_book_services
+CREATE TABLE log_book_services
 (
     id SERIAL PRIMARY KEY NOT NULL,
     staff_id INT NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS log_book_services
     finish_service TIMESTAMP NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS salons_working_week_mode
+CREATE TABLE salons_working_week_mode
 (
     id SERIAL PRIMARY KEY NOT NULL,
     salon_id INT NOT NULL,

@@ -35,9 +35,9 @@ class PersistenceLogBookRepositoryTest {
     @Test
     @DisplayName("Method must return List of table's row (booking services for the city by date period.)")
     void getLogServiceByCityAndPeriod() {
-        List<Map<String, String>> res = repository.getLogServiceByCityAndPeriod("Sumy", LocalDate.parse("2023-05-01"), LocalDate.parse("2023-05-01"));
+        List<BookedService> res = repository.getLogServiceByCityAndPeriod("Sumy", LocalDate.parse("2023-05-01"), LocalDate.parse("2023-05-01"));
         assertEquals(3, res.size());
-        assertTrue(res.stream().anyMatch(x -> x.get("salonId").equals(String.valueOf(2))));
+        assertTrue(res.stream().anyMatch(x -> x.getSalonId() == 2L));
 
         res = repository.getLogServiceByCityAndPeriod("Kiev", LocalDate.parse("2023-05-01"), LocalDate.parse("2023-05-01"));
         assertEquals(0, res.size());
@@ -46,7 +46,7 @@ class PersistenceLogBookRepositoryTest {
     @Test
     @DisplayName("Method must return List of table's row.(booking services for the salonId by date period.)")
     void getLogServiceBySalonIdAndPeriod() {
-        List<Map<String, String>> res = repository.getLogServiceBySalonIdAndPeriod(1, LocalDate.parse("2023-05-01"), LocalDate.parse("2023-05-02"));
+        List<BookedService> res = repository.getLogServiceBySalonIdAndPeriod(1, LocalDate.parse("2023-05-01"), LocalDate.parse("2023-05-02"));
         assertEquals(2, res.size());
 
         res = repository.getLogServiceBySalonIdAndPeriod(1, LocalDate.parse("2023-05-01"), LocalDate.parse("2023-05-05"));

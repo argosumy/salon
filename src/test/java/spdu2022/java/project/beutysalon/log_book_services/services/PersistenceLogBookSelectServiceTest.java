@@ -83,21 +83,18 @@ class PersistenceLogBookSelectServiceTest {
         assertEquals(expectedSlotsLog(salonId, date), actual);
     }
 
-    private List<Map<String, String>> getLogService(long salonId) {
-        List<Map<String, String>> result = new ArrayList<>();
-            String salonIdDB = String.valueOf(salonId);
-            String staffId = "1";
-            String userId = "2";
-            String start = "2022-05-01 10:00:00";
-            String end = "2022-05-01 13:00:00";
-            result.add(Map.of(
-                    "salonId", salonIdDB,
-                    "staffId", staffId,
-                    "userId", userId,
-                    "start", start,
-                    "end", end));
-        result.sort(((Comparator<Map<String, String>>) (o1, o2) -> CharSequence.compare(o1.get("start"), o2.get("start")))
-                .thenComparing((o1, o2) -> CharSequence.compare(o1.get("staffId"), o2.get("staffId"))));
+    private List<BookedService> getLogService(long salonId) {
+        List<BookedService> result = new ArrayList<>();
+            long staffId = 1L;
+            long userId = 2L;
+            LocalDate date = LocalDate.of(2022, 5,1);
+            LocalTime start = LocalTime.of(10, 0);
+            LocalTime end = LocalTime.of(13, 0);//"2022-05-01 13:00:00";
+            BookedService bookedService = new BookedService(userId, date);
+            bookedService.addWorkingTimePeriodForDay(start, end);
+            bookedService.setSalonId(salonId);
+            bookedService.setStaffId(staffId);
+        result.add(bookedService);
         return result;
     }
 

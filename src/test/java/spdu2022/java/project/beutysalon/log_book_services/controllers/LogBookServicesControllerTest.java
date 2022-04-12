@@ -38,7 +38,7 @@ class LogBookServicesControllerTest {
     @Test
     @DisplayName("Dates must be in future")
     void getLogBookServicesByCity() throws Exception {
-        String url = createUrlBySalonId(1, LocalDate.now().toString(), LocalDate.now().plusDays(3).toString());
+        String url = createUrlByCity("Sumy", LocalDate.now().toString(), LocalDate.now().plusDays(3).toString());
         mockMvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
@@ -55,8 +55,7 @@ class LogBookServicesControllerTest {
 
     private String createUrlByCity(String city, String start, String end) {
         return "http://localhost:8080/api/v1/salons/log-book-services" +
-                "?city=" + city+ "&end-period=" + end + "&start-period=" + start;
+                "?city=" + city + "&end-period=" + end + "&start-period=" + start;
     }
-
 
 }
