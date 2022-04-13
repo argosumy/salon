@@ -5,11 +5,11 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import spdu2022.java.project.beutysalon.entities.Salon;
+import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.mappers.SalonRowMapper;
 import spdu2022.java.project.beutysalon.salons_registration.persistence.repositories.mappers.SalonsResultSetExtractor;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,7 +34,7 @@ public class PersistenceSalonsRepository implements SalonsRepository {
 
     @Override
     public List<Salon> getAllSalonsFromCity(String city) {
-        return new ArrayList<>();
+        return jdbcTemplate.query("SELECT * FROM salons WHERE city = ?", new SalonRowMapper(), city);
     }
 
     @Override
