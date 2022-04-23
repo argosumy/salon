@@ -1,4 +1,4 @@
-package spdu2022.java.project.beutysalon.aws.s3.services;
+package spdu2022.java.project.beutysalon.file_storage.services;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
@@ -6,33 +6,30 @@ import com.amazonaws.util.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import spdu2022.java.project.beutysalon.file_storage.FileStorageServices;
 
 import java.io.*;
 import java.util.List;
 
 @Service
-public class S3Service {
+public class AwsS3Service implements FileStorageServices {
     @Value("${aws.s3.bucket-name}")
     private String bucketName;
 
     private final AmazonS3 s3Client;
-    private final String STAFF_AVATAR_FILE_NAME_TEMPLATE = "staff_%d_avatar_%s";
 
-    public S3Service(AmazonS3 s3Client) {
+    public AwsS3Service(AmazonS3 s3Client) {
         this.s3Client = s3Client;
     }
 
-    public String uploadFile(long staffId, MultipartFile file) {
+    @Override
+    public boolean saveFile(String fileName, MultipartFile file) {
         File fileObj = convertMultiPartFileToFile(file);
-        String originalFileName = file.getOriginalFilename();
-        String fileName = String.format(STAFF_AVATAR_FILE_NAME_TEMPLATE, staffId, originalFileName);
         s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
-        boolean deleted = fileObj.delete();
-        return deleted ?
-                String.format("File uploaded: %s", fileName) :
-                String.format("File wasn't uploaded: %s", fileName);
+        return fileObj.delete();
     }
 
+    @Override
     public byte[] downloadFile(String fileName) {
         S3Object s3Object = s3Client.getObject(bucketName, fileName);
         S3ObjectInputStream inputStream = s3Object.getObjectContent();
@@ -43,7 +40,7 @@ public class S3Service {
         }
     }
 
-
+    @Override
     public String deleteFile(String fileName) {
         s3Client.deleteObject(bucketName, fileName);
         return fileName + " removed ...";
@@ -79,4 +76,6 @@ public class S3Service {
         }
         return convertedFile;
     }
+
+
 }

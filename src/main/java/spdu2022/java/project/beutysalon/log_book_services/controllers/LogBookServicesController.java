@@ -37,7 +37,7 @@ public class LogBookServicesController {
     @ResponseStatus(HttpStatus.OK)
     public LogBookServicesDto getLogBookServicesByCity(@RequestParam("start-period") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate startPeriod,
                                                        @RequestParam("end-period") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate endPeriod,
-                                                       @RequestParam(value = "city") @NotBlank String city) {
+                                                       @RequestParam("city") @NotBlank String city) {
         List<SlotsLog> slotsLogs = logBookSelectService.findLogBookServiceByCity(city, startPeriod, endPeriod);
         return new LogBookServicesDto(slotsLogs);
     }

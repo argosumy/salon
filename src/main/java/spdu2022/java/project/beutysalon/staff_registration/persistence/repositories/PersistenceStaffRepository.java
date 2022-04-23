@@ -5,6 +5,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import spdu2022.java.project.beutysalon.entities.Staff;
+import spdu2022.java.project.beutysalon.staff_registration.persistence.mappers.StaffResultSetExtractor;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -22,8 +23,9 @@ public class PersistenceStaffRepository implements StaffRepository {
     }
 
     @Override
-    public Optional<Staff> findById(long id) {
-        return Optional.empty();
+    public Staff findById(long id) {
+        final String sql = "SELECT * FROM staff WHERE id = ?";
+        return Optional.ofNullable(jdbcTemplate.query(sql, new StaffResultSetExtractor(), id)).orElse(new Staff());
     }
 
     @Override
@@ -52,14 +54,25 @@ public class PersistenceStaffRepository implements StaffRepository {
     }
 
     @Override
-    public Staff updateStaff(Staff staffUpdate) {
-        return new Staff();
+    public void updateStaff(Staff staff) {
+        long staffId = staff.getId();
+        long salonId = staff.getSalonId();
+        String linkPhoto = staff.getLinkPhoto();
+        if(findById(staffId).getId() == staffId) {
+            final String sql = "UPDATE staff SET salon_id = ?, staff_foto = ? WHERE id = ?";
+            jdbcTemplate.update(sql, ps -> {
+                ps.setLong(1, salonId);
+                ps.setString(2, linkPhoto);
+                ps.setLong(3, staffId);
+            });
+        }
     }
 
     @Override
     public int getCountStaffByUserId(Staff staff) {
-        final String COUNT_STAFF_BY_ID = "SELECT count(*) FROM staff WHERE user_id = ?";
-        return jdbcTemplate.queryForObject(COUNT_STAFF_BY_ID, Integer.class, staff.getUserId());
+        final String sql = "SELECT count(*) FROM staff WHERE user_id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, staff.getUserId());
     }
+
 
 }

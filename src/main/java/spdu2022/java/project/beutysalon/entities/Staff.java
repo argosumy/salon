@@ -4,16 +4,18 @@ import java.util.Objects;
 
 public class Staff {
     private long id;
-    private long userId;
-    private long salonId;
+    private User user;
+    private Salon salon;
     private String linkPhoto;
 
     public Staff() {
+        user = new User();
+        salon = new Salon();
     }
 
-    public Staff(long userId, long salonId, String linkPhoto) {
-        this.userId = userId;
-        this.salonId = salonId;
+    public Staff(User user, Salon salon, String linkPhoto) {
+        this.user = user;
+        this.salon = salon;
         this.linkPhoto = linkPhoto;
     }
 
@@ -25,20 +27,20 @@ public class Staff {
         this.id = id;
     }
 
-    public long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public long getSalonId() {
-        return salonId;
+    public Salon getSalon() {
+        return salon;
     }
 
-    public void setSalonId(long salonId) {
-        this.salonId = salonId;
+    public void setSalon(Salon salon) {
+        this.salon = salon;
     }
 
     public String getLinkPhoto() {
@@ -49,16 +51,32 @@ public class Staff {
         this.linkPhoto = linkPhoto;
     }
 
+    public long getUserId() {
+        return user.getId();
+    }
+
+    public void setUserId(long id) {
+        user.setId(id);
+    }
+
+    public long getSalonId() {
+        return salon.getId();
+    }
+
+    public void setSalonId(long id) {
+        salon.setId(id);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Staff staff = (Staff) o;
-        return userId == staff.userId && salonId == staff.salonId;
+        return this.getUserId() == staff.getUserId() && this.getSalonId() == staff.getSalonId();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, salonId);
+        return Objects.hash(user.getId(), salon.getId());
     }
 }
