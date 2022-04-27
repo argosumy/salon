@@ -1,7 +1,6 @@
 package spdu2022.java.project.beutysalon.staff_registration.services;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import spdu2022.java.project.beutysalon.entities.Staff;
 import spdu2022.java.project.beutysalon.exeptions.FileStorageException;
@@ -19,13 +18,11 @@ public class PersistenceStaffFileStorageServices implements StaffFileStorage{
     }
 
     @Override
-    @Transactional
     public String saveAvatarOfStaff(long staffId, MultipartFile multipartFile) {
         final Staff staffDB = staffRepository.findById(staffId);
         final String newAvatarLink = saveFile(staffId, multipartFile);
         if(staffDB.getLinkPhoto() != null && !staffDB.getLinkPhoto().isEmpty()) {
-            String fileName = deleteFile(staffDB.getLinkPhoto());
-            System.out.println(fileName);
+            deleteFile(staffDB.getLinkPhoto());
         }
         staffDB.setLinkPhoto(newAvatarLink);
         staffRepository.updateStaff(staffDB);
@@ -33,13 +30,11 @@ public class PersistenceStaffFileStorageServices implements StaffFileStorage{
     }
 
     @Override
-    @Transactional
     public String deleteAvatarOfStaff(long staffId) {
         final Staff staffDB = staffRepository.findById(staffId);
         String fileNameDelete = "";
         if(staffDB.getLinkPhoto() != null && !staffDB.getLinkPhoto().isEmpty()) {
             fileNameDelete = deleteFile(staffDB.getLinkPhoto());
-            System.out.println(fileNameDelete);
             staffDB.setLinkPhoto("");
             staffRepository.updateStaff(staffDB);
         }
@@ -59,7 +54,7 @@ public class PersistenceStaffFileStorageServices implements StaffFileStorage{
     }
 
     private String createFilePath(long staffId, String originalFileName) {
-        final String FOLDER = "staff/";
+        final String FOLDER = "staff/avatar/";
         final String STAFF_AVATAR_FILE_NAME_TEMPLATE = "%sstaff_id_%d_avatar_%s";
         return String.format(STAFF_AVATAR_FILE_NAME_TEMPLATE, FOLDER, staffId, originalFileName);
     }

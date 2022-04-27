@@ -9,8 +9,12 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.PropertySource;
 
 @Configuration
+@Profile("aws")
+@PropertySource("classpath:aws.properties")
 public class AwsStorageConfig {
     @Value("${aws.s3.credentials.access-key}")
     private String accessKey;

@@ -6,4 +6,5 @@ public interface FileStorageServices {
     boolean saveFile(String fileName, MultipartFile file);
     byte[] downloadFile(String fileName);
     String deleteFile(String fileName);
+    void makeBucket(String bucketName);
 }

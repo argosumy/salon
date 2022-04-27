@@ -4,6 +4,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import spdu2022.java.project.beutysalon.file_storage.FileStorageServices;
@@ -12,13 +13,14 @@ import java.io.*;
 import java.util.List;
 
 @Service
-public class AwsS3Service implements FileStorageServices {
-    @Value("${aws.s3.bucket-name}")
+@Profile("aws")
+public class AwsS3Services implements FileStorageServices {
+    @Value("${file-storage.bucket-name}")
     private String bucketName;
 
     private final AmazonS3 s3Client;
 
-    public AwsS3Service(AmazonS3 s3Client) {
+    public AwsS3Services(AmazonS3 s3Client) {
         this.s3Client = s3Client;
     }
 
@@ -46,10 +48,12 @@ public class AwsS3Service implements FileStorageServices {
         return fileName + " removed ...";
     }
 
-    public String createBucket(String bucketName) {
+    @Override
+    public void makeBucket(String bucketName) {
         s3Client.createBucket(bucketName);
-        return bucketName + " was created...";
     }
+
+
 
     public String createFolder(String folderName) {
         final ObjectMetadata metadata = new ObjectMetadata();

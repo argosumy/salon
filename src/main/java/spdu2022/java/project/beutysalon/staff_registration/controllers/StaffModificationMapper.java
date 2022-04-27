@@ -10,7 +10,6 @@ public class StaffModificationMapper {
         Staff staff = new Staff();
         staff.setUserId(staffModificationDTO.getUserId());
         staff.setSalonId(staffModificationDTO.getSalonId());
-//        staff.setLinkPhoto(staffModificationDTO.getLinkPhoto());
         return staff;
     }
 
@@ -19,7 +18,6 @@ public class StaffModificationMapper {
         staffModificationDTOLight.setId(staff.getId());
         staffModificationDTOLight.setSalonId(staff.getSalonId());
         staffModificationDTOLight.setUserId(staff.getUserId());
-//        staffModificationDTOLight.setLinkPhoto(staff.getLinkPhoto());
         return staffModificationDTOLight;
     }
 }

@@ -35,32 +35,4 @@ public class PersistenceStaffModificationService implements StaffModificationSer
         staffRepository.updateStaff(staffUpdate);
         return staffUpdate;
     }
-
-//    @Override
-//    @Transactional
-//    public String saveAvatarOfStaff(long staffId, MultipartFile multipartFile) throws Exception {
-//        final Staff staffDB = staffRepository.findById(staffId);
-//        final String newAvatarLink = fileStorageServices.saveFile(staffId, multipartFile);
-//        if(staffDB.getLinkPhoto() != null && !staffDB.getLinkPhoto().isEmpty()) {
-//            String fileName = fileStorageServices.deleteFile(staffDB.getLinkPhoto());
-//            System.out.println(fileName);
-//        }
-//        staffDB.setLinkPhoto(newAvatarLink);
-//        staffRepository.updateStaff(staffDB);
-//        return newAvatarLink;
-//    }
-//
-//    @Override
-//    @Transactional
-//    public String deleteAvatarOfStaff(long staffId) {
-//        final Staff staffDB = staffRepository.findById(staffId);
-//        String fileNameDelete = "";
-//        if(staffDB.getLinkPhoto() != null && !staffDB.getLinkPhoto().isEmpty()) {
-//            fileNameDelete = fileStorageServices.deleteFile(staffDB.getLinkPhoto());
-//            System.out.println(fileNameDelete);
-//            staffDB.setLinkPhoto("");
-//            staffRepository.updateStaff(staffDB);
-//        }
-//        return fileNameDelete;
-//    }
 }
