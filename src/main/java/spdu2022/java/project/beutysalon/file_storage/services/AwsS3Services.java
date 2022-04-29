@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import spdu2022.java.project.beutysalon.file_storage.FileStorageServices;
 
+import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.List;
 
@@ -24,10 +25,18 @@ public class AwsS3Services implements FileStorageServices {
         this.s3Client = s3Client;
     }
 
+    @PostConstruct
+    private void init() {
+        if(!s3Client.doesBucketExistV2(bucketName)) {
+            makeBucket(bucketName);
+        }
+    }
+
     @Override
     public boolean saveFile(String fileName, MultipartFile file) {
         File fileObj = convertMultiPartFileToFile(file);
-        s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
+        PutObjectResult result = s3Client.putObject(new PutObjectRequest(bucketName, fileName, fileObj));
+        System.out.println("Tag: " + result.getETag() + " " + result.toString());
         return fileObj.delete();
     }
 
@@ -43,17 +52,14 @@ public class AwsS3Services implements FileStorageServices {
     }
 
     @Override
-    public String deleteFile(String fileName) {
+    public void deleteFile(String fileName) {
         s3Client.deleteObject(bucketName, fileName);
-        return fileName + " removed ...";
     }
 
     @Override
     public void makeBucket(String bucketName) {
         s3Client.createBucket(bucketName);
     }
-
-
 
     public String createFolder(String folderName) {
         final ObjectMetadata metadata = new ObjectMetadata();

@@ -1,16 +1,14 @@
 package spdu2022.java.project.beutysalon.file_storage.services;
 
-import io.minio.BucketExistsArgs;
-import io.minio.MakeBucketArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
+import io.minio.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import spdu2022.java.project.beutysalon.configs.MinioStorageConfig;
 import spdu2022.java.project.beutysalon.exeptions.FileStorageException;
 import spdu2022.java.project.beutysalon.file_storage.FileStorageServices;
+
+import javax.annotation.PostConstruct;
 
 @Service
 @Profile("minio")
@@ -19,11 +17,16 @@ public class MinioServices implements FileStorageServices {
     private String bucketName;
 
     private final MinioClient minioClient;
-    private final MinioStorageConfig minioStorageConfig;
 
-    public MinioServices(MinioClient minioClient, MinioStorageConfig minioStorageConfig) {
+    public MinioServices(MinioClient minioClient) {
         this.minioClient = minioClient;
-        this.minioStorageConfig = minioStorageConfig;
+    }
+
+    @PostConstruct
+    private void init() {
+        if(!bucketExists(bucketName)) {
+            makeBucket(bucketName);
+        }
     }
 
     @Override
@@ -48,8 +51,17 @@ public class MinioServices implements FileStorageServices {
     }
 
     @Override
-    public String deleteFile(String fileName) {
-        return "Delete file";
+    public void deleteFile(String fileName) {
+        RemoveObjectArgs removeObjectArgs = RemoveObjectArgs.builder()
+                .bucket(bucketName)
+                .object(fileName)
+                .build();
+        try {
+            minioClient.removeObject(removeObjectArgs);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new FileStorageException(String.format("Error - file %s not deleted", fileName));
+        }
     }
 
     @Override
@@ -78,5 +90,6 @@ public class MinioServices implements FileStorageServices {
             return false;
         }
     }
+
 
 }

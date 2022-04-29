@@ -22,6 +22,7 @@ public class StaffFileStorageController {
 
     @DeleteMapping
     public ResponseEntity<String> deleteAvatar(@PathVariable("staffId") long staffId) {
-        return new ResponseEntity<>(staffFileStorage.deleteAvatarOfStaff(staffId), HttpStatus.OK);
+        staffFileStorage.deleteAvatarOfStaff(staffId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

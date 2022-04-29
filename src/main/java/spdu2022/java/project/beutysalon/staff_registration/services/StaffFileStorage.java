@@ -4,5 +4,5 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface StaffFileStorage {
     String saveAvatarOfStaff(long staffId, MultipartFile multipartFile);
-    String deleteAvatarOfStaff(long staffId);
+    void deleteAvatarOfStaff(long staffId);
 }

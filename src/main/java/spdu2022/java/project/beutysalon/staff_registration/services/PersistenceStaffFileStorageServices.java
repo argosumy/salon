@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import spdu2022.java.project.beutysalon.entities.Staff;
 import spdu2022.java.project.beutysalon.exeptions.FileStorageException;
+import spdu2022.java.project.beutysalon.exeptions.NotFoundException;
 import spdu2022.java.project.beutysalon.file_storage.FileStorageServices;
 import spdu2022.java.project.beutysalon.staff_registration.persistence.repositories.StaffRepository;
 
@@ -20,29 +21,36 @@ public class PersistenceStaffFileStorageServices implements StaffFileStorage{
     @Override
     public String saveAvatarOfStaff(long staffId, MultipartFile multipartFile) {
         final Staff staffDB = staffRepository.findById(staffId);
+        if(staffDB.getUserId() == 0) {
+            throw new NotFoundException(String.format("staff by id = %d not exist", staffId));
+        }
+
         final String newAvatarLink = saveFile(staffId, multipartFile);
+
         if(staffDB.getLinkPhoto() != null && !staffDB.getLinkPhoto().isEmpty()) {
             deleteFile(staffDB.getLinkPhoto());
         }
         staffDB.setLinkPhoto(newAvatarLink);
         staffRepository.updateStaff(staffDB);
+
         return newAvatarLink;
     }
 
     @Override
-    public String deleteAvatarOfStaff(long staffId) {
+    public void deleteAvatarOfStaff(long staffId) {
         final Staff staffDB = staffRepository.findById(staffId);
-        String fileNameDelete = "";
+        if(staffDB.getId() == 0) {
+            throw new NotFoundException(String.format("Staff by id = %s not exist or link photo not exist", staffId));
+        }
         if(staffDB.getLinkPhoto() != null && !staffDB.getLinkPhoto().isEmpty()) {
-            fileNameDelete = deleteFile(staffDB.getLinkPhoto());
+            deleteFile(staffDB.getLinkPhoto());
             staffDB.setLinkPhoto("");
             staffRepository.updateStaff(staffDB);
         }
-        return fileNameDelete;
     }
 
-    private String deleteFile(String fileName) {
-        return fileStorageServices.deleteFile(fileName);
+    private void deleteFile(String fileName) {
+        fileStorageServices.deleteFile(fileName);
     }
 
     private String saveFile(long staffId, MultipartFile file) throws FileStorageException {
