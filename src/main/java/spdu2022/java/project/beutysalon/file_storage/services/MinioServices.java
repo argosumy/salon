@@ -91,5 +91,15 @@ public class MinioServices implements FileStorageServices {
         }
     }
 
+    public String getBucketName() {
+        return bucketName;
+    }
 
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+    }
+
+    public MinioClient getMinioClient() {
+        return minioClient;
+    }
 }
