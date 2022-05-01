@@ -28,7 +28,7 @@ public class PersistenceStaffFileStorageServices implements StaffFileStorage{
         final String newAvatarLink = saveFile(staffId, multipartFile);
 
         if(staffDB.getLinkPhoto() != null && !staffDB.getLinkPhoto().isEmpty()) {
-            deleteFile(staffDB.getLinkPhoto());
+            fileStorageServices.deleteFile(staffDB.getLinkPhoto());
         }
         staffDB.setLinkPhoto(newAvatarLink);
         staffRepository.updateStaff(staffDB);
@@ -43,14 +43,10 @@ public class PersistenceStaffFileStorageServices implements StaffFileStorage{
             throw new NotFoundException(String.format("Staff by id = %s not exist or link photo not exist", staffId));
         }
         if(staffDB.getLinkPhoto() != null && !staffDB.getLinkPhoto().isEmpty()) {
-            deleteFile(staffDB.getLinkPhoto());
+            fileStorageServices.deleteFile(staffDB.getLinkPhoto());
             staffDB.setLinkPhoto("");
             staffRepository.updateStaff(staffDB);
         }
-    }
-
-    private void deleteFile(String fileName) {
-        fileStorageServices.deleteFile(fileName);
     }
 
     private String saveFile(long staffId, MultipartFile file) throws FileStorageException {
