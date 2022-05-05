@@ -61,7 +61,7 @@ class PersistenceSalonsRepositoryTest {
         Salon salon = new Salon();
         salon.setSalonName("Frocia");
         salon.setPhone(phone);
-        salon.setCityLocation("Kiev");
+        salon.setCityLocation("Poltava");
         return salon;
     }
 }
