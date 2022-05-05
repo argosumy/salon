@@ -21,7 +21,6 @@ public class MinioStorageConfig {
     private String secretKey;
     @Value("${minio.secure}")
     private boolean secure;
-    private long imageSize;
 
     @Bean
     public MinioClient minioClient() {
@@ -30,17 +29,4 @@ public class MinioStorageConfig {
                 .endpoint(endpoint,port,secure)
                 .build();
     }
-
-    public String getEndpoint() {
-        return endpoint;
-    }
-
-    public long getImageSize() {
-        return imageSize;
-    }
-
-    public void setImageSize(long imageSize) {
-        this.imageSize = imageSize;
-    }
-
 }
