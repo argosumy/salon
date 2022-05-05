@@ -90,6 +90,19 @@ class MinioServicesTest {
         assertTrue(result);
     }
 
+    @Test
+    @DisplayName("Method must download file")
+    void downloadFile() throws IOException {
+       if(numRecords() > 0) {
+           byte[] content = minioServices.downloadFile(fileName);
+           assertNotNull(content);
+       } else {
+           minioServices.saveFile(fileName, getMultipartFile());
+           byte[] content = minioServices.downloadFile(fileName);
+           assertNotNull(content);
+       }
+    }
+
     private static MinioClient getClient(MinioContainer container) {
         return MinioClient.builder()
                 .endpoint(container.getUrlAddress())

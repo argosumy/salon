@@ -1,5 +1,6 @@
 package spdu2022.java.project.beutysalon.file_storage.services;
 
+import com.amazonaws.util.IOUtils;
 import io.minio.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
@@ -9,6 +10,7 @@ import spdu2022.java.project.beutysalon.exeptions.FileStorageException;
 import spdu2022.java.project.beutysalon.file_storage.FileStorageServices;
 
 import javax.annotation.PostConstruct;
+import java.io.InputStream;
 
 @Service
 @Profile("minio")
@@ -47,7 +49,19 @@ public class MinioServices implements FileStorageServices {
 
     @Override
     public byte[] downloadFile(String fileName) {
-        return new byte[0];
+        try {
+            InputStream obj = minioClient.getObject(GetObjectArgs.builder()
+                    .bucket(bucketName)
+                    .object(fileName)
+                    .build());
+
+            byte[] content = IOUtils.toByteArray(obj);
+            obj.close();
+            return content;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
