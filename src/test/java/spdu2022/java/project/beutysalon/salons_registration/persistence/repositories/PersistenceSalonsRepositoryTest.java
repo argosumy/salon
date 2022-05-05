@@ -4,18 +4,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import spdu2022.java.project.beutysalon.entities.Salon;
+import spdu2022.java.project.beutysalon.file_storage.FileStorageServices;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-@SpringBootTest(webEnvironment = WebEnvironment.NONE)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Testcontainers
 @ActiveProfiles("test-containers")
 class PersistenceSalonsRepositoryTest {
@@ -23,6 +24,8 @@ class PersistenceSalonsRepositoryTest {
     private PersistenceSalonsRepository repository;
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @MockBean
+    private FileStorageServices fileStorageServices;
 
     @Test
     @DisplayName("Method must return Salon by phone")

@@ -4,12 +4,14 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import spdu2022.java.project.beutysalon.entities.BookedService;
 import spdu2022.java.project.beutysalon.entities.Salon;
 import spdu2022.java.project.beutysalon.entities.WorkingDay;
 import spdu2022.java.project.beutysalon.entities.WorkingDayOfWeek;
+import spdu2022.java.project.beutysalon.file_storage.FileStorageServices;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -25,6 +27,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class PersistenceLogBookRepositoryTest {
     @Autowired
     private PersistenceLogBookRepository repository;
+
+    @MockBean
+    private FileStorageServices fileStorageServices;
 
     @Test
     @DisplayName("Method must return List of booking services for the city by date period.")
