@@ -22,17 +22,4 @@ public class PersistenceStaffModificationService implements StaffModificationSer
         return staffRepository.insertNewStaff(staff);
     }
 
-    @Override
-    public boolean deleteStaffById(long id) {
-        return false;
-    }
-
-    //without update avatar of staff
-    @Override
-    public Staff updateStaff(Staff staffUpdate) {
-        final Staff staffDb = staffRepository.findById(staffUpdate.getId());
-        staffUpdate.setLinkPhoto(staffDb.getLinkPhoto());
-        staffRepository.updateStaff(staffUpdate);
-        return staffUpdate;
-    }
 }

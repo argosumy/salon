@@ -35,22 +35,6 @@ public class MinioStorageConfig {
         return endpoint;
     }
 
-    public Integer getPort() {
-        return port;
-    }
-
-    public String getAccessKey() {
-        return accessKey;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public boolean isSecure() {
-        return secure;
-    }
-
     public long getImageSize() {
         return imageSize;
     }
