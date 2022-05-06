@@ -26,7 +26,7 @@ public class LogBookServicesController {
 
     @GetMapping("/{salonId}/log-book-services")
     @ResponseStatus(HttpStatus.OK)
-    public LogBookServicesDto getLogBookServicesBySalonId(@PathVariable("salonId") @Min(1) long salonId,
+    public LogBookServicesDto getLogBookServicesBySalonId(@PathVariable @Min(1) long salonId,
                                                           @RequestParam("start-period") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate startPeriod,
                                                           @RequestParam("end-period") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate endPeriod) {
         List<SlotsLog> slotsLogs =  logBookSelectService.findLogBookServiceBySalonId(salonId, startPeriod, endPeriod);
@@ -37,7 +37,7 @@ public class LogBookServicesController {
     @ResponseStatus(HttpStatus.OK)
     public LogBookServicesDto getLogBookServicesByCity(@RequestParam("start-period") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate startPeriod,
                                                        @RequestParam("end-period") @DateValid @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate endPeriod,
-                                                       @RequestParam(value = "city") @NotBlank String city) {
+                                                       @RequestParam @NotBlank String city) {
         List<SlotsLog> slotsLogs = logBookSelectService.findLogBookServiceByCity(city, startPeriod, endPeriod);
         return new LogBookServicesDto(slotsLogs);
     }

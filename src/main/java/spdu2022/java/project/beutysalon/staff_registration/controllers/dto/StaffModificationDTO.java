@@ -1,18 +1,15 @@
 package spdu2022.java.project.beutysalon.staff_registration.controllers.dto;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
-public class StaffDTO {
+public class StaffModificationDTO {
     private long id;
     @Min(1)
     private long userId;
     @Min(1)
     private long salonId;
-    @NotNull
-    private String linkPhoto;
 
-    public StaffDTO() {
+    public StaffModificationDTO() {
     }
 
     public long getId() {
@@ -39,11 +36,4 @@ public class StaffDTO {
         this.salonId = salonId;
     }
 
-    public String getLinkPhoto() {
-        return linkPhoto;
-    }
-
-    public void setLinkPhoto(String linkPhoto) {
-        this.linkPhoto = linkPhoto;
-    }
 }

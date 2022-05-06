@@ -1,55 +1,67 @@
 package spdu2022.java.project.beutysalon.salons_registration.persistence.repositories;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
+import org.testcontainers.junit.jupiter.Testcontainers;
 import spdu2022.java.project.beutysalon.entities.Salon;
+import spdu2022.java.project.beutysalon.file_storage.FileStorageServices;
 
+import java.util.List;
 
-@SpringBootTest
-@TestPropertySource(locations = "classpath:application-test.properties")
-@AutoConfigureMockMvc
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@Testcontainers
+@ActiveProfiles("test-containers")
 class PersistenceSalonsRepositoryTest {
     @Autowired
-    private JdbcTemplate jdbcTemplate;
     private PersistenceSalonsRepository repository;
-
-
-
-    @BeforeEach
-    void initRepositoty() {
-        repository = new PersistenceSalonsRepository(jdbcTemplate);
-    }
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    @MockBean
+    private FileStorageServices fileStorageServices;
 
     @Test
+    @DisplayName("Method must return Salon by phone")
     void findById() {
+        Salon salon = repository.findByPhone("+380994869938");
+        assertEquals("Ludmila", salon.getSalonName());
     }
 
     @Test
     void getAllSalonsFromCity() {
+        List<Salon> salons = repository.getAllSalonsFromCity("Sumy");
+        assertEquals(2, salons.size());
     }
 
     @Test
-    void createNewSalons() {
+    @DisplayName("Method add new Salon to DB")
+    void creatNewSalons() {
+        int countExpected = jdbcTemplate.queryForObject("SELECT count(*) FROM salons", Integer.class);
+        repository.createNewSalons(getSalon("+380884869938"));
+        int countActual = jdbcTemplate.queryForObject("SELECT count(*) FROM salons", Integer.class);;
+
+        assertEquals(++countExpected, countActual);
     }
 
     @Test
-    void deleteSalonsById() {
+    @DisplayName("Method must return Salon with id after created")
+    void returnSalonAfterCreate() {
+        Salon salon = repository.createNewSalons(getSalon("+380975569938"));
+        assertTrue(salon.getId() > 0);
     }
 
-    @Test
-    void updateSalons() {
-    }
-
-    private Salon getSalon() {
+    private Salon getSalon(String phone) {
         Salon salon = new Salon();
-        salon.setSalonName("Ludmila");
-        salon.setPhone("+380994869938");
-        salon.setCityLocation("Sumy");
+        salon.setSalonName("Frocia");
+        salon.setPhone(phone);
+        salon.setCityLocation("Poltava");
         return salon;
     }
 }

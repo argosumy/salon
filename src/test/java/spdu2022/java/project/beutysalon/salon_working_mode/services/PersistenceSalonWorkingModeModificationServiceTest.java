@@ -39,8 +39,6 @@ class PersistenceSalonWorkingModeModificationServiceTest {
         assertEquals(1, count);
     }
 
-
-
     private SalonWorkingMode buildWorkingDaysOfWeekMode() {
         SalonWorkingMode salonWorkingMode = new SalonWorkingMode();
         salonWorkingMode.setSalonId(2);
