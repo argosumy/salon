@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
 import spdu2022.java.project.beutysalon.exeptions.Error;
+import spdu2022.java.project.beutysalon.exeptions.FileStorageException;
 import spdu2022.java.project.beutysalon.exeptions.NotFoundException;
 
 import javax.validation.ConstraintViolationException;
@@ -29,5 +30,11 @@ public class RestExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<Error> notUniqException(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Error(e.getMessage()));
+    }
+
+    @ExceptionHandler(FileStorageException.class)
+    @ResponseStatus(HttpStatus.NOT_MODIFIED)
+    public ResponseEntity<Error> fileNotSaveException(RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.NOT_MODIFIED).body(new Error(e.getMessage()));
     }
 }

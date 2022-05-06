@@ -6,12 +6,11 @@ import spdu2022.java.project.beutysalon.exeptions.EntityNotUniqException;
 import spdu2022.java.project.beutysalon.staff_registration.persistence.repositories.StaffRepository;
 
 @Service
-public class PersistenceStaffModificationService implements StaffModificationService{
+public class PersistenceStaffModificationService implements StaffModificationService {
     private final StaffRepository staffRepository;
 
     public PersistenceStaffModificationService(StaffRepository staffRepository) {
         this.staffRepository = staffRepository;
-
     }
 
     @Override
@@ -23,13 +22,4 @@ public class PersistenceStaffModificationService implements StaffModificationSer
         return staffRepository.insertNewStaff(staff);
     }
 
-    @Override
-    public boolean deleteStaffById(long id) {
-        return false;
-    }
-
-    @Override
-    public Staff updateStaff(Staff staffUpdate) {
-        return null;
-    }
 }
