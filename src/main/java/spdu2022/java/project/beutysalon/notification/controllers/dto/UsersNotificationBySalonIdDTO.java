@@ -1,7 +1,5 @@
 package spdu2022.java.project.beutysalon.notification.controllers.dto;
 
-import spdu2022.java.project.beutysalon.entities.NotificationTypes;
-
 public class UsersNotificationBySalonIdDTO {
     private long salonId;
     private String contentNotification;

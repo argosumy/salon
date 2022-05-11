@@ -1,7 +1,7 @@
 package spdu2022.java.project.beutysalon.constraints_validaion.constraints;
 
 import spdu2022.java.project.beutysalon.constraints_validaion.annotations.TypeNotificationValid;
-import spdu2022.java.project.beutysalon.entities.NotificationTypes;
+import spdu2022.java.project.beutysalon.notification.models.NotificationTypes;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
