@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CANCELING OF BOOKING</title>
+    <style>
+        .main{
+            background: antiquewhite;
+            padding: 5px 15px 5px 15px;
+            display: inline-block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h2{
+            color: cornflowerblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h2>Dear ${firstName} ${lastName},</h2>
+        <p style="font-size: 25px">${content}</p>
+        <h3>Best regards, ${salonName}</h3>
+        <div>
+            <span>
+                <i>Contact info:</i>
+                <br>
+                ${salonName}
+                <br>
+                tel:${salonPhone}
+            </span>
+        </div>
+    </div>
+</body>
+</html>
