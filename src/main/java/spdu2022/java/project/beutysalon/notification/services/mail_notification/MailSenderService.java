@@ -7,7 +7,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-import spdu2022.java.project.beutysalon.notification.models.mail.EMail;
+import spdu2022.java.project.beutysalon.notification.models.Notification;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -25,28 +25,25 @@ public class MailSenderService {
         this.freeMarkerConfigurationFactoryBean = freeMarkerConfigurationFactoryBean;
     }
 
-    public boolean send(EMail eMail) {
+    public boolean send(Notification notification) {
         MimeMessage mimeMessage = emailSender.createMimeMessage();
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
-            mimeMessageHelper.setSubject(eMail.getSubject());
-            mimeMessageHelper.setTo(eMail.getToUser().getEmail());
-            mimeMessageHelper.setText(getHtml(eMail), true);
+            mimeMessageHelper.setSubject(notification.getSubject());
+            mimeMessageHelper.setTo(notification.getToUser().getEmail());
+            mimeMessageHelper.setText(getHtml(notification), true);
 
             emailSender.send(mimeMessageHelper.getMimeMessage());
             return true;
-        } catch (TemplateException | IOException e) {
-            e.printStackTrace();
-           return false;
-        } catch (MessagingException e) {
+        } catch (TemplateException | IOException | MessagingException e) {
             e.printStackTrace();
            return false;
         }
     }
 
-    public String getHtml(EMail eMail) throws IOException, TemplateException {
-        final String nameTemplate = ModelTypes.valueOf(eMail.getNameNotificationTypes()).getTemplate();
-        final Map<String, Object> model = ModelTypes.valueOf(eMail.getNameNotificationTypes()).getModel(eMail);
+    public String getHtml(Notification notification) throws IOException, TemplateException {
+        final String nameTemplate = ModelTypes.valueOf(notification.getNameNotificationTypes()).getTemplate();
+        final Map<String, Object> model = ModelTypes.valueOf(notification.getNameNotificationTypes()).getModel(notification);
         Template template = freeMarkerConfigurationFactoryBean.getObject().getTemplate(nameTemplate);
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
     }

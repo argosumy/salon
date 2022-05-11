@@ -1,10 +1,9 @@
-package spdu2022.java.project.beutysalon.notification.models.mail;
+package spdu2022.java.project.beutysalon.notification.models;
 
-import spdu2022.java.project.beutysalon.notification.models.NotificationTypes;
 import spdu2022.java.project.beutysalon.entities.Salon;
 import spdu2022.java.project.beutysalon.entities.User;
 
-public class EMail {
+public class Notification {
     private User toUser;
     private Salon fromSalon;
     private final String subject;
@@ -12,12 +11,12 @@ public class EMail {
     private final NotificationTypes types;
 
 
-    public EMail(NotificationTypes types) {
+    public Notification(NotificationTypes types) {
         this.subject = types.getSubject();
         this.types = types;
     }
 
-    public EMail(NotificationTypes types, User toUser, Salon fromSalon, String content) {
+    public Notification(NotificationTypes types, User toUser, Salon fromSalon, String content) {
         this.toUser = toUser;
         this.fromSalon = fromSalon;
         this.subject = types.getSubject();

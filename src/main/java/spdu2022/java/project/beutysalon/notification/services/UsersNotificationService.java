@@ -3,7 +3,7 @@ package spdu2022.java.project.beutysalon.notification.services;
 import org.springframework.stereotype.Service;
 import spdu2022.java.project.beutysalon.entities.BookedService;
 import spdu2022.java.project.beutysalon.notification.controllers.dto.UsersNotificationBySalonIdDTO;
-import spdu2022.java.project.beutysalon.notification.models.NotificationTypes;
+import spdu2022.java.project.beutysalon.notification.models.Notification;
 import spdu2022.java.project.beutysalon.notification.persistence.reposetories.GetBookingServiceRepository;
 
 import java.util.List;
@@ -20,10 +20,13 @@ public class UsersNotificationService {
         this.resources = resources;
     }
 
-    public void notificationUsersBySalonId(NotificationTypes types, UsersNotificationBySalonIdDTO dto) {
+    public void notificationUsersBySalonId(UsersNotificationBySalonIdDTO dto) {
         final Set<BookedService> bookedServices = Set.copyOf(getBookingRepository.getBookingBySalonId(dto.getSalonId()));
         for(NotificationServices services : resources) {
-            services.usersNotification(types, dto);
+            bookedServices.forEach(x -> {
+                Notification notification = NotificationMapper.mapBookedService(x, dto);
+                services.usersNotification(notification);
+            });
         }
     }
 

@@ -1,8 +1,7 @@
 package spdu2022.java.project.beutysalon.notification.services;
 
-import spdu2022.java.project.beutysalon.notification.models.NotificationTypes;
-import spdu2022.java.project.beutysalon.notification.controllers.dto.UsersNotificationBySalonIdDTO;
+import spdu2022.java.project.beutysalon.notification.models.Notification;
 
 public interface NotificationServices {
-    void usersNotification(NotificationTypes types, UsersNotificationBySalonIdDTO dto);
+    boolean usersNotification(Notification notification);
 }

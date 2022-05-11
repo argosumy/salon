@@ -1,7 +1,10 @@
 package spdu2022.java.project.beutysalon.notification.controllers.dto;
 
+import spdu2022.java.project.beutysalon.notification.models.NotificationTypes;
+
 public class UsersNotificationBySalonIdDTO {
     private long salonId;
+    private NotificationTypes typeNotification;
     private String contentNotification;
 
     public UsersNotificationBySalonIdDTO() {
@@ -23,4 +26,11 @@ public class UsersNotificationBySalonIdDTO {
         this.contentNotification = contentNotification;
     }
 
+    public NotificationTypes getTypeNotification() {
+        return typeNotification;
+    }
+
+    public void setTypeNotification(NotificationTypes typeNotification) {
+        this.typeNotification = typeNotification;
+    }
 }

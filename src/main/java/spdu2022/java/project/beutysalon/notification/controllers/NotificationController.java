@@ -15,8 +15,8 @@ public class NotificationController {
     }
 
     @PostMapping()
-    public String notificationUsersBySalonId(@RequestParam("type") NotificationTypes typeNotification, @RequestBody UsersNotificationBySalonIdDTO notificationDto, @PathVariable("salonId") long salonId) {
-        notificationServices.notificationUsersBySalonId(typeNotification, notificationDto);
+    public String notificationUsersBySalonId(@RequestBody UsersNotificationBySalonIdDTO notificationDto, @PathVariable("salonId") long salonId) {
+        notificationServices.notificationUsersBySalonId(notificationDto);
         return "Notification " + salonId;
     }
 }
