@@ -33,7 +33,9 @@ public class UsersNotificationService {
 
     private CreateNotificationsService getCreatorByType(List<CreateNotificationsService> creatorsNotifications,
                                                         NotificationTypes notificationTypes) {
-        return creatorsNotifications.stream().filter(x -> x.getNotificationsType().equals(notificationTypes)).findFirst()
+        return creatorsNotifications.stream()
+                .filter(x -> x.getNotificationsType().equals(notificationTypes))
+                .findFirst()
                 .orElseThrow(() -> new NotFoundException("Error in notification type"));
     }
 
