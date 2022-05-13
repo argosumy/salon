@@ -1,5 +1,7 @@
 package spdu2022.java.project.beutysalon.notification.models;
 
+import org.springframework.stereotype.Component;
+@Component
 public enum NotificationTypes {
     CANCELING_BOOKING {
         @Override

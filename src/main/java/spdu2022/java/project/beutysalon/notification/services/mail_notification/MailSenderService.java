@@ -37,7 +37,7 @@ public class MailSenderService {
             return true;
         } catch (TemplateException | IOException | MessagingException e) {
             e.printStackTrace();
-           return false;
+            return false;
         }
     }
 

@@ -79,6 +79,10 @@ public class BookedService {
         return getWorkingDayPeriod().getWorkingTimePeriod();
     }
 
+    public String getUserEmail() {
+        return user.getEmail();
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(user, workingDay);

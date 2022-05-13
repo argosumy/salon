@@ -3,6 +3,8 @@ package spdu2022.java.project.beutysalon.notification.models;
 import spdu2022.java.project.beutysalon.entities.Salon;
 import spdu2022.java.project.beutysalon.entities.User;
 
+import java.util.Objects;
+
 public class Notification {
     private User toUser;
     private Salon fromSalon;
@@ -58,5 +60,19 @@ public class Notification {
 
     public String getNameNotificationTypes() {
         return this.types.name();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(toUser.getEmail(), toUser.getPhone());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Notification notification = (Notification) o;
+        return this.getToUser().getEmail().equals(notification.getToUser().getEmail())
+                && this.getToUser().getPhone().equals(notification.getToUser().getPhone());
     }
 }

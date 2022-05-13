@@ -1,7 +1,6 @@
 package spdu2022.java.project.beutysalon.notification.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import spdu2022.java.project.beutysalon.notification.models.NotificationTypes;
 import spdu2022.java.project.beutysalon.notification.controllers.dto.UsersNotificationBySalonIdDTO;
 import spdu2022.java.project.beutysalon.notification.services.UsersNotificationService;
 

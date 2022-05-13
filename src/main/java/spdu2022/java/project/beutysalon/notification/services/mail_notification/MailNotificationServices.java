@@ -8,7 +8,6 @@ import spdu2022.java.project.beutysalon.notification.services.NotificationServic
 public class MailNotificationServices implements NotificationServices {
     private final MailSenderService emailSender;
 
-
     public MailNotificationServices(MailSenderService emailSender) {
         this.emailSender = emailSender;
     }
