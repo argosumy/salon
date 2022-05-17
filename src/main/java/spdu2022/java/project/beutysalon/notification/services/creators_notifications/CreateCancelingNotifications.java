@@ -4,32 +4,32 @@ import org.springframework.stereotype.Service;
 import spdu2022.java.project.beutysalon.entities.BookedService;
 import spdu2022.java.project.beutysalon.notification.controllers.dto.UsersNotificationBySalonIdDTO;
 import spdu2022.java.project.beutysalon.notification.models.Notification;
-import spdu2022.java.project.beutysalon.notification.models.NotificationTypes;
+import spdu2022.java.project.beutysalon.notification.models.NotificationType;
 import spdu2022.java.project.beutysalon.notification.persistence.reposetories.GetBookingServiceRepository;
 import spdu2022.java.project.beutysalon.notification.services.NotificationMapper;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Service
 public class CreateCancelingNotifications implements CreateNotificationsService {
     private final GetBookingServiceRepository bookingServiceRepository;
+    private final NotificationMapper mapper;
 
-    public CreateCancelingNotifications(GetBookingServiceRepository bookingServiceRepository) {
+    public CreateCancelingNotifications(GetBookingServiceRepository bookingServiceRepository, NotificationMapper mapper) {
         this.bookingServiceRepository = bookingServiceRepository;
+        this.mapper = mapper;
     }
 
     @Override
-    public List<Notification> createNotifications(UsersNotificationBySalonIdDTO dto) {
+    public Set<Notification> createNotifications(UsersNotificationBySalonIdDTO dto) {
         List<BookedService> bookedServices = bookingServiceRepository.getBookingBySalonId(dto.getSalonId());
-        return new NotificationMapper().mapToNotifications(bookedServices, dto)
-                .stream()
-                .distinct()
-                .collect(Collectors.toList());
+        return new HashSet<>(mapper.mapToNotifications(bookedServices, dto));
     }
 
     @Override
-    public NotificationTypes getNotificationsType() {
-        return NotificationTypes.CANCELING_BOOKING;
+    public NotificationType getNotificationsType() {
+        return NotificationType.CANCELING_BOOKING;
     }
 }

@@ -10,15 +10,15 @@ public class Notification {
     private Salon fromSalon;
     private final String subject;
     private String content;
-    private final NotificationTypes types;
+    private final NotificationType types;
 
 
-    public Notification(NotificationTypes types) {
+    public Notification(NotificationType types) {
         this.subject = types.getSubject();
         this.types = types;
     }
 
-    public Notification(NotificationTypes types, User toUser, Salon fromSalon, String content) {
+    public Notification(NotificationType types, User toUser, Salon fromSalon, String content) {
         this.toUser = toUser;
         this.fromSalon = fromSalon;
         this.subject = types.getSubject();
@@ -54,7 +54,7 @@ public class Notification {
         this.content = content;
     }
 
-    public NotificationTypes getTypes() {
+    public NotificationType getTypes() {
         return types;
     }
 

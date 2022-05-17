@@ -2,11 +2,11 @@ package spdu2022.java.project.beutysalon.notification.services.creators_notifica
 
 import spdu2022.java.project.beutysalon.notification.controllers.dto.UsersNotificationBySalonIdDTO;
 import spdu2022.java.project.beutysalon.notification.models.Notification;
-import spdu2022.java.project.beutysalon.notification.models.NotificationTypes;
+import spdu2022.java.project.beutysalon.notification.models.NotificationType;
 
-import java.util.List;
+import java.util.Set;
 
 public interface CreateNotificationsService {
-    List<Notification> createNotifications(UsersNotificationBySalonIdDTO dto);
-    NotificationTypes getNotificationsType();
+    Set<Notification> createNotifications(UsersNotificationBySalonIdDTO dto);
+    NotificationType getNotificationsType();
 }

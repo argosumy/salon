@@ -2,7 +2,6 @@ package spdu2022.java.project.beutysalon.notification.persistence.mappers;
 
 import org.springframework.jdbc.core.RowMapper;
 import spdu2022.java.project.beutysalon.entities.*;
-import spdu2022.java.project.beutysalon.utils.LocaleDateTimeConverter;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +14,6 @@ public class BookedServicesMapper implements RowMapper<BookedService> {
         salon.setId(rs.getLong("salon_id"));
         salon.setSalonName(rs.getString("salon_name"));
         salon.setPhone(rs.getString("salon_phone"));
-//        salon.setCityLocation(rs.getString("salons.city"));
 
         final Staff staff = new Staff();
         staff.setId(rs.getLong("staff_id"));
@@ -31,9 +29,9 @@ public class BookedServicesMapper implements RowMapper<BookedService> {
         final WorkingDay bookingDay = new WorkingDay();
         Timestamp start = rs.getTimestamp("start_service");
         Timestamp finish = rs.getTimestamp("finish_service");
-        bookingDay.setWorkingDay(LocaleDateTimeConverter.convertToLocalDate(start));
-        bookingDay.addWorkingTimePeriod(LocaleDateTimeConverter.convertToLocalTime(start),
-                LocaleDateTimeConverter.convertToLocalTime(finish));
+        bookingDay.setWorkingDay(start.toLocalDateTime().toLocalDate());
+        bookingDay.addWorkingTimePeriod(start.toLocalDateTime().toLocalTime(),
+                finish.toLocalDateTime().toLocalTime());
         return new BookedService(salon, staff, user, bookingDay);
     }
 }
