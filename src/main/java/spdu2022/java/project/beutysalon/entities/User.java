@@ -8,6 +8,7 @@ public class User {
     private String lastName;
     private String phone;
     private String city;
+    private String email;
 
     public User() {
     }
@@ -50,6 +51,14 @@ public class User {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

@@ -1,0 +1,9 @@
+version: "2.4"
+services:
+  smtp-server:
+    container_name: mailhog
+    image: mailhog/mailhog
+    restart: on-failure
+    ports:
+    - "2525:1025"
+    - "8025:8025"
