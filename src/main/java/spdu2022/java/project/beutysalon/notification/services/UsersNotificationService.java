@@ -27,21 +27,21 @@ public class UsersNotificationService {
     }
 
     public int sendingNotificationToUsersBySalonId(UsersNotificationBySalonIdDTO dto) {
-        final Counter counter = new Counter();
+        final Counter counter = new Counter();//<--BEST PRACTICE
         final List<Future<Boolean>> futures = new ArrayList<>();
         final CreateNotificationsService creatorNotification = getCreatorByType(creatorsNotifications, dto.getTypeNotification());
         for(NotificationService services : resources) {
             Set<Notification> notifications = creatorNotification.createNotifications(dto);
             notifications.forEach(notification -> {
                 Future<Boolean> future = executorService.submit(() -> {
-                    services.notificationSendingToUser(notification);
+                    services.send(notification);
                     counter.incrementCount();
                     return true;
                 });
                 futures.add(future);
             });
         }
-        threadSleepUntilFuturesComplete(futures);
+        threadWaitUntilFuturesComplete(futures);
         return counter.getCount();
     }
 
@@ -53,12 +53,14 @@ public class UsersNotificationService {
                 .orElseThrow(() -> new NotFoundException("Does not correct type - " + notificationType));
     }
 
-    private void threadSleepUntilFuturesComplete(List<Future<Boolean>> futures) {
-        while(!futures.stream().allMatch(Future::isDone)) {
+    private void threadWaitUntilFuturesComplete(List<Future<Boolean>> futures) {
+        for (Future<Boolean> future : futures) {
             try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                future.get();
+            } catch (InterruptedException e) {       //<-ATTENTION
+                Thread.currentThread().interrupt(); //<-ATTENTION
+            } catch (ExecutionException e) {
+                throw new RuntimeException("Failed execution ...", e);
             }
         }
     }

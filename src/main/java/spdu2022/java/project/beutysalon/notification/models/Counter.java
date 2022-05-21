@@ -1,20 +1,21 @@
 package spdu2022.java.project.beutysalon.notification.models;
 
+import java.util.concurrent.atomic.AtomicInteger;
+//BEST PRACTICE
 public class Counter {
-    private int count;
-    private final Object lock = new Object();
+    private final AtomicInteger counter = new AtomicInteger(0);
 
     public int getCount() {
-        return count;
-    }
-
-    public void resetCount() {
-        count = 0;
+        return counter.get();
     }
 
     public void incrementCount() {
-        synchronized (lock) {
-            count++;
+        while(true) {
+            int existingValue = getCount();
+            int newValue = existingValue + 1;
+            if(counter.compareAndSet(existingValue, newValue)) {
+                return;
+            }
         }
     }
 }

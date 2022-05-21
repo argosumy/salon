@@ -13,9 +13,7 @@ public class MailNotificationService implements NotificationService {
     }
 
     @Override
-    public boolean notificationSendingToUser(Notification notification) {
+    public boolean send(Notification notification) {
         return emailSender.send(notification);
     }
-
-
 }
