@@ -5,6 +5,7 @@ test:
   stage: test
   image: openjdk:17-alpine
   script:
+    - chmod +x ./gradlew
     - ./gradlew test
     - cat build/reports/jacoco/test/html/index.html
   coverage: '/Total.*?([0-9]{1,3})%/'
