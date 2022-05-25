@@ -1,7 +1,7 @@
 FROM openjdk:17-alpine
 COPY . /app
 WORKDIR /app
-#RUN chmod +x gradlew
+RUN chmod +x gradlew
 RUN ./gradlew :bootJar
 WORKDIR /app/build/libs
 RUN mv *.jar beuty-salon.jar
