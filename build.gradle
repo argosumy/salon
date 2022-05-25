@@ -3,6 +3,7 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'application'
 	id 'war'
+	id 'jacoco'
 }
 
 group = 'spdu2022.java.project'
@@ -48,4 +49,5 @@ dependencies {
 
 test{
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
 }
