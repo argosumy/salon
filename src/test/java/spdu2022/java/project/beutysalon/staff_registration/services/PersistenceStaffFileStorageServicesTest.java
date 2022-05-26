@@ -50,7 +50,7 @@ class PersistenceStaffFileStorageServicesTest {
         when(staffRepository.findById(staffId)).thenReturn(getStaff(staffId));
         when(fileStorageServices.saveFile(anyString(), any(MultipartFile.class))).thenReturn(true);
         String fileName = staffFileStorageServices.saveAvatarOfStaff(staffId, getMultipartFile());
-        assertEquals("staff/avatar/staff_id_1_avatar_avatar.jpg", fileName);
+        assertEquals("staff/avatar/staff_id_1_avatar_avatar", fileName);
     }
 
     @Test
