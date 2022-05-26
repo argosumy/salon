@@ -4,6 +4,8 @@ stages:
 test:
   stage: test
   image: openjdk:17-alpine
+  tags:
+    - docker
   script:
     - chmod +x ./gradlew
     - ./gradlew test
