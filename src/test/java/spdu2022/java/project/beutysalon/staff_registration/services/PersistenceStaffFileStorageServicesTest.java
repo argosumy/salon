@@ -82,7 +82,7 @@ class PersistenceStaffFileStorageServicesTest {
     }
 
     private MultipartFile getMultipartFile() throws IOException {
-        File file = new File("src/test/resources/file/avatar.jpg");
+        File file = new File("./src/test/resources/file/avatar.jpg");
         FileInputStream input = new FileInputStream(file);
         return new MockMultipartFile("file",
                 file.getName(), "image/jpeg", IOUtils.toByteArray(input));
