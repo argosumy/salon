@@ -1,6 +1,5 @@
 package spdu2022.java.project.beutysalon.staff_registration.controllers;
 
-import com.amazonaws.util.IOUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +8,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import spdu2022.java.project.beutysalon.staff_registration.services.StaffFileStorage;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -54,10 +49,11 @@ class StaffFileStorageControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    private byte[] getMultipartFileBytes() throws IOException {
-        File file = new File("src/test/resources/file/avatar.jpg");
-        FileInputStream input = new FileInputStream(file);
-        return new MockMultipartFile("file",
-                file.getName(), "image/jpeg", IOUtils.toByteArray(input)).getBytes();
+    private byte[] getMultipartFileBytes() {
+//        File file = new File("src/test/resources/file/avatar.jpg");
+//        FileInputStream input = new FileInputStream(file);
+//        return new MockMultipartFile("file",
+//                file.getName(), "image/jpeg", IOUtils.toByteArray(input)).getBytes();
+        return null;
     }
 }
