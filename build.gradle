@@ -4,6 +4,7 @@ plugins {
 	id 'application'
 	id 'war'
 	id 'jacoco'
+	id 'checkstyle'
 }
 
 group = 'spdu2022.java.project'
