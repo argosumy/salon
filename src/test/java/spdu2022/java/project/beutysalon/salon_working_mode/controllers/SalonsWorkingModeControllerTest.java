@@ -23,7 +23,7 @@ class SalonsWorkingModeControllerTest {
     @Test
     @DisplayName("Date pattern:''yyyy-MM-dd''. Date must be in future. Time is valid format: 10:00, 1:59, 15:01, 00:09")
     void createWorkingMode() throws Exception {
-        String body = buildBody("2022-05-15", "09:00", "18:00");
+        String body = buildBody("2023-05-15", "09:00", "18:00");
         mockMvc.perform(post("http://localhost:8080/api/v1/working-mode/salons/1/days")
                 .content(body)
                 .contentType(MediaType.APPLICATION_JSON))

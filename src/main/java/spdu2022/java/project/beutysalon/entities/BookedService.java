@@ -21,6 +21,8 @@ public class BookedService {
         this.user = new User();
         user.setId(userId);
         workingDay = new WorkingDay(dateService);
+        this.salon = new Salon();
+        this.staff = new Staff();
     }
 
     public Salon getSalon() {

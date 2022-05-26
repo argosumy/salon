@@ -6,10 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import spdu2022.java.project.beutysalon.entities.Salon;
 import spdu2022.java.project.beutysalon.file_storage.FileStorageServices;
+import spdu2022.java.project.beutysalon.notification.controllers.NotificationController;
+import spdu2022.java.project.beutysalon.notification.services.UsersNotificationService;
 
 import java.util.List;
 
@@ -26,6 +30,14 @@ class PersistenceSalonsRepositoryTest {
     private JdbcTemplate jdbcTemplate;
     @MockBean
     private FileStorageServices fileStorageServices;
+    @MockBean
+    private NotificationController notificationController;
+    @MockBean
+    private UsersNotificationService usersNotificationService;
+    @MockBean
+    private JavaMailSender emailSender;
+    @MockBean
+    private FreeMarkerConfigurationFactoryBean freeMarkerConfigurationFactoryBean;
 
     @Test
     @DisplayName("Method must return Salon by phone")
