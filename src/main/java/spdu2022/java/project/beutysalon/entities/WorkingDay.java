@@ -1,7 +1,7 @@
 package spdu2022.java.project.beutysalon.entities;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import spdu2022.java.project.beutysalon.constraints_validaion.annotations.DateValid;
+import spdu2022.java.project.beutysalon.constraintsvalidaion.annotations.DateValid;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -39,8 +39,12 @@ public class WorkingDay {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         WorkingDay dayPeriod = (WorkingDay) o;
         return Objects.equals(workingDay, dayPeriod.workingDay);
     }

@@ -26,7 +26,7 @@ public class MinioStorageConfig {
     public MinioClient minioClient() {
         return MinioClient.builder()
                 .credentials(accessKey, secretKey)
-                .endpoint(endpoint,port,secure)
+                .endpoint(endpoint, port, secure)
                 .build();
     }
 }

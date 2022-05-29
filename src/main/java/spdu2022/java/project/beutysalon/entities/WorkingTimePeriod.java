@@ -36,5 +36,4 @@ public class WorkingTimePeriod {
                 ", endWorking='" + endWorking + '\'' +
                 '}';
     }
-
 }

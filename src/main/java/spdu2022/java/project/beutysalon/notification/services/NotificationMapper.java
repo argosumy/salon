@@ -24,5 +24,4 @@ public class NotificationMapper {
         notification.setToUser(bookedService.getUser());
         return notification;
     }
-
 }

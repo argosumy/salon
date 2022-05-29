@@ -69,8 +69,12 @@ public class Staff {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Staff staff = (Staff) o;
         return this.getUserId() == staff.getUserId() && this.getSalonId() == staff.getSalonId();
     }
