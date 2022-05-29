@@ -62,8 +62,6 @@ class PersistenceStaffFileStorageServicesTest {
         assertThrows(FileStorageException.class, () -> staffFileStorageServices.saveAvatarOfStaff(staffId, getMultipartFile()));
     }
 
-
-
     @Test
     @DisplayName("Delete avatar by staffId. Staff not exist -> throw NotFoundException.")
     void deleteAvatarOfStaffNotExist() {

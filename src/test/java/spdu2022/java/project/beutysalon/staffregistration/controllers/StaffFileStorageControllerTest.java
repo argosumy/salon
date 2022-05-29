@@ -21,10 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(controllers = StaffFileStorageController.class)
 class StaffFileStorageControllerTest {
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockBean
-    StaffFileStorage staffFileStorage;
+    private StaffFileStorage staffFileStorage;
 
     @Test
     void saveAvatar() throws Exception {

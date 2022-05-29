@@ -64,5 +64,4 @@ class PersistenceSalonsModificationServiceTest {
         salon.setPhone("+380994869938");
         return salon;
     }
-
 }

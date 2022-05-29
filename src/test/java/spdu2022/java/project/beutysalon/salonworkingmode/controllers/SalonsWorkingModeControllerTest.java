@@ -16,9 +16,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(SalonsWorkingModeController.class)
 class SalonsWorkingModeControllerTest {
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
     @MockBean
-    SalonsWorkingModeModificationService controller;
+    private SalonsWorkingModeModificationService controller;
 
     @Test
     @DisplayName("Date pattern:''yyyy-MM-dd''. Date must be in future. Time is valid format: 10:00, 1:59, 15:01, 00:09")

@@ -27,8 +27,8 @@ class PersistenceLogBookSelectServiceTest {
     private final LocalDate end = date;
 
     @Mock
-    PersistenceLogBookRepository repository;
-    PersistenceLogBookSelectService selectService;
+    private PersistenceLogBookRepository repository;
+    private PersistenceLogBookSelectService selectService;
 
     @BeforeEach
     void init() {
@@ -42,7 +42,7 @@ class PersistenceLogBookSelectServiceTest {
         when(repository.getSalonsByCity(city)).thenReturn(List.of(new Salon(salonId, "Ludmila", "+380994869938", city)));
         when(repository.getUniqWorkingMode(salonId, date)).thenReturn(getWorkingMode(date));
 
-        List<SlotsLog> actual = selectService.findLogBookServiceByCity(city,start, end);
+        List<SlotsLog> actual = selectService.findLogBookServiceByCity(city, start, end);
         assertEquals(expectedSlotsLog(salonId, date), actual);
     }
 
@@ -55,7 +55,7 @@ class PersistenceLogBookSelectServiceTest {
         when(repository.getUniqWorkingMode(salonId, date)).thenReturn(new HashMap<>());
         when(repository.getWeekWorkingMode(salonId, date)).thenReturn(getWorkingMode(date));
 
-        List<SlotsLog> actual = selectService.findLogBookServiceByCity(city,start, end);
+        List<SlotsLog> actual = selectService.findLogBookServiceByCity(city, start, end);
         assertEquals(expectedSlotsLog(salonId, date), actual);
     }
 
@@ -65,7 +65,7 @@ class PersistenceLogBookSelectServiceTest {
         when(repository.getUniqWorkingMode(salonId, date)).thenReturn(getWorkingMode(date));
         when(repository.getLogServiceBySalonIdAndPeriod(salonId, start, end)).thenReturn(getLogService(salonId));
 
-        List<SlotsLog> actual = selectService.findLogBookServiceBySalonId(1,start, end);
+        List<SlotsLog> actual = selectService.findLogBookServiceBySalonId(1, start, end);
 
         assertEquals(expectedSlotsLog(salonId, date), actual);
     }
@@ -87,9 +87,9 @@ class PersistenceLogBookSelectServiceTest {
         List<BookedService> result = new ArrayList<>();
             long staffId = 1L;
             long userId = 2L;
-            LocalDate date = LocalDate.of(2022, 5,1);
+            LocalDate date = LocalDate.of(2022, 5, 1);
             LocalTime start = LocalTime.of(10, 0);
-            LocalTime end = LocalTime.of(13, 0);//"2022-05-01 13:00:00";
+            LocalTime end = LocalTime.of(13, 0);
             BookedService bookedService = new BookedService(userId, date);
             bookedService.addWorkingTimePeriodForDay(start, end);
             bookedService.setSalonId(salonId);
@@ -114,7 +114,7 @@ class PersistenceLogBookSelectServiceTest {
         slotsLog.setSalonId(salonId);
         slotsLog.setDate(date);
         Map<Long, Set<Slot>> slotListForAllStaff = slotsLog.getSlotMap();
-        Set<Slot> slots =new HashSet<>();
+        Set<Slot> slots = new HashSet<>();
         slots.add(creatorSlots(LocalTime.parse("10:00"), 60, false));
         slots.add(creatorSlots(LocalTime.parse("11:00"), 60, false));
         slots.add(creatorSlots(LocalTime.parse("12:00"), 60, false));
@@ -124,7 +124,7 @@ class PersistenceLogBookSelectServiceTest {
         slots.add(creatorSlots(LocalTime.parse("16:00"), 60, true));
         slots.add(creatorSlots(LocalTime.parse("17:00"), 60, true));
         slots.add(creatorSlots(LocalTime.parse("18:00"), 60, true));
-        slotListForAllStaff.put(1L,slots);
+        slotListForAllStaff.put(1L, slots);
         result.add(slotsLog);
         return result;
     }
@@ -134,5 +134,4 @@ class PersistenceLogBookSelectServiceTest {
         slot.setFreeSlot(isFree);
         return slot;
     }
-
 }

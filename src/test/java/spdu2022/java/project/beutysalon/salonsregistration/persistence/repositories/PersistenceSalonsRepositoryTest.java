@@ -57,8 +57,7 @@ class PersistenceSalonsRepositoryTest {
     void creatNewSalons() {
         int countExpected = jdbcTemplate.queryForObject("SELECT count(*) FROM salons", Integer.class);
         repository.createNewSalons(getSalon("+380884869938"));
-        int countActual = jdbcTemplate.queryForObject("SELECT count(*) FROM salons", Integer.class);;
-
+        int countActual = jdbcTemplate.queryForObject("SELECT count(*) FROM salons", Integer.class);
         assertEquals(++countExpected, countActual);
     }
 

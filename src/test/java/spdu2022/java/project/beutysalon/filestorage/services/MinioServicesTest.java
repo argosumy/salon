@@ -64,7 +64,7 @@ class MinioServicesTest {
     void deleteFile() throws IOException {
         int numRecordsBefore = numRecords();
         int numRecordsAfter;
-        if(numRecordsBefore == 1) {
+        if (numRecordsBefore == 1) {
             minioServices.deleteFile(fileName);
             numRecordsAfter = numRecords();
             assertEquals(0, numRecordsAfter);
@@ -73,7 +73,7 @@ class MinioServicesTest {
             numRecordsBefore = numRecords();
             minioServices.deleteFile(fileName);
             numRecordsAfter = numRecords();
-            assertEquals(--numRecordsBefore,numRecordsAfter);
+            assertEquals(--numRecordsBefore, numRecordsAfter);
         }
     }
 
@@ -93,7 +93,7 @@ class MinioServicesTest {
     @Test
     @DisplayName("Method must download file")
     void downloadFile() throws IOException {
-       if(numRecords() > 0) {
+       if (numRecords() > 0) {
            byte[] content = minioServices.downloadFile(fileName);
            assertNotNull(content);
        } else {

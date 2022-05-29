@@ -38,5 +38,4 @@ public class MinioContainer extends GenericContainer<MinioContainer> {
     public String getUrlAddress() {
         return "http://" + getContainerIpAddress() + ":" + getMappedPort(PORT);
     }
-
 }

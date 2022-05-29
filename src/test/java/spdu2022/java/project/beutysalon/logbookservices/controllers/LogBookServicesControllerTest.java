@@ -18,9 +18,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("Date pattern:'yyyy-MM-dd' Date must be in future")
 class LogBookServicesControllerTest {
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
     @MockBean
-    LogBookSelectService service;
+    private LogBookSelectService service;
 
     @Test
     @DisplayName("Dates must be in future")
@@ -42,7 +42,7 @@ class LogBookServicesControllerTest {
         mockMvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
-        url = createUrlByCity("Sumy","2022-01-01", "2022-01-02");
+        url = createUrlByCity("Sumy", "2022-01-01", "2022-01-02");
         mockMvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(400));
@@ -52,7 +52,7 @@ class LogBookServicesControllerTest {
         return "http://localhost:8080/api/v1/salons/" + salonId + "/log-book-services" +
                 "?end-period=" + end + "&start-period=" + start;
     }
-    //http://localhost:8080/api/v1/salons/1/log-book-services?end-period=2022-05-05&start-period=2022-05-05
+
     private String createUrlByCity(String city, String start, String end) {
         return "http://localhost:8080/api/v1/salons/log-book-services" +
                 "?city=" + city + "&end-period=" + end + "&start-period=" + start;
