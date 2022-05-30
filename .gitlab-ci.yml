@@ -50,6 +50,7 @@ test:
     paths:
       - build
       - .gradle
+  coverage: '/Total.*?([0-9]{1,3})%/'
   artifacts:
     when: always
     reports:
