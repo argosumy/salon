@@ -1,2 +1,2 @@
-[![pipeline status](https://gitlab.com/argosumy/java/badges/master/pipeline.svg)](https://gitlab.com/argosumy/java/-/commits/master)
-[![coverage report](https://gitlab.com/argosumy/java/badges/master/coverage.svg)](https://gitlab.com/argosumy/java/-/commits/master)
+[![pipeline status](https://gitlab.com/argosumy/java/badges/pipeline/pipeline.svg)](https://gitlab.com/argosumy/java/-/commits/master)
+[![coverage report](https://gitlab.com/argosumy/java/badges/pipeline/coverage.svg)](https://gitlab.com/argosumy/java/-/commits/master)
