@@ -15,6 +15,7 @@ public class NotificationController {
 
     @PostMapping()
     String notificationUsersBySalonId(@RequestBody UsersNotificationBySalonIdDTO notificationDto, @PathVariable("salonId") long salonId) {
+        notificationDto.setSalonId(salonId);
         int count = notificationServices.sendingNotificationToUsersBySalonId(notificationDto);
         return "Count notifications " + count;
     }

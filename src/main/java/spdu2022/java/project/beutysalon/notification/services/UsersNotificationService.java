@@ -34,12 +34,14 @@ public class UsersNotificationService {
         for (NotificationService services : resources) {
             Set<Notification> notifications = creatorNotification.createNotifications(dto);
             notifications.forEach(notification -> {
-                Future<Boolean> future = executorService.submit(() -> {
-                    services.send(notification);
-                    counter.incrementCount();
-                    return true;
-                });
-                futures.add(future);
+                if(!notification.getToUser().getEmail().isEmpty()) {
+                    Future<Boolean> future = executorService.submit(() -> {
+                        services.send(notification);
+                        counter.incrementCount();
+                        return true;
+                    });
+                    futures.add(future);
+                }
             });
         }
         threadWaitUntilFuturesComplete(futures);
@@ -70,5 +72,4 @@ public class UsersNotificationService {
     private void shutDownOfResource() throws InterruptedException {
         executorService.shutdown();
         executorService.awaitTermination(1, TimeUnit.SECONDS);
-    }
-}
+    }}
