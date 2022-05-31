@@ -2,6 +2,7 @@
 [![coverage report](https://gitlab.com/argosumy/java/badges/pipeline/coverage.svg)](https://gitlab.com/argosumy/java/-/commits/pipeline)
 
 #Project SPD-Ukraine Beauty-salon
+- Java 17
 
 
 #Run project in docker
@@ -49,12 +50,10 @@ APP  host: http://localhost:
 MAIL HOG 
      host: http://localhost:
      port: 8025
-     
-5. Step 1, 2, 3
 
-6. Copy project from gitlab 
+5. Copy project from gitlab 
      command:git clone https://gitlab.com/argosumy/java.git 
 
-7. Build jar file.
-     command:.\gradlew build
-8.  
+6. Step 1, 2, 3
+7. Run APP 
+     command:gradlew bootRun
