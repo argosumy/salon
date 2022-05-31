@@ -4,6 +4,7 @@
 #Project SPD-Ukraine Beauty-salon
 - Java 17 
 - Docker
+- Gradle 7.3.3+
 - MAIL HOG
 - Minio
 - AWS S3
@@ -55,7 +56,7 @@ MAIL HOG
      port: 8025
 
 5. Copy project from gitlab 
-     - command:git clone https://gitlab.com/argosumy/java.git 
+     - command: git clone https://gitlab.com/argosumy/java.git 
 
 6. Step 1, 2, 3
 7. Run APP 
