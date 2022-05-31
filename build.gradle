@@ -3,11 +3,18 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'application'
 	id 'war'
+	id 'jacoco'
+	id 'checkstyle'
 }
 
 group = 'spdu2022.java.project'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
 
 configurations {
 	compileOnly {
@@ -48,4 +55,5 @@ dependencies {
 
 test{
 	useJUnitPlatform()
+	finalizedBy jacocoTestReport
 }

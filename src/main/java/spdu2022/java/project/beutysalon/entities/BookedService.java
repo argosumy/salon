@@ -21,6 +21,8 @@ public class BookedService {
         this.user = new User();
         user.setId(userId);
         workingDay = new WorkingDay(dateService);
+        this.salon = new Salon();
+        this.staff = new Staff();
     }
 
     public Salon getSalon() {
@@ -90,8 +92,12 @@ public class BookedService {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         BookedService bookedService = (BookedService) o;
         return Objects.equals(this.user, bookedService.user) &&
                 Objects.equals(this.workingDay, bookedService.workingDay);

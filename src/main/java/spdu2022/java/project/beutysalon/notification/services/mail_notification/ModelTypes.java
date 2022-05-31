@@ -21,7 +21,9 @@ public enum ModelTypes {
     ModelTypes(String template) {
         this.template = template;
     }
+
     public abstract Map<String, Object> getModel(Notification notification);
+
     public String getTemplate() {
         return this.template;
     }

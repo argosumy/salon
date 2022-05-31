@@ -6,7 +6,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
-public class LocaleDateTimeConverter {
+public final class LocaleDateTimeConverter {
+    private LocaleDateTimeConverter() {
+    }
+
     public static LocalDate convertToLocalDate(Timestamp timestamp) {
         return timestamp.toLocalDateTime().toLocalDate();
     }
@@ -24,7 +27,7 @@ public class LocaleDateTimeConverter {
     }
 
     public static Timestamp convertToTimestamp(LocalDate localDate) {
-        return Timestamp.valueOf(LocalDateTime.of(localDate, LocalTime.of(0,0)));
+        return Timestamp.valueOf(LocalDateTime.of(localDate, LocalTime.of(0, 0)));
     }
 
     public static Timestamp convertToTimestamp(LocalDate localDate, LocalTime localTime) {

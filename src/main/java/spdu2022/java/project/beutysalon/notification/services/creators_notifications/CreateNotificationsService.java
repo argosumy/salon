@@ -8,5 +8,6 @@ import java.util.Set;
 
 public interface CreateNotificationsService {
     Set<Notification> createNotifications(UsersNotificationBySalonIdDTO dto);
+
     NotificationType getNotificationsType();
 }

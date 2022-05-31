@@ -3,7 +3,7 @@ package spdu2022.java.project.beutysalon.entities;
 import java.time.LocalTime;
 import java.util.Objects;
 
-public class Slot implements Comparable<Slot>{
+public class Slot implements Comparable<Slot> {
     private boolean freeSlot;
     private final LocalTime startTime;
     private final LocalTime endTime;
@@ -37,8 +37,12 @@ public class Slot implements Comparable<Slot>{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Slot slot = (Slot) o;
         return Objects.equals(startTime, slot.startTime);
     }

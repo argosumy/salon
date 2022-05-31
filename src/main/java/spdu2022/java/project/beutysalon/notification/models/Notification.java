@@ -12,7 +12,6 @@ public class Notification {
     private String content;
     private final NotificationType types;
 
-
     public Notification(NotificationType types) {
         this.subject = types.getSubject();
         this.types = types;
@@ -69,8 +68,12 @@ public class Notification {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Notification notification = (Notification) o;
         return this.getToUser().getEmail().equals(notification.getToUser().getEmail())
                 && this.getToUser().getPhone().equals(notification.getToUser().getPhone());

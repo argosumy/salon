@@ -21,7 +21,6 @@ public class MailSenderProdConfig {
     @Value("${mail.port}")
     private int port;
 
-
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

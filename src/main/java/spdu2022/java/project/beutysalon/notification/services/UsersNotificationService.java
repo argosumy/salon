@@ -21,16 +21,17 @@ public class UsersNotificationService {
     private final ExecutorService executorService;
 
     public UsersNotificationService(List<CreateNotificationsService> creatorsNotifications, List<NotificationService> resources) {
+        final int numTreadPool = 4;
         this.resources = resources;
         this.creatorsNotifications = creatorsNotifications;
-        this.executorService = Executors.newFixedThreadPool(4);
+        this.executorService = Executors.newFixedThreadPool(numTreadPool);
     }
 
     public int sendingNotificationToUsersBySalonId(UsersNotificationBySalonIdDTO dto) {
-        final Counter counter = new Counter();//<--BEST PRACTICE
+        final Counter counter = new Counter(); //<--BEST PRACTICE
         final List<Future<Boolean>> futures = new ArrayList<>();
         final CreateNotificationsService creatorNotification = getCreatorByType(creatorsNotifications, dto.getTypeNotification());
-        for(NotificationService services : resources) {
+        for (NotificationService services : resources) {
             Set<Notification> notifications = creatorNotification.createNotifications(dto);
             notifications.forEach(notification -> {
                 Future<Boolean> future = executorService.submit(() -> {
@@ -66,7 +67,7 @@ public class UsersNotificationService {
     }
 
     @PreDestroy
-    private void shutDownOfResource() throws InterruptedException{
+    private void shutDownOfResource() throws InterruptedException {
         executorService.shutdown();
         executorService.awaitTermination(1, TimeUnit.SECONDS);
     }
