@@ -1,5 +1,5 @@
-[![pipeline status](https://gitlab.com/argosumy/java/badges/pipeline/pipeline.svg)](https://gitlab.com/argosumy/java/-/commits/pipeline)
-[![coverage report](https://gitlab.com/argosumy/java/badges/pipeline/coverage.svg)](https://gitlab.com/argosumy/java/-/commits/pipeline)
+[![pipeline status](https://gitlab.com/argosumy/java/badges/master/pipeline.svg)](https://gitlab.com/argosumy/java/-/commits/master)
+[![coverage report](https://gitlab.com/argosumy/java/badges/master/coverage.svg)](https://gitlab.com/argosumy/java/-/commits/master)
 
 #Project SPD-Ukraine Beauty-salon
 - Java 17 
