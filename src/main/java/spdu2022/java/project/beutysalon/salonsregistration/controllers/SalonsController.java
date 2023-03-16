@@ -1,6 +1,7 @@
 package spdu2022.java.project.beutysalon.salonsregistration.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import spdu2022.java.project.beutysalon.entities.Salon;
@@ -30,12 +31,14 @@ public class SalonsController {
     }
 
     @GetMapping("/{salonId}")
+    @PreAuthorize("hasAuthority('read')")
     public SalonsDTO getSalonById(@PathVariable("salonId") @Min(value = 1, message = "id must be  > 0") long id) {
         Salon salon = salonsGetService.findById(id);
         return salonMapper.convertSalonToSalonsDto(salon);
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('read')")
     public List<SalonsDTO> getAllSalonsFromCity(@RequestParam String city) {
         List<Salon> salons = salonsGetService.getAllSalonsFromCity(city);
         return salonMapper.convertSalonsToListSalonsDto(salons);
@@ -43,6 +46,7 @@ public class SalonsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('read')")
     public SalonsDTO createNewSalon(@Valid @RequestBody SalonsDTO newSalon) {
         Salon salon = salonMapper.convertSalonsDtoToSalonForSalonCreate(newSalon);
         salon = salonsModificationService.createNewSalons(salon);
@@ -51,6 +55,7 @@ public class SalonsController {
 
     @DeleteMapping("/{salonId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('admin_update')")
     public void deleteSalonById(@PathVariable("salonId") @Min(value = 1, message = "id must be  > 0") long id)  {
         if (!salonsModificationService.deleteSalonsById(id)) {
             throw new NotFoundException("Salon not found by ID " + id);
@@ -59,6 +64,7 @@ public class SalonsController {
 
     @PutMapping("/{salonId}")
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasAuthority('update')")
     public SalonsDTO updateSalon(@Valid @RequestBody SalonsDTO salonUpdate,
                                  @PathVariable("salonId") @Min(value = 1, message = "id must be  > 0") long id) {
         Salon salon = salonMapper.convertSalonsDtoToSalonForSalonUpdate(salonUpdate, id);

@@ -1,5 +1,8 @@
 package spdu2022.java.project.beutysalon.entities;
 
+import spdu2022.java.project.beutysalon.security.models.Role;
+import spdu2022.java.project.beutysalon.security.models.Status;
+
 import java.util.Objects;
 
 public class User {
@@ -9,6 +12,9 @@ public class User {
     private String phone = "";
     private String city;
     private String email;
+    private String password;
+
+    private Status status;
 
     public User() {
     }
@@ -61,6 +67,22 @@ public class User {
         this.email = email;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -74,11 +96,12 @@ public class User {
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
                 Objects.equals(phone, user.phone) &&
-                Objects.equals(city, user.city);
+                Objects.equals(city, user.city) &&
+                Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, phone);
+        return Objects.hash(id, phone, email);
     }
 }
